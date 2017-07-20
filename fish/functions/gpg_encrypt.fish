@@ -19,8 +19,13 @@ function gpg_encrypt --description 'GPG encrypt a file or folder to the recipien
     # echo (string sub --start 1 --length 1 $argv)
 
     set -l RANDOM_CHARS (cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    set -l OUTPUT_FILENAME (string join "/" (pwd) $RANDOM_CHARS)
+    set -l OUTPUT_FILENAME (string join "/" (pwd) "%Y%m%d_%Hh%Mm%Ss" $RANDOM_CHARS)
     echo $OUTPUT_FILENAME
+
+    set -l IS_DIR 1
+    if test $IS_DIR = 1
+        7z a (string join "" $RANDOM_CHARS.7z) $INPUT_FILE
+    end
 
     gpg -esa -r your_key_name -r $RECIPIENT --output $OUTPUT_FILENAME $INPUT_FILE
 end
