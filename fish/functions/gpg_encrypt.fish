@@ -15,8 +15,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder to the recipien
         echo "Dir does not exist"
         #return 1
     end
-
-    echo (string sub --start 1 --length 1 $argv)
+    # echo (string sub --start 1 --length 1 $argv)
 
     set -l RANDOM_CHARS (cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     set -l OUTPUT_FILENAME (string join "/" (pwd) $RANDOM_CHARS)
