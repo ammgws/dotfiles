@@ -1,6 +1,5 @@
 function screenshot --description="Takes screenshot, uploads to Dropbox and copies link to clipboard."
     set -l SCREENSHOT_DIR /path/to/store_screenshots
-    set -l SCROT_PATH /path/to/scrot
     set -l WAIT_TIME 5
     set -l TIMEOUT 3
 
@@ -62,7 +61,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 		set -e opt[1]
 	end
 
-    set -l FINAL_FILENAME ($SCROT_PATH $FILENAME -q 100 -a -e 'echo $f')
+    set -l FINAL_FILENAME (/path/to/scrot $FILENAME -q 100 -a -e 'echo $f')
     if test $DEBUG = "debug"; echo $FINAL_FILENAME; end
    
     function getstatus
