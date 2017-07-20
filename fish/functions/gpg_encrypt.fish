@@ -4,28 +4,33 @@ function gpg_encrypt --description 'GPG encrypt a file or folder to the recipien
     #       finish file/folder detection, 
     #       option to create file in same dir as input file instead of pwd
     #       option to disable random filename
+    #       check that 7z completed successfully
+    #       delete 7z after encryption finished
 
     set -l INPUT_FILE $argv
-    set -l RECIPIENT your_friend
+    set -l RECIPIENT Wynand
 
-    if not test -e $argv
-        echo "File does not exist"
-        #return 1
+    if test -f $argv
+        echo "Input is a file"
+        set IS_DIR 0
     end
-    if not test -d $argv
-        echo "Dir does not exist"
+    if test -d $argv
+        echo "Input is a folder"
+        set IS_DIR 1
         #return 1
     end
     # echo (string sub --start 1 --length 1 $argv)
 
     set -l RANDOM_CHARS (cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    set -l OUTPUT_FILENAME (string join "/" (pwd) "%Y%m%d_%Hh%Mm%Ss" $RANDOM_CHARS)
-    echo $OUTPUT_FILENAME
+    set -l OUTPUT_FILENAME (string join "" (date +'%Y%m%d_%Hh%Mm%Ss_') $RANDOM_CHARS)
+    set -l OUTPUT_FILEPATH (string join "/" (pwd) $OUTPUT_FILENAME)
+    echo $OUTPUT_FILEPATH
 
-    set -l IS_DIR 1
     if test $IS_DIR = 1
-        7z a (string join "" $RANDOM_CHARS.7z) $INPUT_FILE
+        set -l ZIPPED_FOLDER (string join "" $RANDOM_CHARS.7z)
+        7z a $ZIPPED_FOLDER $INPUT_FILE >/dev/null
+        set INPUT_FILE $ZIPPED_FOLDER
     end
 
-    gpg -esa -r your_key_name -r $RECIPIENT --output $OUTPUT_FILENAME $INPUT_FILE
+    gpg -esa -r Jason -r $RECIPIENT --output $OUTPUT_FILEPATH $INPUT_FILE
 end
