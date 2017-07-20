@@ -1,7 +1,6 @@
 function gpg_encrypt --description 'GPG encrypt a file or folder to the recipient and myself'
     # TODO: argument parsing, 
     #       option to upload to Dropbox/Gmail, 
-    #       finish file/folder detection, 
     #       option to create file in same dir as input file instead of pwd
     #       option to disable random filename
     #       check that 7z completed successfully
