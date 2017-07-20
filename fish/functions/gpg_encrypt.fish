@@ -3,6 +3,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder to the recipien
     #       option to upload to Dropbox/Gmail, 
     #       finish file/folder detection, 
     #       option to create file in same dir as input file instead of pwd
+    #       option to disable random filename
 
     set -l INPUT_FILE $argv
     set -l RECIPIENT your_friend
