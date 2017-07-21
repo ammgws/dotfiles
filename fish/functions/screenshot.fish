@@ -38,7 +38,6 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     end
 
 	set -l tmp (getopt $shortopt $longopt -- $argv)
-
 	eval set opt $tmp
 
 	while count $opt >/dev/null
