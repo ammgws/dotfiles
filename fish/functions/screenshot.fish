@@ -18,19 +18,21 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     end
     
     function print_help
-        echo "Usage: screenshot [options] arguments..."
-        echo "Arguments:"
+        echo "Usage: screenshot [options]"
+        echo "Options:"
         echo (set_color green)"-d"(set_color $fish_color_normal)": Enable debug output"
         echo (set_color green)"-l"(set_color $fish_color_normal)": Output URL to clipboard (default outputs image to clipboard)"
+        echo (set_color green)"-o"(set_color $fish_color_normal)": Open URL in browser after upload"
     end
 
     # default values for optional arguments
     set DEBUG off
     set OUTPUT_MODE image
+    set OPEN_URL 0
 
-    set -l shortopt -o hdl
+    set -l shortopt -o hdlo
     # don't put a space after commas!
-    set -l longopt -l help,debug,linkonly
+    set -l longopt -l help,debug,linkonly,openafter
 
     if getopt -T >/dev/null
 		set longopt
@@ -54,6 +56,9 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 
 			case -l --linkonly
 				set OUTPUT_MODE linkonly
+
+            case -o --openafter
+                set OPEN_URL 1
 
 			case --
 				set -e opt[1]
@@ -85,14 +90,20 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         sleep 0.5
         set TIME_ELAPSED (math $TIME_ELAPSED + 1)
     end
-
     if test $DEBUG = "debug"; echo $TIME_ELAPSED; end
-    if test $DEBUG = "debug"; echo (string join "" (dropbox-cli sharelink $FINAL_FILENAME) "&raw=1"); end
     
+    set DROPBOX_LINK (string join "" (dropbox-cli sharelink $FINAL_FILENAME) "&raw=1") 
+    if test $DEBUG = "debug"; echo $DROPBOX_LINK; end
+
     if test $OUTPUT_MODE = "linkonly"
-        echo -n (string join "" (dropbox-cli sharelink $FINAL_FILENAME) "&raw=1") | xclip -sel clip
+        echo -n $DROPBOX_LINK | xclip -sel clip
     else if test $OUTPUT_MODE = "image"
         xclip -sel clip -t image/png $FINAL_FILENAME
     end
+
+    if test $OPEN_URL = 1
+        open $DROPBOX_LINK
+    end
+
     sleep $WAIT_TIME
 end
