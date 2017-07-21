@@ -3,8 +3,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set -l WAIT_TIME 5
     set -l TIMEOUT 3
 
-    set -l FILENAME (string join "/" $SCREENSHOT_DIR "%Y%m%d_%Hh%Mm%Ss.png")
-    
+    # define colours to use when printing messages    
     set cRed (set_color red)
     set cGrn (set_color green)
     set cBlu (set_color blue)    
@@ -14,6 +13,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     for dependency in $DEPENDENCIES
         if not type -q $dependency
             echo $cRed"You must have $dependency installed."$cRst
+            return 1  # error
         end
     end
     
@@ -24,9 +24,12 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         echo (set_color green)"-l"(set_color $fish_color_normal)": Output URL to clipboard (default outputs image to clipboard)"
     end
 
+    # default values for optional arguments
     set DEBUG off
     set OUTPUT_MODE image
+
     set -l shortopt -o hdl
+    # don't put a space after commas!
     set -l longopt -l help,debug,linkonly
 
     if getopt -T >/dev/null
@@ -34,7 +37,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     end
 
     if not getopt -n screenshot -Q $shortopt $longopt -- $argv >/dev/null
-		return 1
+		return 1  # error
     end
 
 	set -l tmp (getopt $shortopt $longopt -- $argv)
@@ -60,6 +63,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 		set -e opt[1]
 	end
 
+    set -l FILENAME (string join "/" $SCREENSHOT_DIR "%Y%m%d_%Hh%Mm%Ss.png")
     set -l FINAL_FILENAME (/path/to/scrot $FILENAME -q 100 -a -e 'echo $f')
     if test $DEBUG = "debug"; echo $FINAL_FILENAME; end
    
