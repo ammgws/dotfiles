@@ -20,9 +20,17 @@ function gpg_encrypt --description 'GPG encrypt a file or folder to the recipien
     end
     # echo (string sub --start 1 --length 1 $argv)
 
+    set -l USE_RELATIVE 1
+
+    if test $USE_RELATIVE = 1
+        set OUTPUT_DIR (dirname $INPUT_FILE)
+    else
+        set OUTPUT_DIR (pwd)
+    end
+
     set -l RANDOM_CHARS (cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     set -l OUTPUT_FILENAME (string join "" (date +'%Y%m%d_%Hh%Mm%Ss_') $RANDOM_CHARS)
-    set -l OUTPUT_FILEPATH (string join "/" (pwd) $OUTPUT_FILENAME)
+    set -l OUTPUT_FILEPATH (string join "/" $OUTPUT_DIR $OUTPUT_FILENAME)
     echo $OUTPUT_FILEPATH
 
     if test $IS_DIR = 1
