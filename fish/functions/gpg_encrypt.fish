@@ -3,7 +3,6 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     #       option to upload to Dropbox/Gmail, 
     #       check that 7z completed successfully,
     #       look into gpg's --use-embedded-filename option,
-    #       write zipped files to /tmp instead
     #
     # NOTE: option flags must be specified separately
     #       e.g. -p -z not -pz
@@ -118,9 +117,10 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set -l OUTPUT_FILEPATH (string join "/" $OUTPUT_DIR $OUTPUT_FILENAME)
 
     if test $IS_DIR = 1
-        set -l OUTPUT_ZIP (string join "" $FILENAME.7z)
+        set -l OUTPUT_ZIP (string join "" (mktemp) .7z)
         7z a $OUTPUT_ZIP $INPUT_FILE >/dev/null
         set INPUT_FILE $OUTPUT_ZIP
+        if test $DEBUG = 1; echo $INPUT_FILE; end 
     end
 
     if test $SELF = 1
@@ -131,9 +131,5 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     
     if test $status -eq 0    
         echo $OUTPUT_FILEPATH
-
-        if test $IS_DIR = 1  
-            rm -i $INPUT_FILE
-        end
     end
 end
