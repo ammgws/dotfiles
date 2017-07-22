@@ -1,15 +1,11 @@
 function gpg_encrypt --description 'GPG encrypt a file or folder'
-    # TODO: change getopt to argparse when fish 2.7.0 is released, 
+    # TODO: change getopt to argparse when fish 2.7.0 is released?, 
     #       option to upload to Dropbox/Gmail, 
     #       check that 7z completed successfully,
     #       look into gpg's --use-embedded-filename option,
     #
     # NOTE: option flags must be specified separately
     #       e.g. -p -z not -pz
-
-    # set this to your key if you wish to include yourself as a recipient
-    # TODO: let this be passed via the -s flag
-    set YOUR_KEY yourkeynamehere
 
     # define colours to use when printing messages
     set cRed (set_color red)
@@ -22,7 +18,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
         echo "Options:"
         echo (set_color green)"-d --debug"(set_color $fish_color_normal)": Enable debug output"
         echo (set_color green)"-p --relative"(set_color $fish_color_normal)": Save output relative to input file"
-        echo (set_color green)"-s --self"(set_color $fish_color_normal)": Include yourself as a recipient"
+        echo (set_color green)"-s<name> --self=<name>"(set_color $fish_color_normal)": Include yourself as a recipient"
         echo (set_color green)"-z --randomize"(set_color $fish_color_normal)": Randomize output filename"
     end
 
@@ -32,11 +28,14 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set USE_RANDOM 0
     set SELF 0
 
-    set -l shortopt -o hdpsz
-    # don't put a space after commas!
-    set -l longopt -l help,debug,relative,self,randomize
+    set -l shortopt --options h,d,p,s::,z
 
-    if getopt -T >/dev/null
+    # Only enable longoptions if GNU enhanced getopt is available
+    getopt -T >/dev/null
+    if test $status -eq 4
+        # don't put a space after commas!
+        set longopt --longoptions help,debug,relative,self::,randomize
+    else
         set longopt
     end
 
@@ -45,7 +44,6 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     end
 
     set -l tmp (getopt $shortopt $longopt -- $argv)
-
     eval set opt $tmp
 
     set num_opts 0
@@ -67,6 +65,12 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
             case -s --self
                 set SELF 1
                 set num_opts (math $num_opts + 1)
+                if test -n $opt[2]
+                    set YOUR_KEY $opt[2]
+                else
+                    print_help
+                    return 1
+                end    
 
             case -z --randomize
                 set USE_RANDOM 1
@@ -75,13 +79,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
             case --
                 set -e opt[1]
                 break
-
-            case '-*'
-                echo "unknown option: $opt[1]"
-                print_help
-                return 1  # error
         end
-
         set -e opt[1]
     end
 
@@ -92,16 +90,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
     set INPUT_FILE $argv[(math $num_opts + 1)]
     set RECIPIENT $argv[(math $num_opts + 2)]
-
-    if test -f $INPUT_FILE
-        if test $DEBUG = 1; echo "Input is a file"; end 
-        set IS_DIR 0
-    end
-    if test -d $INPUT_FILE
-        if test $DEBUG = 1; echo "Input is a folder"; end 
-        set IS_DIR 1
-    end
-    
+  
     if test $USE_RELATIVE = 1
         set OUTPUT_DIR (dirname $INPUT_FILE)
     else
@@ -116,7 +105,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set -l OUTPUT_FILENAME (string join "" (date +'%Y%m%d_%Hh%Mm%Ss_') $FILENAME)
     set -l OUTPUT_FILEPATH (string join "/" $OUTPUT_DIR $OUTPUT_FILENAME)
 
-    if test $IS_DIR = 1
+    if test -d $INPUT_FILE
         set -l OUTPUT_ZIP (string join "" (mktemp) .7z)
         7z a $OUTPUT_ZIP $INPUT_FILE >/dev/null
         set INPUT_FILE $OUTPUT_ZIP
