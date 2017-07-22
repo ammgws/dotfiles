@@ -30,12 +30,17 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set OUTPUT_MODE image
     set OPEN_URL 0
 
-    set -l shortopt -o hdlo
+    set -l shortopt -o h,d,l,o
     # don't put a space after commas!
     set -l longopt -l help,debug,linkonly,openafter
 
-    if getopt -T >/dev/null
-		set longopt
+    # Only enable longoptions if GNU enhanced getopt is available
+    getopt -T >/dev/null
+    if test $status -eq 4
+        # don't put a space after commas!
+        set longopt --longoptions help,debug,relative,self::,randomize
+    else
+        set longopt
     end
 
     if not getopt -n screenshot -Q $shortopt $longopt -- $argv >/dev/null
