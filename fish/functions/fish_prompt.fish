@@ -1,22 +1,26 @@
-function fish_prompt --description 'Write out the prompt'
-	set -l color_cwd
-    set -l suffix
-    switch $USER
-        case root toor
-            if set -q fish_color_cwd_root
-                set color_cwd $fish_color_cwd_root
-            else
-                set color_cwd $fish_color_cwd
-            end
-            set suffix '#'
-        case '*'
-            set color_cwd $fish_color_cwd
-            set suffix '>'
-    end
+function fish_prompt
+  # Start ohmyfish-batman theme default prompt
+  test $status -ne 0;
+    and set -l colors 600 900 c00
+    or set -l colors 333 666 aaa
 
-    echo -n -s "$USER" @ (prompt_hostname) ' ' (set_color $color_cwd) (prompt_pwd) (set_color normal) "$suffix "
+  set -l pwd (prompt_pwd)
+  set -l base (basename "$pwd")
 
-    if set -q VIRTUAL_ENV
-        echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
-    end
+  set -l expr "s|~|"(fst)"^^"(off)"|g; \
+               s|/|"(snd)"/"(off)"|g;  \
+               s|"$base"|"(fst)$base(off)" |g"
+
+  echo -n (echo "$pwd" | sed -e $expr)(off)
+
+  for color in $colors
+    echo -n (set_color $color)">"
+  end
+
+  echo -n " "
+  # End ohmyfish-batman theme default prompt
+
+  if set -q VIRTUAL_ENV
+    echo -n -s (set_color -b blue white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+  end
 end
