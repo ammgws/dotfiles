@@ -74,7 +74,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 	end
 
     set -l FILENAME (string join "/" $SCREENSHOT_DIR "%Y%m%d_%Hh%Mm%Ss.png")
-    set -l FINAL_FILENAME (/path/to/scrot $FILENAME -q 100 -a -e 'echo $f')
+    set -l FINAL_FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
     if test $DEBUG = "debug"; echo $FINAL_FILENAME; end
    
     function getstatus
