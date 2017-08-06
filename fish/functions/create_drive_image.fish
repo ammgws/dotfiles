@@ -74,10 +74,10 @@ function create_drive_image --description 'Create image of a disk using dd with 
     set DISK_SIZE (lsblk -b --output SIZE -n -d $DISK)
     set DISK_SIZE_H (numfmt --to=iec-i --suffix=B $DISK_SIZE)
 
-    set CONFIRM_MSG (string join "" "The following command will be run on " $DISK " (" $DISK_SIZE_H ") :\n\n" "sudo dd bs=4M if=" $DISK " | pv -petr -s " $DISK_SIZE " | gzip > " $OUTPUT_FILE "\n\nAre you sure you want to continue?")
+    set CONFIRM_MSG (string join "" "The following command will be run on "(set_color green)"$DISK ($DISK_SIZE_H):\n\n"(set_color red)"sudo "(set_color $fish_color_normal)"dd bs=4M if="(set_color green)"$DISK"(set_color $fish_color_normal)" | pv -petr -s $DISK_SIZE | gzip > "(set_color green)"$OUTPUT_FILE"(set_color $fish_color_normal)" \n\nAre you sure you want to continue?")
 
     while true
-        read -p 'set_color red; echo -ne "$CONFIRM_MSG [y/N]: "; set_color normal' -l confirm
+        read -p 'echo -ne "$CONFIRM_MSG [y/N]: "' -l confirm
         switch $confirm
             case Y y
                 command sudo dd bs=4M if=$DISK | pv -Wpetr -s $DISK_SIZE | gzip > $OUTPUT_FILE
