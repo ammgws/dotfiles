@@ -27,14 +27,15 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set USE_RELATIVE 0
     set USE_RANDOM 0
     set SELF 0
+    set SIZE unset
 
-    set -l shortopt --options h,d,p,s::,z
+    set -l shortopt --options h,d,p,s::,v::,z
 
     # Only enable longoptions if GNU enhanced getopt is available
     getopt -T >/dev/null
     if test $status -eq 4
         # don't put a space after commas!
-        set longopt --longoptions help,debug,relative,self::,randomize
+        set longopt --longoptions help,debug,relative,self::,volume,randomize
     else
         set longopt
     end
@@ -72,6 +73,15 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
                     return 1
                 end    
 
+            case -v --volume
+                set num_opts (math $num_opts + 1)
+                if test -n $opt[2]
+                    set SIZE $opt[2]
+                else
+                    print_help
+                    return 1
+                end
+
             case -z --randomize
                 set USE_RANDOM 1
                 set num_opts (math $num_opts + 1)
@@ -107,7 +117,12 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
     if test -d $INPUT_FILE
         set -l OUTPUT_ZIP (string join "" (mktemp) .7z)
-        7z a $OUTPUT_ZIP $INPUT_FILE >/dev/null
+        if test $SIZE -eq "unset"
+            7z a $OUTPUT_ZIP $INPUT_FILE >/dev/null
+        else
+            7z a -v $SIZE $OUTPUT_ZIP $INPUT_FILE >/dev/null
+
+        end
         set INPUT_FILE $OUTPUT_ZIP
         if test $DEBUG = 1; echo $INPUT_FILE; end 
     end
