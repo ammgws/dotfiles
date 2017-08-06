@@ -1,10 +1,4 @@
 function create_drive_image --description 'Create image of a disk using dd with progress updates'
-    # define colours to use when printing messages
-    set cRed (set_color red)
-    set cGrn (set_color green)
-    set cBlu (set_color blue)
-    set cRst (set_color $fish_color_normal)
-
     function print_help
         echo "Usage: create_drive_image [options] DRIVE"
         echo "Options:"
@@ -80,7 +74,7 @@ function create_drive_image --description 'Create image of a disk using dd with 
     set DISK_SIZE (lsblk -b --output SIZE -n -d $DISK)
     set DISK_SIZE_H (numfmt --to=iec-i --suffix=B $DISK_SIZE)
 
-    set CONFIRM_MSG (string join "" "The following command will be run on " $DISK " (" $DISK_SIZE_H ") :\n\n" "dd bs=4M if=" $DISK " | pv -petr -s " $DISK_SIZE " | gzip > " $OUTPUT_FILE "\n\nAre you sure you want to continue?")
+    set CONFIRM_MSG (string join "" "The following command will be run on " $DISK " (" $DISK_SIZE_H ") :\n\n" "sudo dd bs=4M if=" $DISK " | pv -petr -s " $DISK_SIZE " | gzip > " $OUTPUT_FILE "\n\nAre you sure you want to continue?")
 
     while true
         read -p 'set_color red; echo -ne "$CONFIRM_MSG [y/N]: "; set_color normal' -l confirm
