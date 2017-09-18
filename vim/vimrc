@@ -1,4 +1,7 @@
-" Storing in ~/.config/vim/vimrc, so set shell alias for vim: "vim -u /path/to/vimrc"
+" TODO: compare against https://github.com/vim/vim/blob/master/runtime/defaults.vim and https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+
+" Allow config to be loaded from XDG config dir
+" .vimrc will also be in here so set a shell alias for vim: "vim -u /path/to/vimrc"
 let $VIMPATH=expand('~/.config/vim')
 let &runtimepath.=',$VIMPATH'
 
@@ -9,7 +12,7 @@ set nocompatible
 filetype off
 
 
-" ================ General Config ====================
+" ========== General Config ==========
 set number                      "Line numbers are good
 set backspace=indent,eol,start  "Allow backspace in insert mode
 set history=1000                "Store lots of :cmdline history
@@ -43,15 +46,14 @@ filetype plugin indent on
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
+" ========== Keymap ==========
+let mapleader="-"
+nnoremap <leader>nt :NERDTreeToggle<CR>
 
-" ============== vim-plug Initialization =============
-" Specify a directory for plugins
-" - For Neovim: ~/.local/share/nvim/plugged
-" - Avoid using standard Vim directory names like 'plugin'
+" ========== vim-plug ==========
 call plug#begin('~/.config/vim/plugged')
 
 " Make sure you use single quotes
-
 Plug 'mattn/gist-vim'
 Plug 'Shougo/neocomplete'
 Plug 'scrooloose/nerdtree'
@@ -59,14 +61,16 @@ Plug 'vim-syntastic/syntastic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-sensible'
 
-" Initialize plugin system
 call plug#end()
 
 syntax on
 
 
-" ============ Solarized Colors ================
+" ========== vim-colors-solarized ==========
 syntax enable
-let g:solarized_termcolors=256
+
+"uncomment if terminal is not set to use Solarized palette
+"let g:solarized_termcolors=256
+
 set background=dark
 colorscheme solarized
