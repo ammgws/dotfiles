@@ -1,15 +1,18 @@
 " TODO: compare against https://github.com/vim/vim/blob/master/runtime/defaults.vim and https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
-" Allow config to be loaded from XDG config dir
-" .vimrc will also be in here so set a shell alias for vim: "vim -u /path/to/vimrc"
-let $VIMPATH=expand('~/.config/vim')
-let &runtimepath.=',$VIMPATH'
-
-
 " Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
+" This must be first, because it changes other options (such as viminfo) as a side effect.
 set nocompatible
 filetype off
+
+" Allow config to be loaded from XDG config dir
+" .vimrc will also be in here so set a shell alias for vim: "vim -u /path/to/vimrc"
+" (or could use VIMINIT env var?)
+set undodir=$XDG_CACHE_HOME/vim/undo
+set directory=$XDG_CACHE_HOME/vim/swap
+set backupdir=$XDG_CACHE_HOME/vim/backup
+set viminfo+='1000,n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIMRUNTIME
 
 
 " ========== General Config ==========
