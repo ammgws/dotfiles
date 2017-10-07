@@ -118,7 +118,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
     if test -d $INPUT_FILE
         set -l OUTPUT_ZIP (string join "" (mktemp) .7z)
-        if test $SIZE -eq "unset"
+        if test $SIZE -eq 0
             7z a $OUTPUT_ZIP $INPUT_FILE >/dev/null
         else
             7z a -v $SIZE $OUTPUT_ZIP $INPUT_FILE >/dev/null
