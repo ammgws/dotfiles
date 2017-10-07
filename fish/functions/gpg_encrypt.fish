@@ -19,6 +19,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
         echo (set_color green)"-d --debug"(set_color $fish_color_normal)": Enable debug output"
         echo (set_color green)"-p --relative"(set_color $fish_color_normal)": Save output relative to input file"
         echo (set_color green)"-s<name> --self=<name>"(set_color $fish_color_normal)": Include yourself as a recipient"
+        echo (set_color green)"-v<size> --volume=<size>"(set_color $fish_color_normal)": Set split volume size for 7z"
         echo (set_color green)"-z --randomize"(set_color $fish_color_normal)": Randomize output filename"
     end
 
@@ -27,7 +28,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set USE_RELATIVE 0
     set USE_RANDOM 0
     set SELF 0
-    set SIZE unset
+    set SIZE 0
 
     set -l shortopt --options h,d,p,s::,v::,z
 
