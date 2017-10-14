@@ -1,5 +1,5 @@
 function switchaudio --description 'Switch between audio outputs (assuming there are only 2)'
-    set -l sinks (pactl list short sinks)
+    set sinks (pactl list short sinks)
     for sink in $sinks
        set sink_info (string split \t $sink)
        set sink_id $sink_info[1]
@@ -19,7 +19,7 @@ function switchaudio --description 'Switch between audio outputs (assuming there
     # system volume slider controls will not affect it.
     pactl set-default-sink $inactive_sink
 
-    set -l inputs (pactl list short sink-inputs)
+    set inputs (pactl list short sink-inputs)
     for input in $inputs
         set input_id (string split \t $input)[1]
         pactl move-sink-input $input_id $inactive_sink
