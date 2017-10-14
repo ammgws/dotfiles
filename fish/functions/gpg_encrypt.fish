@@ -35,7 +35,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     set -l shortopt --options h,d,p,s::,v::,z
 
     # Only enable longoptions if GNU enhanced getopt is available
-    getopt -T >/dev/null
+    getopt --test >/dev/null
     if test $status -eq 4
         # don't put a space after commas!
         set longopt --longoptions help,debug,relative,self::,volume,randomize
