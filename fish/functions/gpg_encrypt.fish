@@ -3,6 +3,8 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     #       option to upload to Dropbox/Gmail, 
     #       check that 7z completed successfully,
     #       look into gpg's --use-embedded-filename option,
+    #       use tar+gzip instead of 7z
+    #       (tar --verbose --create --file test.tar /path/tofolder)
     #
     # NOTE: option flags must be specified separately
     #       e.g. -p -z not -pz

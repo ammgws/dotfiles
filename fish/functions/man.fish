@@ -1,10 +1,12 @@
-function man --description "Colourisation and other customisations for manpages"
+function man --wraps man --description "Colourisation and other customisations for manpages"
     # Note this works because `man` uses `less` for displaying pages,
     # which in turn uses `ncurses`, which uses `terminfo` terminal database
     # (replaced `termcap`). Colours are achieved via the below env vars
     # which are read by `less` when run (called "appearance modes").
-    # For colour values refer to 256-colour lookup table: https://en.wikipedia.org/wiki/ANSI_escape_code
-    # More info: https://unix.stackexchange.com/a/108840
+    # For colour values refer to 256-colour lookup table:
+    #  https://en.wikipedia.org/wiki/ANSI_escape_code
+    # More info: 
+    # https://unix.stackexchange.com/a/108840
     # https://www.gnu.org/software/termutils/manual/termcap-1.3/html_chapter/termcap_4.html#SEC33
     # http://linux.101hacks.com/ps1-examples/prompt-color-using-tput/
     set -lx LESS_TERMCAP_md (tput bold; tput setaf 39)  # enter bold mode, blue text

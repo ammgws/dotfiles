@@ -35,7 +35,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set -l longopt -l help,debug,linkonly,openafter
 
     # Only enable longoptions if GNU enhanced getopt is available
-    getopt -T >/dev/null
+    getopt --test >/dev/null
     if test $status -eq 4
         # don't put a space after commas!
         set longopt --longoptions help,debug,relative,self::,randomize
@@ -43,7 +43,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         set longopt
     end
 
-    if not getopt -n screenshot -Q $shortopt $longopt -- $argv >/dev/null
+    if not getopt --name screenshot -Q $shortopt $longopt -- $argv >/dev/null
 		return 1  # error
     end
 

@@ -13,7 +13,7 @@ function create_drive_image --description 'Create image of a disk using dd with 
     set -l shortopt --options h,d,o::
 
     # Only enable longoptions if GNU enhanced getopt is available
-    getopt -T >/dev/null
+    getopt --test >/dev/null
     if test $status -eq 4
         # don't put a space after commas!
         set longopt --longoptions help,debug,output::
@@ -21,7 +21,7 @@ function create_drive_image --description 'Create image of a disk using dd with 
         set longopt
     end
 
-    if not getopt -n create_drive_image -Q $shortopt $longopt -- $argv >/dev/null
+    if not getopt --name create_drive_image -Q $shortopt $longopt -- $argv >/dev/null
         return 1  # error
     end
 
@@ -71,7 +71,7 @@ function create_drive_image --description 'Create image of a disk using dd with 
         return 1
     end
 
-    set DISK_SIZE (lsblk -b --output SIZE -n -d $DISK)
+    set DISK_SIZE (lsblk --bytes --output SIZE --noheadings --nodeps $DISK)
     set DISK_SIZE_H (numfmt --to=iec-i --suffix=B $DISK_SIZE)
 
     set CONFIRM_MSG (string join "" "The following command will be run on "(set_color green)"$DISK ($DISK_SIZE_H):\n\n"(set_color red)"sudo "(set_color $fish_color_normal)"dd bs=4M if="(set_color green)"$DISK"(set_color $fish_color_normal)" | pv -petr -s $DISK_SIZE | gzip > "(set_color green)"$OUTPUT_FILE"(set_color $fish_color_normal)" \n\nAre you sure you want to continue?")
@@ -80,7 +80,7 @@ function create_drive_image --description 'Create image of a disk using dd with 
         read -p 'echo -ne "$CONFIRM_MSG [y/N]: "' -l confirm
         switch $confirm
             case Y y
-                command sudo dd bs=4M if=$DISK | pv -Wpetr -s $DISK_SIZE | gzip > $OUTPUT_FILE
+                command sudo dd bs=4M if=$DISK | pv --wait --progress --eta --timer --rate --size $DISK_SIZE | gzip > $OUTPUT_FILE
             case '' N n
                 return 1
         end
