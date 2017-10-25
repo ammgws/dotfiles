@@ -1,6 +1,6 @@
-! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ! ┃ urxvt general settings                                                    ┃
-! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 URxvt.internalBorder: 10
 
 ! Use real transparency instead of setting background image to match whats behind it
@@ -19,9 +19,9 @@ URxvt*foreground: white
 URxvt.keysym.Shift-Up: command:\033]720;1\007
 URxvt.keysym.Shift-Down: command:\033]721;1\007
 
-! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ! ┃ urxvt font settings                                                       ┃
-! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 URxvt.font:xft: Terminus:pixelsize=12
 URxvt.boldFont:xft: Terminus:bold:pixelsize=12
 URxvt.italicfont:xft: Terminus:italic:pixelsize=12
@@ -38,18 +38,18 @@ Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 
 
-! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ! ┃ urxvt scrollbar and cursor                                                ┃
-! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 Xcursor.theme: Chameleon-Pearl-Regular-0.5
 URxvt.scrollBar: false
 URxvt*scrollstyle: plain
 URxvt*cursorBlink: true
 URxvt*cursorUnderline: true
 
-! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ! ┃ urxvt perl extensionss                                                    ┃
-! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ! Make URLs in terminal open with keyboard
 ! Mod+u opens selection mode, vim keybindings to choose, enter to open
 URxvt.perl-ext: default,url-select
@@ -57,9 +57,9 @@ URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.url-select.underline: true
 
-! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ! ┃ rofi settings
-! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ! https://github.com/DaveDavenport/rofi/wiki/Using-Rofi-with-Fish-Shell
 rofi.run-command: fish -c '{cmd}'
 rofi.run-list-command: 'fish -c functions'
