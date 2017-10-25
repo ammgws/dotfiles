@@ -56,3 +56,10 @@ URxvt.perl-ext: default,url-select
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.url-select.underline: true
+
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┃ rofi settings
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! https://github.com/DaveDavenport/rofi/wiki/Using-Rofi-with-Fish-Shell
+rofi.run-command: fish -c '{cmd}'
+rofi.run-list-command: 'fish -c functions'
