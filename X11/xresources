@@ -1,0 +1,58 @@
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┃ urxvt general settings                                                    ┃
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+URxvt.internalBorder: 10
+
+! Use real transparency instead of setting background image to match whats behind it
+URxvt*transparent:       false
+URxvt.shading:           10
+
+URxvt*depth: 32
+
+! Set opacity to 95%
+!URxvt.background: [99]#002b36
+
+URxvt*background: black
+URxvt*foreground: white
+
+! Allow scrolling with shift and arrows
+URxvt.keysym.Shift-Up: command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┃ urxvt font settings                                                       ┃
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+URxvt.font:xft: Terminus:pixelsize=12
+URxvt.boldFont:xft: Terminus:bold:pixelsize=12
+URxvt.italicfont:xft: Terminus:italic:pixelsize=12
+URxvt.bolditalicFont:xft: Terminus:bold:italic:pixelsize=12
+URxvt*letterSpace: +1
+URxvt*allow_bold: true
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┃ urxvt scrollbar and cursor                                                ┃
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+Xcursor.theme: Chameleon-Pearl-Regular-0.5
+URxvt.scrollBar: false
+URxvt*scrollstyle: plain
+URxvt*cursorBlink: true
+URxvt*cursorUnderline: true
+
+! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+! ┃ urxvt perl extensionss                                                    ┃
+! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+! Make URLs in terminal open with keyboard
+! Mod+u opens selection mode, vim keybindings to choose, enter to open
+URxvt.perl-ext: default,url-select
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
