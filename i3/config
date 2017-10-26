@@ -190,3 +190,11 @@ client.focused          $bg-colour          $bg-colour          $text-colour    
 client.unfocused        $inactive-bg-colour $inactive-bg-colour $inactive-text-colour $indicator-colour
 client.focused_inactive $inactive-bg-colour $inactive-bg-colour $inactive-text-colour $indicator-colour
 client.urgent           $urgent-bg-colour   $urgent-bg-colour   $text-colour          $indicator-colour
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ i3 gaps
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+#gaps inner 10
+#gaps outer 0
+#smart_gaps on
