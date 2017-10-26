@@ -174,3 +174,19 @@ bindsym $mod+r mode "resize"
 #bar {
 #        status_command i3status
 #}
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Colours
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+set $bg-colour              #555753
+set $inactive-bg-colour     #2E3436
+set $text-colour            #D3D7CF
+set $inactive-text-colour   #EEEEEC
+set $urgent-bg-colour       #BD2C40
+set $indicator-colour       #D3D7CF
+#                       Border              Background          Text                  Indicator
+client.focused          $bg-colour          $bg-colour          $text-colour          $indicator-colour
+client.unfocused        $inactive-bg-colour $inactive-bg-colour $inactive-text-colour $indicator-colour
+client.focused_inactive $inactive-bg-colour $inactive-bg-colour $inactive-text-colour $indicator-colour
+client.urgent           $urgent-bg-colour   $urgent-bg-colour   $text-colour          $indicator-colour
