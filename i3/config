@@ -36,6 +36,9 @@ font pango:Work Sans 10
 exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.sh
 exec --no-startup-id redshift
 
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ General
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -102,6 +105,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# move back and forth between workspaces
+bindsym $mod+Tab workspace back_and_forth
+
 set $workspace01 "1"
 
 workspace $workspace01 output DVI-0
@@ -135,7 +141,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
