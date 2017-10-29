@@ -34,7 +34,6 @@ font pango:Work Sans 10
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.sh
-exec --no-startup-id redshift
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ General
