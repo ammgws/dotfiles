@@ -1,5 +1,5 @@
 ! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-! ┃ urxvt general settings                                                    ┃
+! ┃ urxvt general settings
 ! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 URxvt.internalBorder: 10
 
@@ -20,7 +20,7 @@ URxvt.keysym.Shift-Up: command:\033]720;1\007
 URxvt.keysym.Shift-Down: command:\033]721;1\007
 
 ! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-! ┃ urxvt font settings                                                       ┃
+! ┃ urxvt font settings
 ! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 URxvt.font:xft: Terminus:pixelsize=12
 URxvt.boldFont:xft: Terminus:bold:pixelsize=12
@@ -39,7 +39,7 @@ Xft.lcdfilter: lcddefault
 
 
 ! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-! ┃ urxvt scrollbar and cursor                                                ┃
+! ┃ urxvt scrollbar and cursor
 ! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 Xcursor.theme: Chameleon-Pearl-Regular-0.5
 URxvt.scrollBar: false
@@ -48,7 +48,7 @@ URxvt*cursorBlink: true
 URxvt*cursorUnderline: true
 
 ! ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-! ┃ urxvt perl extensionss                                                    ┃
+! ┃ urxvt perl extensionss
 ! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ! Make URLs in terminal open with keyboard
 ! Mod+u opens selection mode, vim keybindings to choose, enter to open
