@@ -218,8 +218,7 @@ assign [class="Google-chrome"] $workspace01
 
 bindsym $mod+Ctrl+e exec "i3-sensible-terminal -e ranger"
 
-#bindsym $mod+ctrl+b exec urxvt -e lock.sh -name lock
-#assign [title="lock.sh"] $workspace07
+bindsym $mod+ctrl+b exec i3lock --ignore-empty-password --show-failed-attempts --color=000000
 
 bindsym Print exec --no-startup-id "fish -c screenshot"
 bindsym $mod+F7 exec --no-startup-id "fish -c switchaudio"
