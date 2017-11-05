@@ -32,9 +32,11 @@ set $menu dmenu_run
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output DVI-I-1 pos 0,0 res 1920x1080
-output HDMI-A-1 pos 1920,0 res 1920x1080
-output * bg 000000 solid_color
+set $monitor1 DVI-I-1
+set $monitor2 HDMI-A-1
+output $monitor1 pos 0,0 res 1920x1080
+output $monitor2 pos 1920,0 res 1920x1080
+output * bg #000000 solid_color
 
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -116,6 +118,9 @@ set $workspace07 "7"
 set $workspace08 "8"
 set $workspace09 "9"
 set $workspace10 "10"
+
+# set workspace->monitor relationships
+workspace $workspace01 output $monitor1
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace01
