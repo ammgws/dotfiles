@@ -62,7 +62,7 @@ output * bg #000000 solid_color
 # Basics
 # ━━━━━━━━━━━━━━━━━━━━━━━━
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
