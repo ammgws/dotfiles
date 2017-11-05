@@ -224,13 +224,15 @@ bindsym Print exec --no-startup-id fish -c screenshot
 bindsym $mod+F7 exec --no-startup-id fish -c switchaudio
 
 # Media keys
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-bindsym XF86AudioStop exec --no-startup-id playerctl sto
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id playerctl position 3+
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id playerctl position 3-
 
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
