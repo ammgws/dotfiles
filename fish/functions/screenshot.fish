@@ -1,5 +1,6 @@
 function screenshot --description="Takes screenshot, uploads to Dropbox and copies link to clipboard."
-    set SCREENSHOT_DIR /home/ammgws/Dropbox/screenshots
+    # set screenshot directory using env var
+    set SCREENSHOT_DIR $SCREENSHOT_DIR
     set WAIT_TIME 5
     set TIMEOUT 3
 
