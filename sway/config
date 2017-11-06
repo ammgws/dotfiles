@@ -266,3 +266,5 @@ exec urxvtd --quiet --fork --opendisplay  &
 exec udiskie --tray &
 
 #exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.s
+
+exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL
