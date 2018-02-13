@@ -1,7 +1,3 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -108,18 +104,18 @@ bindsym $mod+Shift+Right move right
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
-set $workspace01 "1"
-set $workspace02 "2"
-set $workspace03 "3"
-set $workspace04 "4"
-set $workspace05 "5"
-set $workspace06 "6"
-set $workspace07 "7"
-set $workspace08 "8"
-set $workspace09 "9"
-set $workspace10 "10"
+set $workspace01 number 1
+set $workspace02 number 2
+set $workspace03 number 3
+set $workspace04 number 4
+set $workspace05 number 5
+set $workspace06 number 6
+set $workspace07 number 7
+set $workspace08 number 8
+set $workspace09 number 9
+set $workspace10 number 10
 
-# set workspace->monitor relationships
+# set workspace → monitor relationships
 workspace $workspace01 output $monitor1
 
 # switch to workspace
@@ -133,6 +129,17 @@ bindsym $mod+7 workspace $workspace07
 bindsym $mod+8 workspace $workspace08
 bindsym $mod+9 workspace $workspace09
 bindsym $mod+0 workspace $workspace10
+
+bindsym $mod+KP_1 workspace $workspace01
+bindsym $mod+KP_2 workspace $workspace02
+bindsym $mod+KP_3 workspace $workspace03
+bindsym $mod+KP_4 workspace $workspace04
+bindsym $mod+KP_5 workspace $workspace05
+bindsym $mod+KP_6 workspace $workspace06
+bindsym $mod+KP_7 workspace $workspace07
+bindsym $mod+KP_8 workspace $workspace08
+bindsym $mod+KP_9 workspace $workspace09
+bindsym $mod+KP_0 workspace $workspace10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace01
@@ -217,20 +224,22 @@ bindsym $mod+Return exec $term
 
 bindsym $mod+d exec $menu
 
-bindsym $mod+ctrl+g exec "google-chrome-stable"
+bindsym $mod+g exec notify-send "Starting Chrome..." && google-chrome-stable
 assign [class="Google-chrome"] $workspace01
+for_window [class="Google-chrome"] border none
 
 bindsym $mod+Ctrl+e exec $term ranger
 
 bindsym $mod+ctrl+b exec swaylock --color 000000 --insidecolor 4B0082
 
-bindsym Print exec --no-startup-id fish -c screenshot
+bindsym Print exec --no-startup-id fish --command=screenshot
+bindsym $mod+Print exec --no-startup-id swaygrab /path/to/Dropbox/screenshots/temp.jpg
 
-bindsym $mod+F7 exec --no-startup-id fish -c switchaudio
+bindsym $mod+F7 exec --no-startup-id fish --command=switchaudio
 
 # Media keys
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
@@ -239,6 +248,8 @@ bindsym XF86AudioStop exec --no-startup-id playerctl stop
 bindsym Shift+XF86AudioLowerVolume exec --no-startup-id playerctl position 3+
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id playerctl position 3-
 
+# Japanese IME
+bindsym $mod+Shift+a exec --no-startup-id fish --command=ibus-toggle
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Status bar
@@ -253,8 +264,11 @@ bar {
     }
 }
 
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Other config files
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 include /etc/sway/config.d/*
-
+#include ~/.config/sway/`hostname`/*
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Autostart
@@ -262,9 +276,12 @@ include /etc/sway/config.d/*
 exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
 # not using systemd as cannot use reboot/poweroff etc
-exec urxvtd --quiet --fork --opendisplay  &
+exec urxvtd --quiet --fork --opendisplay &
+
 exec udiskie --tray &
 
-#exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.s
+exec ibus-daemon --xim --replace &
 
-exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL
+exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
+assign [class="ammcon"] $workspace02
+for_window [class="ammcon"] border none
