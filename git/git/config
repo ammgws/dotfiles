@@ -1,0 +1,10 @@
+[user]
+	email = user@mail.com
+	name = Name
+	signingkey = PGPKEYTOSIGNWITH
+[commit]
+	gpgsign = true
+[core]
+	autocrlf = input
+[init]
+	templatedir = ~/.config/git/template
