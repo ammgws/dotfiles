@@ -1,4 +1,4 @@
-function ibus-toggle
+function ibus-toggle --description="Switches between IBus input methods and displays notification."
     set engine (ibus engine)
     if test $engine = "anthy"
         ibus engine xkb:us::eng

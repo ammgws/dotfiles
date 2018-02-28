@@ -1,4 +1,4 @@
-function ime_status
+function ime_status --description="Returns current IBus input language: EN/JP/??"
     set current_ime (ibus engine ^ /dev/null)
     if test -z $current_ime
         printf '%s' '??'
