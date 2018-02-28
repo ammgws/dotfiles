@@ -1,5 +1,4 @@
 function screenshot --description="Takes screenshot, uploads to Dropbox and copies link to clipboard."
-    # set screenshot directory using env var
     set SCREENSHOT_DIR $SCREENSHOT_DIR
     set WAIT_TIME 5
     set TIMEOUT 3
@@ -21,7 +20,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     function print_help
         echo "Usage: screenshot [options]"
         echo "Options:"
-        echo (set_color green)"-l"(set_color $fish_color_normal)": Output URL to clipboard (default outputs image to clipboard)"
+        echo (set_color green)"-l"(set_color $fish_color_normal)": Only output URL to clipboard (default outputs image to clipboard and URL to primary)"
         echo (set_color green)"-o"(set_color $fish_color_normal)": Open URL in browser after upload"
     end
 
@@ -100,6 +99,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         notify-send "Screenshot" $DROPBOX_LINK --icon=$FILENAME
     else if test $OUTPUT_MODE = "image"
         xclip -sel clip -t image/png $FILENAME
+        echo -n $DROPBOX_LINK | xclip -sel primary
         notify-send "Screenshot" $FILENAME --icon=$FILENAME
     end
 
