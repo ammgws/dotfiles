@@ -15,6 +15,8 @@ function git::is_touched
 end
 
 function fish_right_prompt
+    fish_prompt_helpers
+
     set --local code $status
     test $code -ne 0
     and echo (dim)"("(trd)"$code"(dim)") "(off)
@@ -46,6 +48,6 @@ function fish_right_prompt
       set duration (echo "$CMD_DURATION 1000" | awk '{printf "%.3fs", $1 / $2}')
       echo $duration
   end
-
-  printf (dim)(date +%H(fst):(dim)%M(fst):(dim)%S)(off)" "
+  printf (dim)"|"(off)
+  printf (date +%H(fst):(off)%M(fst):(off)%S)" "
 end
