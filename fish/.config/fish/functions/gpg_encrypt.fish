@@ -1,6 +1,6 @@
 function gpg_encrypt --description 'GPG encrypt a file or folder'
-    # TODO: change getopt to argparse when fish 2.7.0 is released?, 
-    #       option to upload to Dropbox/Gmail, 
+    # TODO: change getopt to argparse when fish 2.7.0 is released?,
+    #       option to upload to Dropbox/Gmail,
     #       check that 7z completed successfully,
     #       look into gpg's --use-embedded-filename option,
     #       use tar+gzip instead of 7z
@@ -12,9 +12,9 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     # define colours to use when printing messages
     set cRed (set_color red)
     set cGrn (set_color green)
-    set cBlu (set_color blue)    
+    set cBlu (set_color blue)
     set cRst (set_color $fish_color_normal)
-      
+
     function print_help
         echo "Usage: gpg_encrypt [options] INPUT RECIPIENT"
         echo "Options:"
@@ -74,7 +74,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
                 else
                     print_help
                     return 1
-                end    
+                end
 
             case -v --volume
                 set num_opts (math $num_opts + 1)
@@ -103,14 +103,14 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
     set INPUT_FILE $argv[(math $num_opts + 1)]
     set RECIPIENT $argv[(math $num_opts + 2)]
-  
+
     if test $USE_RELATIVE = 1
         set OUTPUT_DIR (dirname $INPUT_FILE)
     else
         set OUTPUT_DIR (pwd)
     end
 
-    set -l FILENAME (basename $INPUT_FILE) 
+    set -l FILENAME (basename $INPUT_FILE)
     if test $USE_RANDOM = 1
         set FILENAME (cat /dev/random | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
     end
@@ -127,7 +127,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
         end
         set INPUT_FILE $OUTPUT_ZIP
-        if test $DEBUG = 1; echo $INPUT_FILE; end 
+        if test $DEBUG = 1; echo $INPUT_FILE; end
     end
 
     if test $SELF = 1
@@ -135,8 +135,8 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     else
         gpg --quiet -esa -r $RECIPIENT --output $OUTPUT_FILEPATH $INPUT_FILE
     end
-    
-    if test $status -eq 0    
+
+    if test $status -eq 0
         echo $OUTPUT_FILEPATH
     end
 end
