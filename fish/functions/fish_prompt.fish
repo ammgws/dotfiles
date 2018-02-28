@@ -7,6 +7,11 @@ function fish_prompt
   set --local pwd (prompt_pwd)
   set --local base (basename "$pwd")
 
+  function fst; set_color --bold fa0; end
+  function snd; set_color --bold 36f; end
+  function trd; set_color --bold f06; end
+  function dim; set_color 666; end
+  function off; set_color normal; end
 
   set --local expr "s|~|"(fst)"^^"(off)"|g; \
                    s|/|"(snd)"/"(off)"|g;  \
