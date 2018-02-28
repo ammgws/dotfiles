@@ -14,7 +14,7 @@ $ cd ~/.dotfiles
 $ stow wynn_v1  # this will symlink `~/.dotfiles/wynn_v1/.config/wynn` to `~/.config/wynn/`
 ```
 
-For example, say a program called 'wynn' stores its config in `~/.config/wynn/`.  
+For example, say a program called `wynn` stores its config in `~/.config/wynn/`.  
 
 In order to have GNU Stow symlink correctly, the directory structure inside this repo should be as follows.
 `~/.dotfiles/<A>/.config/<B>` where:
