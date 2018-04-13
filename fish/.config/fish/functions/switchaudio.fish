@@ -31,9 +31,14 @@ function switchaudio --description 'Switch between audio outputs'
        set sink_id $sink_info[1]
        set sink_name (prettify_name $sink_info[2])
        set sink_state $sink_info[5]
-       if not test $sink_id = $default_sink_id -o $sink_id = $SOUND_PREV
+       if test (count $sinks) -le 2 -a $sink_id -ne $default_sink_id
            set new_default_sink_id $sink_id
            set new_default_sink_name $sink_name
+       else
+           if test $sink_id -ne $default_sink_id -a $sink_id -ne $SOUND_PREV
+               set new_default_sink_id $sink_id
+               set new_default_sink_name $sink_name
+           end
        end
     end
 
