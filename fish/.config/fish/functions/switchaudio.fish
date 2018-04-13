@@ -1,9 +1,11 @@
-function switchaudio --description 'Switch between audio outputs (assuming there are only 2)'
+function switchaudio --description 'Switch between audio outputs'
     function prettify_name --argument-names sink_raw_name
         if string match --quiet '*Pebbles*' $sink_raw_name
             echo "speakers"
         else if string match --quiet '*pci*' $sink_raw_name
             echo "headphones"
+        else if string match --quiet 'bluez_sink*' $sink_raw_name
+            echo "bluetooth"
         else
             echo $sink_raw_name
         end
@@ -14,6 +16,8 @@ function switchaudio --description 'Switch between audio outputs (assuming there
             echo "🎧"
         else if string match --quiet 'speakers' $output_device
             echo "🔈"
+        else if string match --quiet 'bluetooth' $output_device
+            echo "BT"
         else
             echo "??"
         end
@@ -24,19 +28,20 @@ function switchaudio --description 'Switch between audio outputs (assuming there
     end
 
     set default_sink_id (get_default_sink)
-
     set sinks (pactl list short sinks)
+
     for sink in $sinks
        set sink_info (string split \t $sink)
        set sink_id $sink_info[1]
        set sink_name (prettify_name $sink_info[2])
        set sink_state $sink_info[5]
-
-       if not test $sink_id = $default_sink_id
+       if not test $sink_id = $default_sink_id -o $sink_id = $SOUND_PREV
            set new_default_sink_id $sink_id
            set new_default_sink_name $sink_name
        end
     end
+
+    set --universal SOUND_PREV $default_sink_id
 
     # If the output we switch to is not set as default then the
     # system volume slider controls will not affect it.
