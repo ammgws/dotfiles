@@ -23,12 +23,7 @@ function switchaudio --description 'Switch between audio outputs'
         end
     end
 
-    function get_default_sink
-        echo (pacmd list-sinks | awk '/* index:/{print $3}')
-    end
-
-    set default_sink_id (get_default_sink)
-    set --universal SOUND_PREV $default_sink_id
+    set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
 
     set sinks (pactl list short sinks)
     for sink in $sinks
@@ -45,6 +40,8 @@ function switchaudio --description 'Switch between audio outputs'
     # If the output we switch to is not set as default then the
     # system volume slider controls will not affect it.
     pactl set-default-sink $new_default_sink_id
+
+    set --universal SOUND_PREV $default_sink_id
 
     set inputs (pactl list short sink-inputs)
     for input in $inputs
