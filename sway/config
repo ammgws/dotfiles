@@ -16,8 +16,8 @@ set $right l
 set $term urxvt
 
 # Your preferred application launcher
-set $menu dmenu_run
-#set $menu rofi -show run
+#set $menu dmenu_run
+set $menu rofi -show run
 
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -104,16 +104,16 @@ bindsym $mod+Shift+Right move right
 # Note: workspaces can have any name you want, not just numbers.
 # We just use 1-10 as the default.
 
-set $workspace01 number 1
-set $workspace02 number 2
-set $workspace03 number 3
-set $workspace04 number 4
-set $workspace05 number 5
-set $workspace06 number 6
-set $workspace07 number 7
-set $workspace08 number 8
-set $workspace09 number 9
-set $workspace10 number 10
+set $workspace01 1
+set $workspace02 2
+set $workspace03 3
+set $workspace04 4
+set $workspace05 5
+set $workspace06 6
+set $workspace07 7
+set $workspace08 8
+set $workspace09 9
+set $workspace10 10
 
 # set workspace → monitor relationships
 workspace $workspace01 output $monitor1
@@ -165,7 +165,7 @@ bindsym $mod+v splitv
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+Ctrl+e layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -224,11 +224,13 @@ bindsym $mod+Return exec $term
 
 bindsym $mod+d exec $menu
 
-bindsym $mod+g exec notify-send "Starting Chrome..." && google-chrome-stable
-assign [class="Google-chrome"] $workspace01
+bindsym $mod+g exec notify-send "Starting Chrome..."; exec google-chrome-stable
+#assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
 
-bindsym $mod+Ctrl+e exec $term ranger
+for_window [class="Screenruler"] border none
+
+bindsym $mod+e exec $term -e ranger
 
 bindsym $mod+ctrl+b exec swaylock --color 000000 --insidecolor 4B0082
 
@@ -256,7 +258,9 @@ bindsym $mod+Shift+a exec --no-startup-id fish --command=ibus-toggle
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 # Read `man 5 sway-bar` for more information about this section.
 bar {
+    font pango:DejaVu Sans Mono, FontAwesome 10
     position top
+    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
     colors {
         statusline #ffffff
         background #323232
@@ -273,6 +277,8 @@ include /etc/sway/config.d/*
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+exec systemctl --user start dunst.service
+
 exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
 # not using systemd as cannot use reboot/poweroff etc
@@ -282,6 +288,7 @@ exec udiskie --tray &
 
 exec ibus-daemon --xim --replace &
 
-exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
-assign [class="ammcon"] $workspace02
-for_window [class="ammcon"] border none
+#AmmCon
+#exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
+#assign [class="ammcon"] $workspace02
+#for_window [class="ammcon"] border none
