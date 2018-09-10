@@ -17,15 +17,19 @@ function videograb --description="Records video of screen selection in sway"
   set elapsed 0
   while test "$record" -a (math "$elapsed < 30") -eq 1
     swaygrab --raw | \
-    convert -flip -crop "$CROP_COORDS" -depth 8 -size $RESOLUTION[1]x$RESOLUTION[2] RGBA:- (string join "" $TMPDIR "/" $num ".png")
+    convert -flip -crop "$CROP_COORDS" \
+            -depth 8 \
+            -size $RESOLUTION[1]x$RESOLUTION[2] \
+            RGBA:- (string join "" $TMPDIR "/" $num ".png")
     set num (math $num+1)
-    sleep 0.01s
     set elapsed (math $elapsed+0.01)
+    sleep 0.01s
   end
 
+  # TODO: handle int so we can actually get here on demand
   ffmpeg -loglevel quiet \
          -pattern_type glob \
-         -i '*.png' \
+         -i (string join "" $TMPDIR "/" "*.png") \
          (string join "" $SCREENSHOT_DIR "/gif" $TIME (date +%Y%m%d_%Hh%Mm%Ss) ".webm")
 end
 
