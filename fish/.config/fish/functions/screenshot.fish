@@ -16,56 +16,36 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         echo (set_color green)"-o"(set_color $fish_color_normal)": Open URL in browser after upload"
     end
 
-    # default values for optional arguments
+    # default values (that can be changed via args)
     set OUTPUT_MODE image
     set OPEN_URL 0
-
-    # sway 1.0 assumed by default.
-    set WM sway
+    set WM sway  # sway 1.0 assumed by default
     set DEPENDENCIES grim slurp
 
-    set shortopt -o h,l,o
-    # Only enable longoptions if GNU enhanced getopt is available
-    getopt --test >/dev/null
-    if test $status -eq 4
-        # don't put a space after commas!
-        set longopt --longoptions help,linkonly,openurl,i3,sway,sway-legacy
-    else
-        set longopt
+    argparse --name screenshot 'h/help' 'i-i3' 's-swaylegacy'  'l/linkonly' 'o/openafter' -- $argv
+    or return 1  #error
+
+    if set -lq _flag_help
+       print help
+       return
     end
 
-    if not getopt --name screenshot -Q $shortopt $longopt -- $argv >/dev/null
-        return 1  # error
+    if set -lq _flag_i3
+        set DEPENDENCIES slop scrot
+        set WM i3
     end
 
-    set tmp (getopt $shortopt $longopt -- $argv)
-    eval set opt $tmp
+    if set -lq _flag_swaylegacy
+        set DEPENDENCIES slop swaygrab jq convert
+        set WM sway-legacy
+    end
 
-    while count $opt >/dev/null
-        switch $opt[1]
-            case -h --help
-                print_help
-                return 0
+    if set -lq _flag_linkonly
+        set OUTPUT_MODE linkonly
+    end
 
-            case --i3
-                set DEPENDENCIES slop scrot
-                set WM i3
-
-            case --sway-legacy
-                set DEPENDENCIES slop swaygrab jq convert
-                set WM sway-legacy
-
-            case -l --linkonly
-                set OUTPUT_MODE linkonly
-
-            case -o --openafter
-                set OPEN_URL 1
-
-            case --
-                set --erase opt[1]
-                break
-        end
-        set --erase opt[1]
+    if set -lq _flag_openafter
+        set OPEN_URL 1
     end
 
     set DEPENDENCIES $DEPENDENCIES dropbox-cli xclip
