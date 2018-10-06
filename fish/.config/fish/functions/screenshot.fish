@@ -9,14 +9,6 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set cBlu (set_color blue)
     set cRst (set_color $fish_color_normal)
 
-    set DEPENDENCIES xclip scrot dropbox-cli
-    for dependency in $DEPENDENCIES
-        if not type -q $dependency
-            echo $cRed"You must have $dependency installed."$cRst
-            return 1
-        end
-    end
-
     function print_help
         echo "Usage: screenshot [options]"
         echo "Options:"
@@ -28,13 +20,16 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set OUTPUT_MODE image
     set OPEN_URL 0
 
-    set shortopt -o h,l,o
+    # sway 1.0 assumed by default.
+    set WM sway
+    set DEPENDENCIES grim slurp
 
+    set shortopt -o h,l,o
     # Only enable longoptions if GNU enhanced getopt is available
     getopt --test >/dev/null
     if test $status -eq 4
         # don't put a space after commas!
-        set longopt --longoptions help,linkonly,openurl
+        set longopt --longoptions help,linkonly,openurl,i3,sway,sway-legacy
     else
         set longopt
     end
@@ -52,6 +47,14 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
                 print_help
                 return 0
 
+            case --i3
+                set DEPENDENCIES slop scrot
+                set WM i3
+
+            case --sway-legacy
+                set DEPENDENCIES slop swaygrab jq convert
+                set WM sway-legacy
+
             case -l --linkonly
                 set OUTPUT_MODE linkonly
 
@@ -65,15 +68,29 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
         set --erase opt[1]
     end
 
-    set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) ".png")
-    set CROP_COORDS (slop)
-    set FOCUSED_MONITOR (swaymsg --type get_workspaces | jq --raw-output '.[] | select(.focused == true) | .output')
-    set RESOLUTION (swaymsg --type get_outputs | jq --arg name $FOCUSED_MONITOR '.[] | select(.name == $name) | .rect.width, .rect.height')
-    swaygrab --raw | convert -flip -crop "$CROP_COORDS" -depth 8 -size $RESOLUTION[1]x$RESOLUTION[2] RGBA:- $FILENAME
+    set DEPENDENCIES $DEPENDENCIES dropbox-cli xclip
+    for dependency in $DEPENDENCIES
+        if not type -q $dependency
+            echo $cRed"You must have $dependency installed."$cRst
+            return 1
+        end
+    end
 
-    # or can do it like this if happy to use tempfile:
-    #swaygrab /tmp/screenshot.png
-    #convert /tmp/screenshot.png -crop "$CROP_COORDS" $FILENAME
+    set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) ".png")
+
+    if test $WM = "sway"
+        slurp | grim -g - $FILENAME
+    else if test $WM = "sway-legacy"
+        set CROP_COORDS (slop)
+        set FOCUSED_MONITOR (swaymsg --type get_workspaces | jq --raw-output '.[] | select(.focused == true) | .output')
+        set RESOLUTION (swaymsg --type get_outputs | jq --arg name $FOCUSED_MONITOR '.[] | select(.name == $name) | .rect.width, .rect.height')
+        swaygrab --raw | convert -flip -crop "$CROP_COORDS" -depth 8 -size $RESOLUTION[1]x$RESOLUTION[2] RGBA:- $FILENAME
+        # or can do it like this if happy to use tempfile:
+        #swaygrab /tmp/screenshot.png
+        #convert /tmp/screenshot.png -crop "$CROP_COORDS" $FILENAME
+    else if test $WM = "i3"
+        set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
+    end
 
     function getstatus
          set SYNC_STATUS (dropbox-cli filestatus $FILENAME)
