@@ -1,0 +1,10 @@
+[Unit]
+Description={Libre,Last}.fm updater for MPD
+BindsTo=mpd.service
+After=mpd.service
+
+[Service]
+ExecStart=/usr/bin/mpdscribble --no-daemon
+
+[Install]
+WantedBy=default.target
