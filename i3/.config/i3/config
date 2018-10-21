@@ -33,7 +33,7 @@ font pango:Work Sans 10
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.sh
+#exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.sh
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ General
@@ -42,7 +42,7 @@ exec_always --no-startup-id $XDG_CONFIG_HOME/polybar/launch.sh
 floating_modifier $mod
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # change focus
 bindsym $mod+h focus left
@@ -98,41 +98,32 @@ bindsym $mod+a focus parent
 bindsym $mod+Tab workspace back_and_forth
 
 set $workspace01 "1"
-set $workspace02 "2"
-set $workspace03 "3"
-set $workspace04 "4"
-set $workspace05 "5"
-set $workspace06 "6"
-set $workspace07 "7"
-set $workspace08 "8"
-set $workspace09 "9"
-set $workspace10 "10"
 
 workspace $workspace01 output DVI-0
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace01
-bindsym $mod+2 workspace $workspace02
-bindsym $mod+3 workspace $workspace03
-bindsym $mod+4 workspace $workspace04
-bindsym $mod+5 workspace $workspace05
-bindsym $mod+6 workspace $workspace06
-bindsym $mod+7 workspace $workspace07
-bindsym $mod+8 workspace $workspace08
-bindsym $mod+9 workspace $workspace09
-bindsym $mod+0 workspace $workspace10
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace01
-bindsym $mod+Shift+2 move container to workspace $workspace02
-bindsym $mod+Shift+3 move container to workspace $workspace03
-bindsym $mod+Shift+4 move container to workspace $workspace04
-bindsym $mod+Shift+5 move container to workspace $workspace05
-bindsym $mod+Shift+6 move container to workspace $workspace06
-bindsym $mod+Shift+7 move container to workspace $workspace07
-bindsym $mod+Shift+8 move container to workspace $workspace08
-bindsym $mod+Shift+9 move container to workspace $workspace09
-bindsym $mod+Shift+0 move container to workspace $workspace10
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -169,9 +160,17 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-#bar {
-#        status_command i3status
-#}
+bar {
+  font pango:DejaVu Sans Mono, FontAwesome 12
+  position top
+  #status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+  status_command /home/ammgws/Dropbox/projects/_gitgatgot_/i3status-rust/target/debug/i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+  colors {
+    statusline #ffffff
+    background #323232
+    inactive_workspace #32323200 #32323200 #5c5c5c
+  }
+}
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
@@ -213,12 +212,13 @@ bindsym $mod+d exec rofi -show run
 #bindsym $mod+Shift+d exec "rofi -show drun -run-command 'gksudo {cmd}'"
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym $mod+ctrl+g exec "google-chrome-stable"
+bindsym $mod+g exec "google-chrome-stable"
 assign [class="Google-chrome"] $workspace01
+for_window [class="Google-chrome"] border none
 
 bindsym $mod+Ctrl+e exec "i3-sensible-terminal -e ranger"
 
 bindsym $mod+ctrl+b exec i3lock --ignore-empty-password --show-failed-attempts --color=000000
 
-bindsym Print exec --no-startup-id "fish -c screenshot"
-bindsym $mod+F7 exec --no-startup-id "fish -c switchaudio"
+bindsym Print exec --no-startup-id "fish --command=screenshot"
+bindsym $mod+F7 exec --no-startup-id "fish --command=switchaudio"
