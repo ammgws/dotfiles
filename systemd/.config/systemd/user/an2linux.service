@@ -5,8 +5,7 @@ Description=AN2Linux
 Type=simple
 StandardOutput=null
 Restart=on-failure
-#ExecStart=/usr/bin/an2linuxserver.py
-ExecStart=/home/juaninch/Dropbox/projects/_gitgatgot_/an2linuxserver/an2linuxserver.py
+ExecStart=/usr/bin/an2linuxserver.py
 
 [Install]
 WantedBy=default.target
