@@ -1,0 +1,18 @@
+[Unit]
+Description=Mako notification daemon
+Documentation=man:mako(1)
+# Start mako by putting exec systemctl --user start mako.service
+# in sway config. That way will only start after WM is up and running,
+# and we get the benefit of systemd managing the service.
+# Trying to use systemd to detect graphical session looks to be
+# impossible at the moment (2018/08/18). Maybe in the future.
+#PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.Notifications
+ExecStart=/usr/bin/mako
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
