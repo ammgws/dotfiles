@@ -11,14 +11,16 @@ set --export BROWSER /usr/bin/google-chrome-stable
 
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
-set --export GDK_BACKEND wayland
 set --export CLUTTER_BACKEND wayland
-set --export QT_QPA_PLATFORM wayland-egl
-set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
+# only for GTK3+. Breaks ibus widget and google-chrome atm.
+#set --export GDK_BACKEND wayland
 set --export ECORE_EVAS_ENGINE wayland_egl
 set --export ELM_ENGINE wayland_egl
+set --export QT_QPA_PLATFORM wayland-egl
+set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
 set --export _JAVA_AWT_WM_NONREPARENTING 1
+set --export KITTY_ENABLE_WAYLAND 1
 
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache

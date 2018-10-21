@@ -4,6 +4,8 @@ function switchaudio --description 'Switch between audio outputs'
             echo "speakers"
         else if string match --quiet '*pci*' $sink_raw_name
             echo "headphones"
+        else if string match --quiet '*PCH*' $sink_raw_name
+            echo "headphones"
         else if string match --quiet 'bluez_sink*' $sink_raw_name
             echo "bluetooth"
         else

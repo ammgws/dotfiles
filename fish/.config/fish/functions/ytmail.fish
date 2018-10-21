@@ -1,4 +1,4 @@
-function ytmail --description 'Download and email youtube videos'
+function ytmail --description 'Download and email youtube videos. Useful for work since youtube is blocked.'
     # define colours to use when printing messages
     set cRed (set_color red)
     set cGrn (set_color green)
