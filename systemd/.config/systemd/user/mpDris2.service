@@ -1,0 +1,12 @@
+[Unit]
+Description=mpDris2 - Music Player Daemon D-Bus bridge
+BindsTo=mpd.service
+After=mpd.service dunst.service
+
+[Service]
+ExecStart=/usr/bin/mpDris2
+BusName=org.mpris.MediaPlayer2.mpd
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,12 @@
+[Unit]
+Description=ibus daemon
+Documentation=man:ibus-daemon(1)
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.IBus
+Environment=IBUS_SOCK=%t/ibus.socket
+ExecStart=/usr/bin/ibus-daemon --replace --xim --address unix:tmpdir=$IBUS_SOCK
+
+[Install]
+WantedBy=default.target
