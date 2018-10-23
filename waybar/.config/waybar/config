@@ -63,6 +63,6 @@
         "format": " {}",
         "max-length": 20,
         "interval": 10,
-        "exec": "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'",
+        "exec": "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
     }
 }
