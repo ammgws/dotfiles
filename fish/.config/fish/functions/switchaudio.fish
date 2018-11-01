@@ -72,5 +72,5 @@ function switchaudio --description 'Switch between audio outputs'
 
     # set env var so that can use in i3status-rust
     set --universal SOUND_SOURCE (get_icon $new_default_sink_name)
-    notify-send (string join " " "Switched to" $new_default_sink_name) --icon=audio-volume-high
+    notify-send (string join " " "Switched to" $new_default_sink_name) --icon=audio-volume-high --expire-time=1000
 end
