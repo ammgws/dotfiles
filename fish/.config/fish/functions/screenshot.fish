@@ -93,11 +93,11 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 
     if test $OUTPUT_MODE = "linkonly"
         echo -n $DROPBOX_LINK | xclip -selection clip
-        notify-send "Screenshot" $DROPBOX_LINK --icon=$FILENAME
+        notify-send "Screenshot" $DROPBOX_LINK --icon=$FILENAME --expire-time=2000
     else if test $OUTPUT_MODE = "image"
         xclip -selection clip -target image/png $FILENAME
         echo -n $DROPBOX_LINK | xclip -selection primary
-        notify-send "Screenshot" $FILENAME --icon=$FILENAME
+        notify-send "Screenshot" $FILENAME --icon=$FILENAME --expire-time=2000
     end
 
     if test $OPEN_URL = 1
