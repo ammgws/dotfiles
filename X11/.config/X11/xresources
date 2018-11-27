@@ -69,8 +69,8 @@ XTerm*foreground: white
 ! ┃ rofi settings
 ! ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ! https://github.com/DaveDavenport/rofi/wiki/Using-Rofi-with-Fish-Shell
-rofi.run-command: fish -c '{cmd}'
-rofi.run-list-command: 'fish -c functions'
+rofi.run-command: fish --command '{cmd}'
+rofi.run-list-command: 'fish --command functions'
 
 XTerm*faceName: Source Code Pro,Source Code Pro Semibold 
 XTerm*faceSize: 12
