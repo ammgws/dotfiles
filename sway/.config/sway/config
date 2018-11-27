@@ -5,6 +5,7 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
+# WinKey = Mod4
 set $mod Mod4
 
 # Home row direction keys, like vim
@@ -212,21 +213,21 @@ bindsym $mod+r mode "resize"
 # ┃ Status bar
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    font pango:DejaVu Sans Mono, FontAwesome 10
-    position top
-    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
-
-    colors {
-        separator #666666
-        background #222222
-        statusline #dddddd
-        focused_workspace #0088CC #0088CC #ffffff
-        active_workspace #333333 #333333 #ffffff
-        inactive_workspace #333333 #333333 #888888
-        urgent_workspace #2f343a #900000 #ffffff
-    }
-}
+#bar {
+#    font pango:DejaVu Sans Mono, FontAwesome 10
+#    position top
+#    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+#
+#    colors {
+#        separator #666666
+#        background #222222
+#        statusline #dddddd
+#        focused_workspace #0088CC #0088CC #ffffff
+#        active_workspace #333333 #333333 #ffffff
+#        inactive_workspace #333333 #333333 #888888
+#        urgent_workspace #2f343a #900000 #ffffff
+#    }
+#}
 
 #
 # Application hotkeys
@@ -235,7 +236,7 @@ bindsym $mod+Return exec $term
 
 bindsym $mod+d exec $menu
 
-bindsym $mod+g exec notify-send "Starting Chrome..."; exec google-chrome-stable
+bindsym $mod+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
 #assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
 
@@ -269,6 +270,9 @@ bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id playerctl position 3-
 # Japanese IME
 bindsym $mod+Shift+a exec --no-startup-id fish --command=ibus-toggle
 
+bindsym $mod+Shift+r exec termite --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border none
+
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Other config files
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -279,6 +283,10 @@ include /etc/sway/config.d/*
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
+
+exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
+
+#exec redshift -m wayland -l 47.218262:-1.557180
 
 # rofi settings are inside xresources
 exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
@@ -291,3 +299,6 @@ exec ibus-daemon --xim --replace &
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
 #assign [class="ammcon"] $workspace02
 #for_window [class="ammcon"] border none
+
+# To enable polkit auth for GUI apps
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
