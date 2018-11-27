@@ -280,6 +280,7 @@ include /etc/sway/config.d/*
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
 
+# rofi settings are inside xresources
 exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
 exec udiskie --tray &
