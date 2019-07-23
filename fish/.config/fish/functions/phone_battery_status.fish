@@ -3,7 +3,13 @@ function phone_battery_status --description='Get battery status and level from K
   argparse --name phone_battery_status 'd/device=' -- $argv
   or return 1  #error
 
-  set path "/modules/kdeconnect/devices/$_flag_device"
+  if test -z $_flag_device
+    # just grab first device found (TODO: see what happens if more than one device is connected)
+    set device (qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices)
+  else
+    set device $_flag_device
+  end
+  set path "/modules/kdeconnect/devices/$device"
   set charging (qdbus org.kde.kdeconnect $path org.kde.kdeconnect.device.battery.isCharging)
   set level (qdbus org.kde.kdeconnect $path org.kde.kdeconnect.device.battery.charge)
 
