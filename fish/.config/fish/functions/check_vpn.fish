@@ -1,4 +1,4 @@
-function check_vpn --description="Return true if connected to VPN"
+function check_vpn --description="Return true if connected to VPN (mullvad)"
   argparse --name check_vpn 'h/help' 'b/barmode' -- $argv
   or return 1  # error
 
