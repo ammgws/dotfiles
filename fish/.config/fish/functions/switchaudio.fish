@@ -1,4 +1,4 @@
-function switchaudio --description 'Switch between audio outputs'
+function switchaudio --description 'Switch between audio devices and move all current audio outputs to the new device.'
     function prettify_name --argument-names sink_raw_name
         if string match --quiet '*Pebbles*' $sink_raw_name
             echo "speakers"
