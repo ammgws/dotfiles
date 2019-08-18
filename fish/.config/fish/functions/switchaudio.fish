@@ -2,12 +2,14 @@ function switchaudio --description 'Switch between audio outputs'
     function prettify_name --argument-names sink_raw_name
         if string match --quiet '*Pebbles*' $sink_raw_name
             echo "speakers"
-        else if string match --quiet '*pci*' $sink_raw_name
+        else if string match --quiet 'alsa_output.pci-0000_00_1b.0.analog-stereo' $sink_raw_name
             echo "headphones"
         else if string match --quiet '*PCH*' $sink_raw_name
             echo "headphones"
         else if string match --quiet 'bluez_sink*' $sink_raw_name
             echo "bluetooth"
+        else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2' $sink_raw_name
+            echo "TV"
         else
             echo $sink_raw_name
         end
@@ -20,6 +22,8 @@ function switchaudio --description 'Switch between audio outputs'
             echo "🔈"
         else if string match --quiet 'bluetooth' $output_device
             echo "BT"
+        else if string match --quiet 'TV' $output_device
+            echo "📺"
         else
             echo "??"
         end
@@ -37,7 +41,6 @@ function switchaudio --description 'Switch between audio outputs'
     end
 
     set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
-
     set sinks (pactl list short sinks)
     for sink in $sinks
        set sink_info (string split \t $sink)
