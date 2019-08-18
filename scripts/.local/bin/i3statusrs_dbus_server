@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+import sys
+
+import click
+from gi.repository import GLib
+from pydbus import SessionBus
+from pydbus.generic import signal
+
+# for debugging
+#qdbus localhost.statusbar.DBus /localhost/statusbar/DBus/whatever org.freedesktop.DBus.Properties.Get localhost.statusbar.DBus SomeProperty
+#qdbus localhost.statusbar.DBus /localhost/statusbar/DBus/whatever org.freedesktop.DBus.Properties.Set localhost.statusbar.DBus SomeProperty newvalue
+#qdbus localhost.statusbar.DBus /localhost/statusbar/DBus/whatever localhost.statusbar.DBus.Ping
+#dbus-monitor "path='/localhost/statusbar/DBus/whatever',member='PropertiesChanged',interface='org.freedesktop.DBus.Properties'"
+
+
+class DBusObject:
+    def __init__(self, interface_name):
+        self.interface_name = interface_name
+        self.property_name = "Status"
+        self._Status = "??"
+        type(self).dbus = self.gen_introspection_xml()
+        type(self).PropertiesChanged = signal()
+
+    def gen_introspection_xml(self):
+        return f"""
+            <node>
+              <interface name="{self.interface_name}">
+                <property name="{self.property_name}" type="s" access="readwrite">
+                  <annotation name="org.freedesktop.DBus.Property.EmitsChangedSignal" value="true"/>
+                </property>
+		<method name='Ping'>
+  		  <arg type='s' name='response' direction='out'/>
+		</method>
+                <method name='Quit'/>
+              </interface>
+            </node>
+          """
+
+    @property
+    def Status(self):
+        return self._Status
+
+    @Status.setter
+    def Status(self, value):
+        self._Status = value
+        self.PropertiesChanged(self.interface_name, {self.property_name: self.Status}, [])
+
+    def Ping(self):
+        """For debugging purposes."""
+        return "Pong!"
+
+    def Quit(self):
+        """Removes this object from the DBus connection and exits."""
+	loop.quit()
+
+@click.command()
+@click.argument('properties', nargs=-1, required=True)
+def main(properties):
+    loop = GLib.MainLoop()
+    bus = SessionBus()
+    interface_name = 'localhost.statusbar.DBus'
+    objects = [(property, DBusObject(interface_name)) for property in set(properties)]
+    try:
+        bus.publish(interface_name, *objects)
+    except RuntimeError:
+        click.echo(f"{interface_name} is in use already - check for another instance")
+        return 1
+    loop.run()
+
+if __name__ == '__main__':
+    main()
