@@ -1,5 +1,5 @@
 [Unit]
-Description=mpDris2 - Music Player Daemon D-Bus bridge
+Description=mpDris2 daemon
 BindsTo=mpd.service
 After=mpd.service dunst.service
 
