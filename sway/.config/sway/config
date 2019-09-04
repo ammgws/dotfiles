@@ -20,56 +20,41 @@ set $term kitty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 #set $menu dmenu_path | dmenu | xargs swaymsg exec
-set $menu rofi -show run
+#set $menu rofi -show run
+#set $menu j4-dmenu-desktop --no-generic --dmenu="(cat ; (functions --names | tr , '\n')) | bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
+set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
+#set $menu dmenu_path | $_menu "" | xargs -rI{} swaymsg "exec {}"
+
+set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
+set $prompt echo | $_menu
 
 ### Output configuration
-#
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-set $monitor1 DVI-I-1
-set $monitor2 HDMI-A-1
-output $monitor1 pos 0,0 res 1920x1080
-output $monitor2 pos 1920,0 res 1920x1080
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output * bg #000000 solid_color
 
+set $monitorL "Samsung Electric Company S27A950D 0x00000000"
+set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
+set $tv "Goldstar Company Ltd LG TV 0x00000101"
+output $monitorL pos    0,0 res 1920x1080
+output $monitorR pos 1920,0 res 1920x1080
+workspace 1 output $monitorR
+exec swaymsg focus output $monitorR
+
+# Seat configuration
+seat * hide_cursor 2000
+
 ### Idle configuration
-#
-# Example configuration:
-#
-#exec swayidle \
-#    timeout 300 'swaylock -c 000000' \
-#    timeout 600 'swaymsg "output * dpms off"' \
-#       resume 'swaymsg "output * dpms on"' \
-#    before-sleep 'swaylock -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 600 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-exec swayidle \
-    timeout 300 'swaylock -c 000000' \
+exec swayidle -w \
+    timeout 300 'swaylock' \
     timeout 600 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -c 000000'
+         resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock --daemonize'
 
 ### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
+input * xkb_numlock enabled
+input 1133:16461:Logitech_K400_Plus map_to_output $tv
+#input 5426:22:Razer_Razer_DeathAdder map_to_region 3840x1080@0,0
 
 ### Key bindings
 #
@@ -141,6 +126,15 @@ exec swayidle \
     bindsym $mod+Shift+0 move container to workspace 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
+    # alt-tab like behaviour
+    bindsym $mod+tab workspace next_on_output 
+    bindsym $mod+Shift+tab workspace prev_on_output 
+
+    # Rename
+    bindsym $mod+Shift+equal exec $$prompt "New workspace name (retain number):" | xargs -I {} bash -c "swaymsg 'rename workspace to \"$(~/.local/bin/sway-get-workspace prefix){}\"'"
+    bindsym $mod+Control+equal exec $$prompt "New workspace name:" | xargs -I {} swaymsg 'rename workspace to "{}"'
+
 #
 # Layout stuff:
 #
@@ -226,11 +220,14 @@ bindsym $mod+r mode "resize"
 #
 # Application hotkeys
 # ━━━━━━━━━━━━━━━━━━━━━━━━
+# NOTE: exec --no-startup-id is not supported in sway
+
 bindsym $mod+Return exec $term
 
 bindsym $mod+d exec $menu
 
-bindsym $mod+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
+bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
+bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
 #assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
 
@@ -243,29 +240,36 @@ for_window [class="Screenruler"] border none
 
 bindsym $mod+e exec $term -e ranger
 
-bindsym $mod+ctrl+b exec swaylock --color ffffff --insidecolor 4B0082
+bindsym $mod+ctrl+b exec swaylock --color 000000 --ring-color 4B0082
 
-bindsym Print exec --no-startup-id fish --command=screenshot
-bindsym $mod+Print exec --no-startup-id swaygrab $SCREENSHOT_DIR/temp.jpg
+bindsym Print exec fish --command=screenshot
+bindsym $mod+Print exec swaygrab $SCREENSHOT_DIR/temp.jpg
 
-bindsym $mod+F7 exec --no-startup-id fish --command=switchaudio
+bindsym $mod+F7 exec fish --command=switchaudio
+
+bindsym $mod+F8 exec "sway output $tv toggle && notify-send 'toggled TV'"
+bindsym $mod+F9 exec "sway move workspace to output $tv"
+
+bindsym $mod+z exec rofimoji
 
 # Media keys
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-bindsym XF86AudioStop exec --no-startup-id playerctl stop
-bindsym Shift+XF86AudioLowerVolume exec --no-startup-id playerctl position 3+
-bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id playerctl position 3-
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioStop exec playerctl stop
+bindsym Shift+XF86AudioLowerVolume exec playerctl position 3+
+bindsym Shift+XF86AudioRaiseVolume exec playerctl position 3-
 
 # Japanese IME
-bindsym $mod+Shift+a exec --no-startup-id fish --command=ibus-toggle
+bindsym $mod+Shift+a exec fish --command=ibus-toggle
 
-bindsym $mod+Shift+r exec termite --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
+bindsym $mod+Shift+r exec kitty --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
 for_window [app_id="^launcher$"] floating enable, border none
+
+bindsym $mod+grave exec python $XDG_CONFIG_HOME/sway/workspace-new.py
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Other config files
@@ -276,23 +280,32 @@ include /etc/sway/config.d/*
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-exec systemctl --user start mako.service
+exec systemctl --user start mako.service &
 
-exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
+#exec systemctl --user start ibus.service &
+exec ibus-daemon --xim --replace --panel disable &
 
-#exec redshift -m wayland -l 47.218262:-1.557180
+#exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
 
 # rofi settings are inside xresources
-exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
+#exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
-exec udiskie --tray &
-
-exec ibus-daemon --xim --replace &
+exec udiskie &
+#exec udiskie --tray &
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
 #assign [class="ammcon"] $workspace02
 #for_window [class="ammcon"] border none
 
-# To enable polkit auth for GUI apps
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# Enable polkit auth for GUI apps
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+
+for_window [app_id="mpv"] inhibit_idle fullscreen
+
+# TODO: permission denied on startup?
+exec_always $XDG_CONFIG_HOME/sway/import-gsettings \
+    gtk-theme:gtk-theme-name \
+    icon-theme:gtk-icon-theme-name \
+    cursor-theme:gtk-cursor-theme-name
