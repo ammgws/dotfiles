@@ -7,7 +7,7 @@ eval (python -m virtualfish auto_activation)
 set --export XKB_DEFAULT_LAYOUT us
 
 set --export TERMINAL kitty
-set --export BROWSER /usr/bin/google-chrome-stable
+set --export BROWSER /usr/bin/firefox-nightly
 
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
