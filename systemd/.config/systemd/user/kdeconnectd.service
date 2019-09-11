@@ -1,0 +1,11 @@
+[Unit]
+Description=Connect your computer to your smartphone or tablet
+
+[Service]
+ExecStart=/usr/lib/kdeconnectd
+ExecStop=/usr/bin/kquitapp5 kdeconnectd
+BusName=org.kde.kdeconnect
+Environment=QT_QPA_PLATFORM=offscreen
+
+[Install]
+WantedBy=default.target
