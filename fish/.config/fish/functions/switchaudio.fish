@@ -8,7 +8,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
             echo "headphones"
         else if string match --quiet 'bluez_sink*' $sink_raw_name
             echo "bluetooth"
-        else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2' $sink_raw_name
+        else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra*' $sink_raw_name
             echo "TV"
         else
             echo $sink_raw_name

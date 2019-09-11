@@ -26,6 +26,7 @@ function videograb --description="Records video of screen selection in sway"
     sleep $delay
   end
 
+  echo "hello"
   # TODO: handle int so we can actually get here on demand
   ffmpeg -loglevel quiet \
          -pattern_type glob \
