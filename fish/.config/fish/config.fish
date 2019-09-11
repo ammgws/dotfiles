@@ -5,7 +5,6 @@ set --export PATH /usr/local/bin $PATH
 eval (python -m virtualfish auto_activation)
 
 set --export XKB_DEFAULT_LAYOUT us
-
 set --export TERMINAL kitty
 set --export BROWSER /usr/bin/firefox-nightly
 
@@ -49,6 +48,14 @@ set --export DefaultIMModule ibus
 
 # User experience improvements over SSH
 if set --query SSH_CLIENT
+  if ! set --query XDG_RUNTIME_DIR
+    set --export XDG_RUNTIME_DIR /run/user/(id -u)
+  end
+
+  if ! set --query GPG_TTY
+    set --export GPG_TTY (tty)
+  end
+
   if ! set --query DBUS_SESSION_BUS_ADDRESS
     set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
     if test -e $dbus_session_file

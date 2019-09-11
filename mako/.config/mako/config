@@ -1,6 +1,7 @@
 font=FontAwesome 10
 background-color=#000000
 text-color=#ffffff
+default-timeout=3000
 
 [app-name=AN2Linux]
 text-color=#00bfff
