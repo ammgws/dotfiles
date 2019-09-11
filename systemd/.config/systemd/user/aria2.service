@@ -1,0 +1,10 @@
+[Unit]
+Description=Aria2 Service
+After=network.target
+
+[Service]
+# Specify args/options in ~/.config/aria2/aria2.conf
+ExecStart=/usr/bin/aria2c
+
+[Install]
+WantedBy=default.target
