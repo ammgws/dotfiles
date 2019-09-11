@@ -8,7 +8,7 @@ function phone_battery_status --description='Get battery status and level from K
     set device (qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices)
     if test $status -ne 0
       # most likely kdeconnectd not running
-      printf "ERR"
+      printf "📵"
       return 1
     end
   else
@@ -19,7 +19,7 @@ function phone_battery_status --description='Get battery status and level from K
   set level (qdbus org.kde.kdeconnect $path org.kde.kdeconnect.device.battery.charge)
   if test $status -ne 0
     # phone not connected or otherwise invalid device ID given
-    printf "ERR"
+    printf "📵"
     return 1
   end
 

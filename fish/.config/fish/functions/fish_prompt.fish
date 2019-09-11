@@ -32,7 +32,7 @@ function fish_prompt
 
   # could or may also need to check SSH_TTY or SSH_CONNECTION
   if set --query SSH_CLIENT
-    echo -n -s (set_color --background red white) "(" (hostname) ")" (set_color normal) " "
+    echo -n -s (set_color --background red white) "(SSH: " (hostname) ")" (set_color normal) " "
   end
 
 end

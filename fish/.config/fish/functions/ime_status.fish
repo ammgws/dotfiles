@@ -3,11 +3,11 @@ function ime_status --description="Returns current IBus input language: EN/JP/??
     if test -z $current_ime
         printf '%s' '??'
     else if test $current_ime = 'xkb:us::eng'
-        printf '%s' 'EN'
+        printf '%s' '🇦🇺'
     else if test "$current_ime" = 'anthy'
-        printf '%s' 'JP'
+        printf '%s' '🇯🇵'
     else if test "$current_ime" = 'mozc-jp'
-        printf '%s' 'JP'
+        printf '%s' '🇯🇵'
     else
         printf '%s' '??'
     end
