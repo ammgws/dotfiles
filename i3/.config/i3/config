@@ -163,8 +163,7 @@ bindsym $mod+r mode "resize"
 bar {
   font pango:DejaVu Sans Mono, FontAwesome 12
   position top
-  #status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
-  status_command /home/juaninch/Dropbox/projects/_gitgatgot_/i3status-rust/target/debug/i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+  status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
   colors {
     statusline #ffffff
     background #323232
@@ -206,11 +205,10 @@ client.urgent           $urgent-bg-colour   $urgent-bg-colour   $text-colour    
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Application shortcuts
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec kitty
 
 bindsym $mod+d exec rofi -show run
 #bindsym $mod+Shift+d exec "rofi -show drun -run-command 'gksudo {cmd}'"
-#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 bindsym $mod+g exec "google-chrome-stable"
 assign [class="Google-chrome"] $workspace01

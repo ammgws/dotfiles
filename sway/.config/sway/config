@@ -38,6 +38,7 @@ set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
 set $tv "Goldstar Company Ltd LG TV 0x00000101"
 output $monitorL pos    0,0 res 1920x1080
 output $monitorR pos 1920,0 res 1920x1080
+output $tv pos 1920,1080 res 1920x1080
 workspace 1 output $monitorR
 exec swaymsg focus output $monitorR
 
@@ -269,7 +270,9 @@ bindsym $mod+Shift+a exec fish --command=ibus-toggle
 bindsym $mod+Shift+r exec kitty --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
 for_window [app_id="^launcher$"] floating enable, border none
 
-bindsym $mod+grave exec python $XDG_CONFIG_HOME/sway/workspace-new.py
+#bindsym $mod+grave exec python $XDG_CONFIG_HOME/sway/workspace-new.py
+bindsym $mod+grave exec fish --command=new_workspace
+bindsym $mod+Shift+grave exec fish --command=new_workspace --move-focused
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Other config files
@@ -277,21 +280,21 @@ bindsym $mod+grave exec python $XDG_CONFIG_HOME/sway/workspace-new.py
 include /etc/sway/config.d/*
 #include ~/.config/sway/`hostname`/*
 
-# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-exec systemctl --user start mako.service &
+exec systemctl --user start mako.service
 
-#exec systemctl --user start ibus.service &
-exec ibus-daemon --xim --replace --panel disable &
+#exec systemctl --user start ibus.service
+exec ibus-daemon --xim --replace --panel disable
 
 #exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
 
 # rofi settings are inside xresources
 #exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
-exec udiskie &
-#exec udiskie --tray &
+exec udiskie
+#exec udiskie --tray
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
@@ -299,7 +302,7 @@ exec udiskie &
 #for_window [class="ammcon"] border none
 
 # Enable polkit auth for GUI apps
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
@@ -309,3 +312,5 @@ exec_always $XDG_CONFIG_HOME/sway/import-gsettings \
     gtk-theme:gtk-theme-name \
     icon-theme:gtk-icon-theme-name \
     cursor-theme:gtk-cursor-theme-name
+
+exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
