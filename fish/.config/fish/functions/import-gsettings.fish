@@ -4,7 +4,7 @@ function import-gsettings
   end
 
   while read --local --array line
-    set config (string match --regex "(gtk-[\w|-]+)=(.+)" $line)
+    set config (string match --regex "(gtk-[\w|-]+)\s*=\s*(.+)" $line)
     if string match --quiet $config[2] gtk-theme-name
       gset gtk-theme $config[3]
     else if string match --quiet $config[2] gtk-icon-theme
