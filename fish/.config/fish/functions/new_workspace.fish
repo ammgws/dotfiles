@@ -16,7 +16,7 @@ function new_workspace --description="Create new workspace on the current monito
      return
   end
 
-  if set -lq _flag_movefocused
+  if set -lq _flag_move_focused
       set MOVE_FOCUSED 1
   end
 
