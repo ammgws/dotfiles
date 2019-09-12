@@ -22,8 +22,9 @@ set $term kitty
 #set $menu dmenu_path | dmenu | xargs swaymsg exec
 #set $menu rofi -show run
 #set $menu j4-dmenu-desktop --no-generic --dmenu="(cat ; (functions --names | tr , '\n')) | bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
-set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
+#set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
 #set $menu dmenu_path | $_menu "" | xargs -rI{} swaymsg "exec {}"
+set $menu dmenu_path | wofi --show drun -i | xargs swaymsg exec --
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
@@ -284,9 +285,10 @@ include /etc/sway/config.d/*
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
-
 #exec systemctl --user start ibus.service
 exec ibus-daemon --xim --replace --panel disable
+
+exec_always flashfocus
 
 #exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
 
