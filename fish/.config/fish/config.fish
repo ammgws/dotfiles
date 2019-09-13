@@ -22,9 +22,6 @@ set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
 set --export _JAVA_AWT_WM_NONREPARENTING 1
 
-# not used anymore
-#set --export KITTY_ENABLE_WAYLAND 1
-
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache
 set --export XDG_CONFIG_HOME ~/.config
@@ -66,6 +63,9 @@ if set --query SSH_CLIENT
   if ! set --query SWAYSOCK
     set --export SWAYSOCK (ls /run/user/1000/sway-ipc.* | head --lines 1)
   end
+
+  # easier to use on phone
+  set GIT_EDITOR nano
 end
 
 # Abbreviations (text expansion)
