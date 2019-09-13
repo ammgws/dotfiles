@@ -65,7 +65,10 @@ if set --query SSH_CLIENT
   end
 
   # easier to use on phone
-  set GIT_EDITOR nano
+  set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
+  if test $ip = 10.8.7.2
+    set GIT_EDITOR nano
+  end
 end
 
 # Abbreviations (text expansion)
