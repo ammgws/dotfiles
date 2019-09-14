@@ -1,4 +1,7 @@
 function import-gsettings
+  # Note list of valid keys to use with gset: `gsettings list-keys org.gnome.desktop.interface`
+  # TODO: reference for how these match up with settings.ini since key names appear to differ
+
   function gset --argument-names key val
     gsettings set org.gnome.desktop.interface $key $val
   end
