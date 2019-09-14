@@ -21,6 +21,7 @@ set --export QT_QPA_PLATFORM wayland-egl
 set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
 set --export _JAVA_AWT_WM_NONREPARENTING 1
+set --export BEMENU_BACKEND wayland
 
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache
