@@ -37,9 +37,10 @@ output * bg #000000 solid_color
 set $monitorL "Samsung Electric Company S27A950D 0x00000000"
 set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
 set $tv "Goldstar Company Ltd LG TV 0x00000101"
-output $monitorL pos    0,0 res 1920x1080
-output $monitorR pos 1920,0 res 1920x1080
-output $tv pos 1920,1080 res 1920x1080
+output $monitorL pos    0,0    res 1920x1080
+output $monitorR pos 1920,0    res 1920x1080
+output $tv       pos 1920,1080 res 1920x1080
+output $tv disable
 workspace 1 output $monitorR
 exec swaymsg focus output $monitorR
 
@@ -242,15 +243,14 @@ for_window [class="Screenruler"] border none
 
 bindsym $mod+e exec $term -e ranger
 
-bindsym $mod+ctrl+b exec swaylock --color 000000 --ring-color 4B0082
+bindsym $mod+ctrl+b exec swaylock
 
 bindsym Print exec fish --command=screenshot
 bindsym $mod+Print exec swaygrab $SCREENSHOT_DIR/temp.jpg
 
-bindsym $mod+F7 exec fish --command=switchaudio
-
-bindsym $mod+F8 exec "sway output $tv toggle && notify-send 'toggled TV'"
-bindsym $mod+F9 exec "sway move workspace to output $tv"
+bindsym --locked $mod+F7 exec fish --command=switchaudio
+bindsym --locked $mod+F8 exec fish --command=tv_toggle
+bindsym $mod+F9 exec fish --command=move_all_workspaces
 
 bindsym $mod+z exec rofimoji
 
