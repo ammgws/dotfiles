@@ -49,9 +49,7 @@ if set --query SSH_CLIENT
     set --export XDG_RUNTIME_DIR /run/user/(id -u)
   end
 
-  if ! set --query GPG_TTY
-    set --export GPG_TTY (tty)
-  end
+  set --export GPG_TTY (tty)
 
   if ! set --query DBUS_SESSION_BUS_ADDRESS
     set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
@@ -61,7 +59,7 @@ if set --query SSH_CLIENT
   end
 
   if ! set --query SWAYSOCK
-    set --export SWAYSOCK (ls /run/user/1000/sway-ipc.* | head --lines 1)
+    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u)/(pidof sway).sock
   end
 
   # easier to use on phone
