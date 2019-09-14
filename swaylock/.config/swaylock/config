@@ -3,4 +3,5 @@ show-failed-attempts
 show-keyboard-layout
 indicator-caps-lock
 color=000000
+ring-color=4B0082
 #font=pango:DejaVu Sans Mono PANGO_VARIANT_SMALL_CAPS
