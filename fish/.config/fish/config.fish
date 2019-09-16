@@ -11,10 +11,9 @@ set --export BROWSER /usr/bin/firefox-nightly
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
 set --export CLUTTER_BACKEND wayland
-# only for GTK3+. Breaks ibus widget and google-chrome atm.
+# GTK3+ will default to Wayland, so do not set otherwise it will break some apps.
 #set --export GDK_BACKEND wayland
 set --export MOZ_ENABLE_WAYLAND 1
-set --export MOZ_WEBRENDER 1
 set --export ECORE_EVAS_ENGINE wayland_egl
 set --export ELM_ENGINE wayland_egl
 set --export QT_QPA_PLATFORM wayland-egl
@@ -76,6 +75,8 @@ abbr --add gp 'git push'
 
 # Other
 set --export FZF_DEFAULT_COMMAND "fd --type f"
+set --export MOZ_WEBRENDER 1
+set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0
 
 # Used in my fish functions
 set --export AMMCON_URL https://ammcon:port
