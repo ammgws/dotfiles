@@ -76,6 +76,7 @@ end
 
 # Abbreviations (text expansion)
 abbr --add gp 'git push'
+abbr --add gst 'git status'  # gs taken by Ghostscript
 #abbr --add mv 'smv'
 
 # Other
