@@ -35,4 +35,7 @@ function fish_prompt
     echo -n -s (set_color --background red white) "(SSH: " (hostname) ")" (set_color normal) " "
   end
 
+  if test ! check_kernel
+    echo -n -s (set_color --background red blue) "RESTART FOR NEW KERNEL!" (set_color normal) " "
+  end
 end
