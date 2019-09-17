@@ -1,11 +1,11 @@
 function check_vpn --description="Return true if connected to VPN (mullvad)"
-  argparse --name check_vpn 'h/help' 'b/barmode' -- $argv
+  argparse --name check_vpn 'h/help' 'b-barmode' -- $argv
   or return 1  # error
 
   function print_help
     echo "Usage: check_vpn [options]"
     echo "Options:"
-    echo (set_color green)"-b"(set_color $fish_color_normal)": Output text for i3status-rs bar"
+    echo (set_color green)"--barmode"(set_color $fish_color_normal)": Output text for i3status-rs bar"
   end
 
   if set -lq _flag_help
