@@ -1,4 +1,7 @@
 function check_kernel --description='Output message if installed and running kernels are different.'
+    argparse --name check_kernel 'h/help' 'b-barmode' -- $argv
+    or return 1  #error
+
     function print_help
         echo "Usage: check_kernel [options]"
         echo "Options:"
@@ -12,9 +15,6 @@ function check_kernel --description='Output message if installed and running ker
 
     # default values (that can be changed via args)
     set OUTPUT_MODE boolean
-
-    argparse --name screenshot 'h/help' 'b-barmode' -- $argv
-    or return 1  #error
 
     if set -lq _flag_help
        print help
