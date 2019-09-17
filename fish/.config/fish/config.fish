@@ -51,10 +51,15 @@ if set --query SSH_CLIENT
 
   set --export GPG_TTY (tty)
 
-  if ! set --query DBUS_SESSION_BUS_ADDRESS
+  if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
     set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
     if test -e $dbus_session_file
-      set --export DBUS_SESSION_BUS_ADDRESS (grep "^DBUS_SESSION_BUS_ADDRESS=" $dbus_session_file)
+      while read --local --array line
+        set match (string match --regex "^DBUS_SESSION_BUS_ADDRESS=(.+)" $line)
+        if test $status -eq 0
+          set DBUS_SESSION_BUS_ADDRESS $match[2]
+        end
+      end < $dbus_session_file
     end
   end
 
