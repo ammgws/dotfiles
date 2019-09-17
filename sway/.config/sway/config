@@ -285,10 +285,11 @@ include /etc/sway/config.d/*
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
-#exec systemctl --user start ibus.service
-exec ibus-daemon --xim --replace --panel disable
 
-exec_always flashfocus
+#exec systemctl --user start ibus.service
+exec ibus-daemon --xim --replace --panel=disable --daemonize
+
+#exec_always flashfocus
 
 #exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
 
@@ -311,7 +312,7 @@ assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
 
-# TODO: permission denied on startup?
+# See https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 exec_always fish --command=import-gsettings
 
 exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
