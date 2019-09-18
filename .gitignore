@@ -6,6 +6,8 @@ fish/.config/fish/fish_variables
 fish/.config/fish/fishd.*
 fish/.config/fish/fishfile
 fish/.config/fish/index.html
+gtk-3.0/.config/gtk-3.0/bookmarks
+gtk-3.0/.config/gtk-3.0/servers
 mpd/.config/mpd/state
 ranger/.config/ranger/bookmarks
 ranger/.config/ranger/history
