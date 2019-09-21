@@ -26,10 +26,6 @@ set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
 
 ### Output configuration
-# Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg #000000 solid_color
-
 set $monitorL "Samsung Electric Company S27A950D 0x00000000"
 set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
 set $tv "Goldstar Company Ltd LG TV 0x00000101"
@@ -40,8 +36,10 @@ output $tv disable
 workspace 1 output $monitorR
 exec swaymsg focus output $monitorR
 
-# Seat configuration
-seat * hide_cursor 2000
+# Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg #000000 solid_color
+#exec glpaper "HDMI-A-1" $monitorL /home/ammgws/.config/glpaper/fragments/matrix.frag
 
 ### Idle configuration
 exec swayidle -w \
