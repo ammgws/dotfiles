@@ -6,6 +6,7 @@ eval (python -m virtualfish auto_activation)
 
 set --export XKB_DEFAULT_LAYOUT us
 set --export TERMINAL kitty
+set --export SHELL /usr/bin/fish
 set --export BROWSER /usr/bin/firefox-nightly
 
 # Encourage programs to use Wayland
@@ -64,10 +65,10 @@ if set --query SSH_CLIENT
   end
 
   if ! set --query SWAYSOCK
-    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u)/(pidof sway).sock
+    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
   end
 
-  # easier to use on phone
+  # Change git editor when remoting in from phone
   set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
   if test $ip = 10.8.7.2
     set GIT_EDITOR nano
@@ -87,6 +88,7 @@ abbr --add gst 'git status'  # gs taken by Ghostscript
 set --export FZF_DEFAULT_COMMAND "fd --type f"
 set --export MOZ_WEBRENDER 1
 set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0
+set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
 
 # Used in my fish functions
 set --export AMMCON_URL https://ammcon:port

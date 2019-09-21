@@ -19,12 +19,8 @@ set $term kitty
 
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
-#set $menu dmenu_path | dmenu | xargs swaymsg exec
-#set $menu rofi -show run
-#set $menu j4-dmenu-desktop --no-generic --dmenu="(cat ; (functions --names | tr , '\n')) | bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
 #set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
-#set $menu dmenu_path | $_menu "" | xargs -rI{} swaymsg "exec {}"
-set $menu dmenu_path | wofi --show drun -i | xargs swaymsg exec --
+set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
