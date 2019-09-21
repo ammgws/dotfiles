@@ -2,7 +2,15 @@ font=FontAwesome 10
 background-color=#000000
 text-color=#ffffff
 default-timeout=3000
+border-radius=4
 
 [app-name=AN2Linux]
 text-color=#00bfff
 border-color=#00bfff
+
+[hidden]
+format=(and %h more)
+text-color=#777777
+
+[urgency=high]
+background-color=#ff0000
