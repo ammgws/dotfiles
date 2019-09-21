@@ -53,6 +53,11 @@ input * xkb_numlock enabled
 input 1133:16461:Logitech_K400_Plus map_to_output $tv
 #input 5426:22:Razer_Razer_DeathAdder map_to_region 3840x1080@0,0
 
+# Seat configuration
+seat seat0 hide_cursor 2000
+seat tv hide_cursor 1000
+seat tv attach Logitech K400 Plus
+
 ### Key bindings
 #
 # Basics:
