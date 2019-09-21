@@ -25,9 +25,11 @@ function check_kernel --description='Output message if installed and running ker
         set OUTPUT_MODE bar
     end
 
-  # e.g. linux 4.18.5.arch1-1
+  # e.g. `linux 4.18.5.arch1-1`
   set installed (string match --regex '\d\d?.\d\d?.\d\d?' (pacman --query linux))
-  # e.g. 4.18.4-arch1-1-ARCH
+  # For the first major ver release we need to add an "0": e.g. `linux 5.3.arch1-1`
+    or set installed (string match --regex '\d\d?.\d\d?' (pacman --query linux))".0"
+  # e.g. `4.18.4-arch1-1-ARCH`
   set running (string match --regex '\d\d?.\d\d?.\d\d?' (uname --kernel-release))
   if test ! $running = $installed
     if test $OUTPUT_MODE = "boolean"
