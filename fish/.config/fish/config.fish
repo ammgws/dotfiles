@@ -1,5 +1,6 @@
 set --export PATH /usr/local/bin $PATH
 
+. ~/.config/fish/abbreviations.fish
 . ~/.config/fish/aliases.fish
 
 eval (python -m virtualfish auto_activation)
@@ -78,11 +79,6 @@ else
   function fish_greeting
   end
 end
-
-# Abbreviations (text expansion)
-abbr --add gp 'git push'
-abbr --add gst 'git status'  # gs taken by Ghostscript
-#abbr --add mv 'smv'
 
 # Other
 set --export FZF_DEFAULT_COMMAND "fd --type f"
