@@ -6,7 +6,12 @@ fish/.config/fish/fish_variables
 fish/.config/fish/fishd.*
 fish/.config/fish/fishfile
 fish/.config/fish/index.html
+
+# fisher and installed plugins
 fish/.config/fish/functions/fisher.fish
+fish/.config/fish/functions/__bass.py
+fish/.config/fish/functions/bass.fish
+
 gtk-3.0/.config/gtk-3.0/bookmarks
 gtk-3.0/.config/gtk-3.0/servers
 mpd/.config/mpd/state
