@@ -4,7 +4,6 @@ fish/.config/fish/completions/
 fish/.config/fish/conf.d/
 fish/.config/fish/fish_variables
 fish/.config/fish/fishd.*
-fish/.config/fish/fishfile
 fish/.config/fish/index.html
 
 # fisher and installed plugins
