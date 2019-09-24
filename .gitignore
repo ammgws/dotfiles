@@ -10,6 +10,8 @@ fish/.config/fish/index.html
 fish/.config/fish/functions/fisher.fish
 fish/.config/fish/functions/__bass.py
 fish/.config/fish/functions/bass.fish
+fish/.config/fish/conf.d/done.fish
+fish/.config/fish/functions/humanize_duration.fish
 
 gtk-3.0/.config/gtk-3.0/bookmarks
 gtk-3.0/.config/gtk-3.0/servers
