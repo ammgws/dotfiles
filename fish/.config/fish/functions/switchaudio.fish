@@ -30,14 +30,14 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
 
     function get_sink_volume --argument-names sink_id
-        command pacmd list-sinks | \
-                grep --after-context=15 "index: $sink_id" | \
-                grep 'volume:' | \
-                grep --extended-regexp --invert-match 'base volume:' | \
-                awk -F : '{print $3}' | \
-                grep --only-matching --perl-regexp '.{0,3}%' | \
-                sed 's/.$//' | \
-                tr --delete ' '
+        pacmd list-sinks | \
+        grep --after-context=15 "index: $sink_id" | \
+        grep 'volume:' | \
+        grep --extended-regexp --invert-match 'base volume:' | \
+        awk -F : '{print $3}' | \
+        grep --only-matching --perl-regexp '.{0,3}%' | \
+        sed 's/.$//' | \
+        tr --delete ' '
     end
 
     set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
