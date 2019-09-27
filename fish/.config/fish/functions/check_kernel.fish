@@ -1,29 +1,29 @@
 function check_kernel --description='Output message if installed and running kernels are different.'
-    argparse --name check_kernel 'h/help' 'b-barmode' -- $argv
-    or return 1  #error
+  argparse --name check_kernel 'h/help' 'b-barmode' -- $argv
+  or return 1  #error
 
-    function print_help
-        echo "Usage: check_kernel [options]"
-        echo "Options:"
-        echo (set_color green)"--barmode"(set_color $fish_color_normal)": Output formatted text to be used in i3status block."
-    end
+  function print_help
+    echo "Usage: check_kernel [options]"
+    echo "Options:"
+    echo (set_color green)"--barmode"(set_color $fish_color_normal)": Output formatted text to be used in i3status block."
+  end
 
-    if not type -q pacman
-        echo $cRed"You must have `pacman` installed."$cRst
-        return 1
-    end
+  if not type -q pacman
+    echo $cRed"You must have `pacman` installed."$cRst
+    return 1
+  end
 
-    # default values (that can be changed via args)
-    set OUTPUT_MODE boolean
+  # default values (that can be changed via args)
+  set OUTPUT_MODE boolean
 
-    if set -lq _flag_help
-       print help
-       return
-    end
+  if set -lq _flag_help
+    print help
+    return
+  end
 
-    if set -lq _flag_barmode
-        set OUTPUT_MODE bar
-    end
+  if set -lq _flag_barmode
+    set OUTPUT_MODE bar
+  end
 
   # e.g. `linux 4.18.5.arch1-1`
   set installed (string match --regex '\d\d?.\d\d?.\d\d?' (pacman --query linux))
