@@ -1,4 +1,4 @@
-function screenshot --description="Takes screenshot, uploads to Dropbox and copies link to clipboard."
+function screenshot --description="When using `sway`: Takes screenshot, uploads to Dropbox and copies link to clipboard."
     set SCREENSHOT_DIR $SCREENSHOT_DIR
     set WAIT_TIME 5
     set TIMEOUT 3
@@ -22,7 +22,7 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     set WM sway  # sway 1.0 assumed by default
     set DEPENDENCIES grim slurp
 
-    argparse --name screenshot 'h/help' 'i-i3' 's-swaylegacy'  'l/linkonly' 'o/openafter' -- $argv
+    argparse --name screenshot 'h/help' 'i-i3' 'l/linkonly' 'o/openafter' -- $argv
     or return 1  #error
 
     if set -lq _flag_help
@@ -33,11 +33,6 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
     if set -lq _flag_i3
         set DEPENDENCIES slop scrot
         set WM i3
-    end
-
-    if set -lq _flag_swaylegacy
-        set DEPENDENCIES slop swaygrab jq convert
-        set WM sway-legacy
     end
 
     if set -lq _flag_linkonly
@@ -60,14 +55,6 @@ function screenshot --description="Takes screenshot, uploads to Dropbox and copi
 
     if test $WM = "sway"
         slurp | grim -g - $FILENAME
-    else if test $WM = "sway-legacy"
-        set CROP_COORDS (slop)
-        set FOCUSED_MONITOR (swaymsg --type get_workspaces | jq --raw-output '.[] | select(.focused == true) | .output')
-        set RESOLUTION (swaymsg --type get_outputs | jq --arg name $FOCUSED_MONITOR '.[] | select(.name == $name) | .rect.width, .rect.height')
-        swaygrab --raw | convert -flip -crop "$CROP_COORDS" -depth 8 -size $RESOLUTION[1]x$RESOLUTION[2] RGBA:- $FILENAME
-        # or can do it like this if happy to use tempfile:
-        #swaygrab /tmp/screenshot.png
-        #convert /tmp/screenshot.png -crop "$CROP_COORDS" $FILENAME
     else if test $WM = "i3"
         set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
     end
