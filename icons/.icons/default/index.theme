@@ -1,16 +1,11 @@
-[Settings]
-gtk-application-prefer-dark-theme=true
-gtk-theme-name=Adapta-Nokto
-gtk-icon-theme-name=Adwaita
-gtk-font-name=Roboto 10
-gtk-cursor-theme-name=ComixCursors-Slim-Blue
-#gtk-cursor-theme-name=Adapta-Nokto
+[Icon Theme] 
+Inherits=ComixCursors-Slim-Blue
 
 # Currently installed themes:
 # find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
 
 # https://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html
-# The internal name of the theme is the name of the subdirectory,
+# The internal name of the theme is the name of the subdirectory, 
 # although the user-visible name as specified by the theme may be different.
 # Hence, theme names are case sensitive, and are limited to ASCII characters.
-# Theme names may also not contain comma or space.
+# Theme names may also not contain comma or space. 
