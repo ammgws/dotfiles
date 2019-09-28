@@ -73,10 +73,7 @@ if set --query SSH_CLIENT
   set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
   if test $ip = 10.8.7.2
     set GIT_EDITOR nano
-  end
-else
-  # Disable greeting for local (non-SSH) interactive shells.
-  function fish_greeting
+    set EDITOR nano
   end
 end
 
