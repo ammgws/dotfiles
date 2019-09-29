@@ -8,6 +8,10 @@ border-radius=4
 text-color=#00bfff
 border-color=#00bfff
 
+[app-name=fish]
+ignore-timeout=1
+default-timeout=0
+
 [hidden]
 format=(and %h more)
 text-color=#777777
