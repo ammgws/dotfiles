@@ -13,6 +13,8 @@ Type=dbus
 BusName=org.freedesktop.Notifications
 ExecStart=/usr/bin/mako
 Restart=on-failure
+# Kludge below because mako stops showing notifications after a while.
+RuntimeMaxSec=3600
 
 [Install]
 WantedBy=default.target
