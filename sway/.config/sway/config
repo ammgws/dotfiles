@@ -14,17 +14,6 @@ set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator
-set $term kitty
-
-# Your preferred application launcher
-# Note: it's recommended that you pass the final command to sway
-#set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
-set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
-
-set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
-set $prompt echo | $_menu
-
 ### Output configuration
 set $monitorL "Samsung Electric Company S27A950D 0x00000000"
 set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
@@ -247,11 +236,10 @@ bindsym $mod+ctrl+b exec swaylock
 bindsym Print exec fish --command=screenshot
 bindsym $mod+Print exec swaygrab $SCREENSHOT_DIR/temp.jpg
 
+bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
 bindsym --locked $mod+F7 exec fish --command=switchaudio
 bindsym --locked $mod+F8 exec fish --command=tv_toggle
 bindsym $mod+F9 exec fish --command=move_all_workspaces
-
-bindsym $mod+z exec rofimoji
 
 # Media keys
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2%
