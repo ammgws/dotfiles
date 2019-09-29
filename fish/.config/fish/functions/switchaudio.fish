@@ -72,6 +72,31 @@ function switchaudio --description 'Switch between audio devices and move all cu
     pactl move-sink-input $input_id $new_default_sink_id
   end
 
-  qdbus localhost.statusbar.DBus /localhost/statusbar/DBus/SoundDevice org.freedesktop.DBus.Properties.Set localhost.statusbar.DBus Status (get_icon $new_default_sink_name)
+  # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
+  if test $new_default_sink_name = "TV"
+    # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
+    # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
+    set TV_hdmi_port_profile (pactl list cards | \
+      grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
+      sed '/Card/Q' | \
+      grep --after-context=1 "LG TV" | \
+      string match --regex '(output:hdmi-[^,]+)')[2]
+
+    set active_profile (pactl list cards | \
+                     grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
+                     sed '/Card/Q' | \
+                     string match --regex 'Active Profile: (output:hdmi-.+)')[2]
+
+    if test $TV_hdmi_port_profile != $active_profile
+      echo "meow"
+      pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
+    end
+  end
+
+  qdbus localhost.statusbar.DBus \
+        /localhost/statusbar/DBus/SoundDevice \
+        org.freedesktop.DBus.Properties.Set \
+        localhost.statusbar.DBus \
+        Status (get_icon $new_default_sink_name)
   notify-send (string join " " "Switched to" $new_default_sink_name) --icon=audio-volume-high --expire-time=1000
 end
