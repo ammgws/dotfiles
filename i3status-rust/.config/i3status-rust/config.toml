@@ -91,14 +91,9 @@ device = "enp3s0"
 [[block]]
 block = "sound"
 
-#[[block]]
-#block = "custom"
-#interval = 5
-#command = "dropbox-cli status | head --bytes=4"
-
 [[block]]
 block = "custom"
-command = "fish --command=check_kernel"
+command = "fish --command='check_kernel --barmode'"
 
 [[block]]
 block = "custom"
@@ -106,14 +101,8 @@ block = "custom"
 command = "fish --command='check_xclients --barmode'"
 interval = 5
 
-#[[block]]
-#block = "ibus"
-
-#[[block]]
-#block = "custom"
-#command = "fish --command=ime_status"
-#on_click = "fish --command=ibus-toggle"
-#interval = 5
+[[block]]
+block = "ibus"
 
 #[[block]]
 #block = "weather"
@@ -127,7 +116,7 @@ interval = 60
 
 [[block]]
 block = "custom"
-command = "fish --command=tv_status --barmode"
+command = "fish --command='tv_status --barmode'"
 interval = 60
 
 [[block]]
