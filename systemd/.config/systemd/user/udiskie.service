@@ -1,0 +1,12 @@
+[Unit]
+Description=udiskie automounting service
+# If udiskie is unable to mount etc then ight need to create polkit rules described in link below:
+# https://github.com/coldfix/udiskie/wiki/Permissions
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/udiskie
+Restart=always
+
+[Install]
+WantedBy=default.target

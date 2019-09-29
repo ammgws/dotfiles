@@ -295,9 +295,6 @@ exec ibus-daemon --xim --replace --panel=disable --daemonize
 # rofi settings are inside xresources
 #exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
 
-exec udiskie
-#exec udiskie --tray
-
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
 #assign [class="ammcon"] $workspace02
