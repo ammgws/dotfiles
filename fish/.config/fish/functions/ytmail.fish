@@ -36,7 +36,7 @@ function ytmail --description 'Download and email youtube videos. Useful for wor
 
   set RANDOM_STR (cat /dev/random | tr --delete --complement 'a-zA-Z0-9' | fold --width 16 | head --lines 1)
   set VIDEOID (youtube-dl --get-id $URL)
-  set OUTPUT_DIR (mktemp --directory)
+  set OUTPUT_DIR (mktemp --directory --tmpdir ytmail.XXXXXXXXXX)
   set ARCHIVE_FILEPATH $OUTPUT_DIR"/"$VIDEOID"_"$RANDOM_STR".7z"
   set VIDEO_FILEPATH $OUTPUT_DIR"/"(youtube-dl --get-filename --output "%(title)s.%(ext)s" $URL)
 
