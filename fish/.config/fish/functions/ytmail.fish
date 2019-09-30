@@ -3,7 +3,7 @@ function ytmail --description 'Download and email youtube videos. Useful for wor
     echo "Usage: ytmail [options] URL RECIPIENT"
     echo "Options:"
     echo (set_color green)"-d --debug"(set_color $fish_color_normal)": Enable debug output"
-    echo (set_color green)"-s<size> --splitsize=<size>"(set_color $fish_color_normal)": Set split volume size for 7z (default 9MB)"
+    echo (set_color green)"-s<size> --split=<size>[B|K|M|G]"(set_color $fish_color_normal)": Set split volume size for 7z (default 9MB)."
   end
 
   set DEPENDENCIES $DEPENDENCIES youtube-dl gmailer_oauth
@@ -16,18 +16,17 @@ function ytmail --description 'Download and email youtube videos. Useful for wor
 
   # default values for optional arguments
   set DEBUG 0
-  set RANDOMIZE 0
   set SIZE "9M"
 
   argparse --name ytmail 'h/help' 'd-debug' 's-splitsize=' -- $argv
   or return 1  #error
 
-  if set -lq _flag_help
+  if set --local --query _flag_help
     print_help
     return
   end
 
-  if set -lq _flag_splitsize
+  if set --local --query _flag_splitsize
     set SIZE $_flag_splitsize
   end
 
