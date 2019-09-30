@@ -1,4 +1,25 @@
 function switchaudio --description 'Switch between audio devices and move all current audio outputs to the new device.'
+  # model name of the TV. Can find via `swaymsg -t get_outputs` or `pactl list cards`
+  set TV_MODEL_NAME "LG TV"
+
+  function print_help
+    echo "Usage: switchaudio [options]"
+    echo "Options:"
+    echo (set_color green)"-d/--device"(set_color $fish_color_normal)": Switch to the specified device."
+  end
+
+  argparse --name switchaudio 'h/help' 'd/device=' -- $argv
+  or return 1  #error
+
+  if set -lq _flag_help
+    print help
+    return
+  end
+
+  if set -lq _flag_device
+    set device $_flag_device
+  end
+
   function prettify_name --argument-names sink_raw_name
     if string match --quiet '*Pebbles*' $sink_raw_name
       echo "speakers"
@@ -47,15 +68,26 @@ function switchaudio --description 'Switch between audio devices and move all cu
     set sink_id $sink_info[1]
     set sink_name (prettify_name $sink_info[2])
     set sink_state $sink_info[5]
-    if test (count $sinks) -le 2 -a "$sink_id" -ne "$default_sink_id"
-      set new_default_sink_id $sink_id
-      set new_default_sink_name $sink_name
+    if test -z $device
+      if test (count $sinks) -le 2 -a "$sink_id" -ne "$default_sink_id"
+        set new_default_sink_id $sink_id
+        set new_default_sink_name $sink_name
+      else
+        if test "$sink_id" -ne "$default_sink_id" -a "$sink_id" -ne "$SOUND_PREV"
+          set new_default_sink_id $sink_id
+          set new_default_sink_name $sink_name
+        end
+      end
     else
-      if test "$sink_id" -ne "$default_sink_id" -a "$sink_id" -ne "$SOUND_PREV"
+      if test $sink_name = $device
         set new_default_sink_id $sink_id
         set new_default_sink_name $sink_name
       end
-     end
+    end
+  end
+
+  if test -z $new_default_sink_id
+    return 1  # couldn't find matching device
   end
 
   # If the output we switch to is not set as default then the
@@ -79,7 +111,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
     set TV_hdmi_port_profile (pactl list cards | \
       grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
       sed '/Card/Q' | \
-      grep --after-context=1 "LG TV" | \
+      grep --after-context=1 "$TV_MODEL_NAME" | \
       string match --regex '(output:hdmi-[^,]+)')[2]
 
     set active_profile (pactl list cards | \
@@ -88,7 +120,6 @@ function switchaudio --description 'Switch between audio devices and move all cu
                      string match --regex 'Active Profile: (output:hdmi-.+)')[2]
 
     if test $TV_hdmi_port_profile != $active_profile
-      echo "meow"
       pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
     end
   end
