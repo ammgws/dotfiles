@@ -3,7 +3,7 @@ function git::is_stashed
 end
 
 function git::get_ahead_count
-  echo (command git log ^/dev/null | grep '^commit' | wc -l | tr -d " ")
+  echo (command git log ^/dev/null | grep '^commit' | wc --lines | tr --delete " ")
 end
 
 function git::branch_name
@@ -16,14 +16,6 @@ end
 
 function fish_right_prompt
     fish_prompt_helpers
-
-    set --local code $status
-    test $code -ne 0
-    and echo (dim)"("(trd)"$code"(dim)") "(off)
-
-    if test -n "$SSH_CONNECTION"
-        printf (trd)":"(dim)"$HOSTNAME "(off)
-    end
 
     if git rev-parse 2>/dev/null
         git::is_stashed; and echo (trd)"^"(off)
