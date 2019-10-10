@@ -1,20 +1,14 @@
 function send-terminfo \
   --description="Send terminfo to remote server" \
-  --argument-names=remote_server remote_port
+  --argument-names=remote_server port
 
   if test -z $remote_server
     echo "Usage: send-terminfo user@server port"
     return 1
   end
-  if test -z $remote_port
-    echo "Usage: send-terminfo user@server port"
-    return 1
+  if test -z $port
+    set remote_port 22
   end
 
-  switch $SHELL
-    case "*fish"
-      infocmp $TERM | ssh $remote_server -p$sshport "mkdir --parents .terminfo; and cat >/tmp/ti; and tic /tmp/ti"
-    case "*bash"
-      infocmp $TERM | ssh $remote_server -p$sshport "mkdir --parents .terminfo && cat >/tmp/ti && tic /tmp/ti"
-  end
+  infocmp $TERM | ssh $remote_server -p$port "bash -c 'mkdir --parents .terminfo && cat >/tmp/ti && tic /tmp/ti'"
 end
