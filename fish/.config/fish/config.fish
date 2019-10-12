@@ -1,4 +1,9 @@
-set --export PATH /usr/local/bin $PATH
+if status is-login
+  contains /usr/local/bin $PATH
+  or set PATH /usr/local/bin $PATH
+  contains ~/.local/bin $PATH
+  or set PATH ~/.local/bin $PATH
+end
 
 . ~/.config/fish/abbreviations.fish
 . ~/.config/fish/aliases.fish
