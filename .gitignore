@@ -7,13 +7,18 @@ fish/.config/fish/fishd.*
 fish/.config/fish/index.html
 
 # fisher and installed plugins
-fish/.config/fish/functions/fisher.fish
 fish/.config/fish/functions/__bass.py
+fish/.config/fish/functions/__z.fish
+fish/.config/fish/functions/__z_add.fish
+fish/.config/fish/functions/__z_clean.fish
+fish/.config/fish/functions/__z_complete.fish
 fish/.config/fish/functions/bass.fish
-fish/.config/fish/conf.d/done.fish
+fish/.config/fish/functions/bax.fish
+fish/.config/fish/functions/fisher.fish
+fish/.config/fish/functions/fishtape.fish
 fish/.config/fish/functions/humanize_duration.fish
+fish/.config/fish/conf.d/done.fish
 
-gtk-2.0/.config/gtk-2.0/gtkfilechooser.ini
 gtk-3.0/.config/gtk-3.0/bookmarks
 gtk-3.0/.config/gtk-3.0/servers
 mpd/.config/mpd/state
