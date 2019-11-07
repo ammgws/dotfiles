@@ -35,8 +35,10 @@ function new_workspace --description="Create new workspace on the current monito
   set new_workspace $free_workspaces[1]
   if test $MOVE_FOCUSED = 1
     set focused_container (swaymsg --type get_tree | jq '.. | objects | select(.focused == true) | .id')
-    # or swaymsg --type get_tree | jq --raw-output '.. | (.nodes? // empty)[] | select(.focused==true) | .id'
+    # alternatively: swaymsg --type get_tree | jq --raw-output '.. | (.nodes? // empty)[] | select(.focused==true) | .id'
     swaymsg [con_id="$focused_container"] move workspace $new_workspace
+    # swaymsg focus $new_workspace  #this is crashing sway atm...
+    swaymsg workspace $new_workspace
   else
     swaymsg workspace $new_workspace
   end
