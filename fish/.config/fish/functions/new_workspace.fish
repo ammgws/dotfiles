@@ -20,7 +20,6 @@ function new_workspace --description="Create new workspace on the current monito
       set MOVE_FOCUSED 1
   end
 
-  set used_workspaces ""
   for workspace in (swaymsg --raw --type get_workspaces | jq --raw-output '.[].name')
     set --append used_workspaces $workspace
   end
