@@ -10,24 +10,19 @@ end
 
 eval (python -m virtualfish auto_activation)
 
-set --export XKB_DEFAULT_LAYOUT us
-set --export TERMINAL kitty
-set --export SHELL /usr/bin/fish
-set --export BROWSER /usr/bin/firefox-nightly
-
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
+set --export BEMENU_BACKEND wayland
 set --export CLUTTER_BACKEND wayland
 # GTK3+ will default to Wayland, so do not set otherwise it will break some apps.
 #set --export GDK_BACKEND wayland
-set --export MOZ_ENABLE_WAYLAND 1
 set --export ECORE_EVAS_ENGINE wayland_egl
 set --export ELM_ENGINE wayland_egl
+set --export _JAVA_AWT_WM_NONREPARENTING 1
+set --export MOZ_ENABLE_WAYLAND 1
 set --export QT_QPA_PLATFORM wayland-egl
 set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
-set --export _JAVA_AWT_WM_NONREPARENTING 1
-set --export BEMENU_BACKEND wayland
 
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache
@@ -49,6 +44,20 @@ set --export GTK_IM_MODULE ibus
 set --export QT_IM_MODULE ibus
 set --export XMODIFIERS @im=ibus
 set --export DefaultIMModule ibus
+
+# Other
+set --export BROWSER /usr/bin/firefox-nightly
+set --export FZF_DEFAULT_COMMAND "fd --type f"
+set --export MOZ_WEBRENDER 1
+set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0  # for when playing games
+set --export SHELL /usr/bin/fish
+set --export TERMINAL kitty
+set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
+set --export XKB_DEFAULT_LAYOUT us
+set --universal __done_exclude 'git (?!push|pull)'  # default: all git commands, except push and pull. accepts a regex.
+
+# Used in my fish functions
+set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
 # User experience improvements over SSH
 if set --query SSH_CLIENT
@@ -81,13 +90,3 @@ if set --query SSH_CLIENT
     set EDITOR nano
   end
 end
-
-# Other
-set --export FZF_DEFAULT_COMMAND "fd --type f"
-set --export MOZ_WEBRENDER 1
-set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0
-set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
-
-# Used in my fish functions
-set --export AMMCON_URL https://ammcon:port
-set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
