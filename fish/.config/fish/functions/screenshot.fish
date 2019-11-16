@@ -19,8 +19,8 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     # default values (that can be changed via args)
     set OUTPUT_MODE image
     set OPEN_URL 0
-    set WM sway  # sway 1.0 assumed by default
-    set DEPENDENCIES grim slurp
+    set WM sway
+    set DEPENDENCIES grim slurp wl-copy
 
     argparse --name screenshot 'h/help' 'i-i3' 'l/linkonly' 'o/openafter' -- $argv
     or return 1  #error
@@ -31,7 +31,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     end
 
     if set -lq _flag_i3
-        set DEPENDENCIES slop scrot
+        set DEPENDENCIES slop scrot xclip
         set WM i3
     end
 
@@ -43,7 +43,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
         set OPEN_URL 1
     end
 
-    set DEPENDENCIES $DEPENDENCIES dropbox-cli xclip
+    set DEPENDENCIES $DEPENDENCIES dropbox-cli
     for dependency in $DEPENDENCIES
         if not type -q $dependency
             echo $cRed"You must have $dependency installed."$cRst
@@ -79,7 +79,11 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     set DROPBOX_LINK (string join "" (dropbox-cli sharelink $FILENAME) "&raw=1")
 
     if test $OUTPUT_MODE = "linkonly"
-        echo -n $DROPBOX_LINK | xclip -selection clip
+        if test $WM = "i3"
+            echo -n $DROPBOX_LINK | xclip -selection clip
+        else
+            echo -n $DROPBOX_LINK | wl-copy
+        end
         notify-send "Screenshot" $DROPBOX_LINK --icon=$FILENAME --expire-time=2000
     else if test $OUTPUT_MODE = "image"
         if test $WM = "i3"
