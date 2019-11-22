@@ -284,8 +284,8 @@ bindsym --locked $mod+F8 exec fish --command=tv_toggle
 bindsym $mod+F9 exec fish --command=move_all_workspaces
 
 # Media keys
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2%
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && pamixer --get-volume > $SWAYSOCK.wob
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && pamixer --get-volume > $SWAYSOCK.wob
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
@@ -316,6 +316,8 @@ exec systemctl --user start mako.service
 
 #exec systemctl --user start ibus.service
 exec ibus-daemon --xim --replace --panel=disable --daemonize
+
+exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 #exec_always flashfocus
 
