@@ -1,8 +1,7 @@
 function fish_greeting
   if set --query SSH_CLIENT
-    # Why not... only running greetings on remote sessions anyway.
-    sl -l | lolcat
-    clear
+  or status is-login
+  and not set --query TMUX
     set msg (string join "\n" "Welcome "(whoami)@(hostname)"." \
       (uname --machine --kernel-release --kernel-name) \
       (uptime --pretty) \
