@@ -65,7 +65,39 @@ seat tv attach Logitech K400 Plus
     bindsym $mod+Shift+c reload
 
     # exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    # use swaynagmode instead of the above so can exit using keyboard
+    set {
+      $nag         exec swaynagmode
+      $nag_exit    $nag --exit
+      $nag_confirm $nag --confirm
+      $nag_select  $nag --select
+    }
+    mode "nag" {
+      bindsym {
+        Ctrl+d    mode "default"
+
+        Ctrl+c    $nag_exit
+        q         $nag_exit
+        Escape    $nag_exit
+
+        Return    $nag_confirm
+
+        Tab       $nag_select prev
+        Shift+Tab $nag_select next
+
+        Left      $nag_select next
+        Right     $nag_select prev
+
+        Up        $nag_select next
+        Down      $nag_select prev
+      }
+    }
+    bindsym $mod+Shift+e $nag -t "warning" -m "Exit Sway?" -b "Exit" "swaymsg exit" -b "Reload" "swaymsg reload"
+    # -R is recommended for swaynag_command so that, upon a syntax error in your sway config, the
+    # 'Reload Sway' option will be initially selected instead of the 'Exit Sway' option
+    swaynag_command $nag -R
+
 #
 # Moving around:
 #
