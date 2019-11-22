@@ -24,6 +24,10 @@ function fish_prompt
     echo -n " "
   end
 
+  if test "$USER" = "root"
+    echo -n -s (set_color --background red black) "ROOT" (set_color normal) " "
+  end
+
   if set --query VIRTUAL_ENV
     echo -n -s (set_color --background blue white) "[" (basename "$VIRTUAL_ENV") "]" (set_color normal) " "
   end
