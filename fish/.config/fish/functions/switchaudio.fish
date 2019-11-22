@@ -6,18 +6,28 @@ function switchaudio --description 'Switch between audio devices and move all cu
     echo "Usage: switchaudio [options]"
     echo "Options:"
     echo (set_color green)"-d/--device"(set_color $fish_color_normal)": Switch to the specified device."
+    echo (set_color green)"-k/--keep"(set_color $fish_color_normal)": Switch audio device but leave current sinks alone."
+    echo (set_color green)"-m/--menu"(set_color $fish_color_normal)": Display menu to choose from."
   end
 
-  argparse --name switchaudio 'h/help' 'd/device=' -- $argv
+  argparse --name switchaudio 'h/help' 'm/menu' 'k/keep' 'd/device=' -- $argv
   or return 1  #error
 
   if set -lq _flag_help
-    print help
+    print_help
     return
   end
 
   if set -lq _flag_device
     set device $_flag_device
+  end
+
+  if set -lq _flag_keep
+    set keep_sinks 1
+  end
+
+  if set -lq _flag_menu
+    set use_menu 1
   end
 
   function prettify_name --argument-names sink_raw_name
@@ -52,7 +62,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
   function get_sink_volume --argument-names sink_id
     pacmd list-sinks | \
-    grep --after-context=15 "index: $sink_id" | \
+    grep --after-context=15 "index: $sink_id\$" | \
     grep 'volume:' | \
     grep --extended-regexp --invert-match 'base volume:' | \
     awk -F : '{print $3}' | \
@@ -61,8 +71,18 @@ function switchaudio --description 'Switch between audio devices and move all cu
     tr --delete ' '
   end
 
-  set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
   set sinks (pactl list short sinks)
+
+  if test $use_menu
+      for sink in $sinks
+        set sink_info (string split \t $sink)
+        set sink_name (prettify_name $sink_info[2])
+        set device_choices (string join "\n" $device_choices $sink_name)
+      end
+      set device (echo -e "$device_choices" | bemenu)
+  end
+
+  set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
   for sink in $sinks
     set sink_info (string split \t $sink)
     set sink_id $sink_info[1]
@@ -79,7 +99,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
         end
       end
     else
-      if test $sink_name = $device
+      if test "$sink_name" = "$device"
         set new_default_sink_id $sink_id
         set new_default_sink_name $sink_name
       end
@@ -96,12 +116,17 @@ function switchaudio --description 'Switch between audio devices and move all cu
   set --universal SOUND_PREV $default_sink_id
 
   set new_sink_volume (get_sink_volume $default_sink_id)
+  if test $new_sink_volume -gt 100
+    set new_sink_volume 100
+  end
   pactl set-sink-volume $new_default_sink_id "$new_sink_volume%"
 
-  set inputs (pactl list short sink-inputs)
-  for input in $inputs
-    set input_id (string split \t $input)[1]
-    pactl move-sink-input $input_id $new_default_sink_id
+  if not set --query keep_sinks
+    set inputs (pactl list short sink-inputs)
+    for input in $inputs
+      set input_id (string split \t $input)[1]
+      pactl move-sink-input $input_id $new_default_sink_id
+    end
   end
 
   # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
@@ -113,13 +138,14 @@ function switchaudio --description 'Switch between audio devices and move all cu
       sed '/Card/Q' | \
       grep --after-context=1 "$TV_MODEL_NAME" | \
       string match --regex '(output:hdmi-[^,]+)')[2]
+    or return 1
 
     set active_profile (pactl list cards | \
                      grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
                      sed '/Card/Q' | \
                      string match --regex 'Active Profile: (output:hdmi-.+)')[2]
 
-    if test $TV_hdmi_port_profile != $active_profile
+    if test "$TV_hdmi_port_profile" != "$active_profile"
       pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
     end
   end
