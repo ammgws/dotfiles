@@ -23,6 +23,9 @@ set --export MOZ_ENABLE_WAYLAND 1
 set --export QT_QPA_PLATFORM wayland-egl
 set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
+# Trying to get IBus' default candidate window but cannot get it to show
+# (https://github.com/google/mozc/issues/431)
+#set --export XDG_SESSION_TYPE wayland
 
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache
@@ -54,13 +57,15 @@ set --export SHELL /usr/bin/fish
 set --export TERMINAL kitty
 set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
 set --export XKB_DEFAULT_LAYOUT us
-set --universal __done_exclude 'git (?!push|pull)'  # default: all git commands, except push and pull. accepts a regex.
+set --universal __done_exclude 'git|firefox-nightly'
 
 # Used in my fish functions
 set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
 # User experience improvements over SSH
 if set --query SSH_CLIENT
+  set --erase BROWSER
+
   if ! set --query XDG_RUNTIME_DIR
     set --export XDG_RUNTIME_DIR /run/user/(id -u)
   end
@@ -73,12 +78,14 @@ if set --query SSH_CLIENT
       while read --local --array line
         set match (string match --regex "^DBUS_SESSION_BUS_ADDRESS=(.+)" $line)
         if test $status -eq 0
-          set DBUS_SESSION_BUS_ADDRESS $match[2]
+          set --export DBUS_SESSION_BUS_ADDRESS $match[2]
         end
       end < $dbus_session_file
     end
   end
 
+  #set SWAY_RUNNING (pidof sway)
+  #if test $SWAY_RUNNING -eq 1
   if ! set --query SWAYSOCK
     set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
   end
@@ -86,7 +93,7 @@ if set --query SSH_CLIENT
   # Change git editor when remoting in from phone
   set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
   if test $ip = 10.8.7.2
-    set GIT_EDITOR nano
-    set EDITOR nano
+    set --export GIT_EDITOR nano
   end
 end
+
