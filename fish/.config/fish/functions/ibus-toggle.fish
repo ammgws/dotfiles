@@ -8,9 +8,9 @@ function ibus-toggle --description="Switches between IBus input methods and disp
         set msg "Japanese input (mozc)"
     end
     if test $status -eq 0
-      notify-send (string join " " "Switched to" $msg) --icon=keyboard --expire-time=1000
+        notify-send (string join " " "Switched to" $msg) --icon=keyboard --expire-time=1000
     else
-      notify-send "Failed to switch ibus engine" --icon=keyboard --expire-time=1000
-      return 1
+        notify-send "Failed to switch ibus engine" --icon=keyboard --expire-time=1000
+        return 1
     end
 end

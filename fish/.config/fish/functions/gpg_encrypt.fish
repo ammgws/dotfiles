@@ -44,7 +44,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
     end
 
     if not getopt -n gpg_encrypt -Q $shortopt $longopt -- $argv >/dev/null
-        return 1  # error
+        return 1 # error
     end
 
     set -l tmp (getopt $shortopt $longopt -- $argv)
@@ -98,7 +98,7 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
     if test (math (count $argv) - $num_opts) -lt 2
         print_help
-        return 2  # missing required arguments
+        return 2 # missing required arguments
     end
 
     set INPUT_FILE $argv[(math $num_opts + 1)]
@@ -127,7 +127,9 @@ function gpg_encrypt --description 'GPG encrypt a file or folder'
 
         end
         set INPUT_FILE $OUTPUT_ZIP
-        if test $DEBUG = 1; echo $INPUT_FILE; end
+        if test $DEBUG = 1
+            echo $INPUT_FILE
+        end
     end
 
     if test $SELF = 1
