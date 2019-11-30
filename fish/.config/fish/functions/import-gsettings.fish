@@ -1,44 +1,44 @@
 function import-gsettings --description="Set GTK-3 settings since need to do it ourselves when using `sway`"
-  # Note list of valid keys to use with gset: `gsettings list-keys org.gnome.desktop.interface`
-  # TODO: reference for how these match up with settings.ini since key names appear to differ
-  argparse --name import-gsettings 'h/help' 'd-debug' -- $argv
-  or return 1  #error
+    # Note list of valid keys to use with gset: `gsettings list-keys org.gnome.desktop.interface`
+    # TODO: reference for how these match up with settings.ini since key names appear to differ
+    argparse --name import-gsettings 'h/help' 'd-debug' -- $argv
+    or return 1 #error
 
-  function print_help
-    echo "Usage: import-gsettings [options]"
-    echo "Options:"
-    echo (set_color green)"--debug"(set_color $fish_color_normal)": Enable debug output"
-  end
-
-  # default values (that can be changed via args)
-  set DEBUG 0
-
-  if set --local --query _flag_help
-     print help
-     return
-  end
-
-  if set --local --query _flag_debug
-    set DEBUG 1
-  end
-
-  function gset --no-scope-shadowing --argument-names key val
-    gsettings set org.gnome.desktop.interface $key $val
-    if test $DEBUG -eq 1
-      echo (set_color red)"Ran command 'gsettings set org.gnome.desktop.interface $key $val'"(set_color $fish_color_normal)
+    function print_help
+        echo "Usage: import-gsettings [options]"
+        echo "Options:"
+        echo (set_color green)"--debug"(set_color $fish_color_normal)": Enable debug output"
     end
-  end
 
-  while read --local --array line
-    set config (string match --regex "^(gtk-[\w|-]+)\s*=\s*(.+)" "$line")
-    if string match --quiet $config[2] gtk-theme-name
-      gset gtk-theme "$config[3]"
-    else if string match --quiet $config[2] gtk-icon-theme-name
-      gset icon-theme "$config[3]"
-    else if string match --quiet $config[2] gtk-cursor-theme-name
-      gset cursor-theme "$config[3]"
-    else if string match --quiet $config[2] gtk-font-name
-      gset font-name "$config[3]"
+    # default values (that can be changed via args)
+    set DEBUG 0
+
+    if set --local --query _flag_help
+        print help
+        return
     end
-  end < ~/.config/gtk-3.0/settings.ini
+
+    if set --local --query _flag_debug
+        set DEBUG 1
+    end
+
+    function gset --no-scope-shadowing --argument-names key val
+        gsettings set org.gnome.desktop.interface $key $val
+        if test $DEBUG -eq 1
+            echo (set_color red)"Ran command 'gsettings set org.gnome.desktop.interface $key $val'"(set_color $fish_color_normal)
+        end
+    end
+
+    while read --local --array line
+        set config (string match --regex "^(gtk-[\w|-]+)\s*=\s*(.+)" "$line")
+        if string match --quiet $config[2] gtk-theme-name
+            gset gtk-theme "$config[3]"
+        else if string match --quiet $config[2] gtk-icon-theme-name
+            gset icon-theme "$config[3]"
+        else if string match --quiet $config[2] gtk-cursor-theme-name
+            gset cursor-theme "$config[3]"
+        else if string match --quiet $config[2] gtk-font-name
+            gset font-name "$config[3]"
+        end
+    end <~/.config/gtk-3.0/settings.ini
 end

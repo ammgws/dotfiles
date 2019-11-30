@@ -23,11 +23,11 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     set DEPENDENCIES grim slurp wl-copy
 
     argparse --name screenshot 'h/help' 'i-i3' 'l/linkonly' 'o/openafter' -- $argv
-    or return 1  #error
+    or return 1 #error
 
     if set -lq _flag_help
-       print help
-       return
+        print help
+        return
     end
 
     if set -lq _flag_i3
@@ -60,18 +60,18 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     end
 
     function getstatus
-         set SYNC_STATUS (dropbox-cli filestatus $FILENAME)
+        set SYNC_STATUS (dropbox-cli filestatus $FILENAME)
 
-         if test (string match $SYNC_STATUS = 'up to date')
-             return 0
-         else
-             return 1
-         end
+        if test (string match $SYNC_STATUS = 'up to date')
+            return 0
+        else
+            return 1
+        end
     end
 
     getstatus
     set TIME_ELAPSED 0
-    while test $status -eq 1; and test $TIME_ELAPSED -lt $TIMEOUT;
+    while test $status -eq 1; and test $TIME_ELAPSED -lt $TIMEOUT
         sleep 0.5
         set TIME_ELAPSED (math $TIME_ELAPSED + 1)
     end
@@ -90,7 +90,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
             xclip -selection clip -target image/png $FILENAME
             echo -n $DROPBOX_LINK | xclip -selection primary
         else
-            wl-copy --type image/png < $FILENAME
+            wl-copy --type image/png <$FILENAME
         end
         notify-send "Screenshot" $FILENAME --icon=$FILENAME --expire-time=2000
     end
