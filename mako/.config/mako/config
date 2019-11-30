@@ -3,6 +3,7 @@ background-color=#000000
 text-color=#ffffff
 default-timeout=3000
 border-radius=4
+layer=overlay
 
 [app-name=AN2Linux]
 text-color=#00bfff
