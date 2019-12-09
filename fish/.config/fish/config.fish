@@ -58,7 +58,7 @@ set --export SHELL /usr/bin/fish
 set --export TERMINAL kitty
 set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
 set --export XKB_DEFAULT_LAYOUT us
-set --universal __done_exclude 'git|firefox-nightly'
+set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
 
 # Used in my fish functions
 set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
@@ -85,16 +85,16 @@ if set --query SSH_CLIENT
     end
   end
 
-  #set SWAY_RUNNING (pidof sway)
-  #if test $SWAY_RUNNING -eq 1
   if ! set --query SWAYSOCK
-    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
+  and pidof "sway"
+    set --export SWAYSOCK (sway --get-socketpath)
   end
 
-  # Change git editor when remoting in from phone
+  # Change editor when remoting in from phone
   set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
-  if test $ip = 10.8.7.2
+  if test "$ip" = "10.8.7.2"
     set --export GIT_EDITOR nano
+    set --export EDITOR nano
   end
 end
 
