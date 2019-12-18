@@ -59,6 +59,11 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
         set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
     end
 
+    if test $status -ne 0
+    or not test -e $FILENAME
+        return 1
+    end
+
     function getstatus
         set SYNC_STATUS (dropbox-cli filestatus $FILENAME)
 
