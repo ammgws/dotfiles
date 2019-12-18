@@ -1,4 +1,5 @@
 # Abbreviations (text expansion)
+abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
 abbr --add gp 'git push'
 abbr --add gpf 'git push --force'
 abbr --add gst 'git status'  # gs taken by Ghostscript
