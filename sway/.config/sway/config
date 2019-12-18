@@ -3,16 +3,8 @@
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
-#
-# Logo key. Use Mod1 for Alt.
-# WinKey = Mod4
+# WinKey = Mod4, Alt=Mod1
 set $mod Mod4
-
-# Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
 
 ### Output configuration
 set $upstairs_monitorL "Acer Technologies Acer KA270H T3QSJ0014200"
@@ -45,7 +37,7 @@ exec swaymsg focus output $upstairs_monitorR
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 output * bg #000000 solid_color
-#exec glpaper "HDMI-A-1" $monitorL /home/juaninch/.config/glpaper/fragments/matrix.frag
+#exec glpaper "HDMI-A-1" $upstairs_monitorL $XDG_CONFIG_HOME/glpaper/fragments/matrix.frag
 
 ### Idle configuration
 exec swayidle -w \
@@ -126,6 +118,10 @@ seat seat0 hide_cursor 2000
 # Moving around:
 #
     # Move your focus around
+    set $left h
+    set $down j
+    set $up k
+    set $right l
     #bindsym $mod+$left focus left
     #bindsym $mod+$down focus down
     #bindsym $mod+$up focus up
@@ -251,8 +247,7 @@ bindsym $mod+r mode "resize"
 bar {
     font pango:DejaVu Sans Mono, FontAwesome 10
     position top
-    #status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
-    status_command /home/juaninch/projects/_gitgatgot_/statusbar_dbus/i3status-rust/target/debug/i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
     colors {
         separator #666666
         background #222222
@@ -280,7 +275,6 @@ bindsym $mod+d exec ibus engine xkb:us::eng && exec $menu
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
-
 
 bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
 bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
