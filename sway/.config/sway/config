@@ -15,15 +15,32 @@ set $up k
 set $right l
 
 ### Output configuration
-set $monitorL "Samsung Electric Company S27A950D 0x00000000"
-set $monitorR "Acer Technologies Acer KA270H T3QSJ0014200"
+set $upstairs_monitorL "Acer Technologies Acer KA270H T3QSJ0014200"
+set $upstairs_monitorR "Ancor Communications Inc ASUS VP278 K3LMTF030840"
+set $downstairs_monitorL "Make Model Serial"
+set $downstairs_monitorR "Samsung Electric Company S27A950D 0x00000000"
 set $tv "Goldstar Company Ltd LG TV 0x00000101"
-output $monitorL pos    0,0    res 1920x1080
-output $monitorR pos 1920,0    res 1920x1080
-output $tv       pos 1920,1080 res 1920x1080
-output $tv disable
-workspace 1 output $monitorR
-exec swaymsg focus output $monitorR
+
+#       0     1920    3840
+#       
+# 2060  _______________
+#       |      |      |
+#       | up L | up R |
+# 1080  |______|______|
+# 
+# 1080  _______________
+#       |      |      |
+#       | dn L | dn R |
+# 0     |______|______|
+
+output $upstairs_monitorL   pos     0,1080  res 1920x1080
+output $upstairs_monitorR   pos  1920,1080  res 1920x1080
+output $downstairs_monitorL pos     0,0     res 1920x1080
+output $downstairs_monitorR pos  1920,0     res 1920x1080
+#output $tv                  pos -1920,1080  res 1920x1080
+#output $tv disable
+workspace 1 output $upstairs_monitorR
+exec swaymsg focus output $upstairs_monitorR
 
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
@@ -39,13 +56,20 @@ exec swayidle -w \
 
 ### Input configuration
 input * xkb_numlock enabled
-input 1133:16461:Logitech_K400_Plus map_to_output $tv
-#input 5426:22:Razer_Razer_DeathAdder map_to_region 3840x1080@0,0
+# upstairs
+input 5426:22:Razer_Razer_DeathAdder map_to_region 0 1080 3840 1080
+
+# downstairs
+#input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_output $downstairs_monitorR
+#input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_region 1920 0 1920 1080
+
+# tv
+#input 1133:16461:Logitech_K400_Plus map_to_output $tv
 
 # Seat configuration
 seat seat0 hide_cursor 2000
-seat tv hide_cursor 1000
-seat tv attach Logitech K400 Plus
+#seat tv hide_cursor 1000
+#seat tv attach Logitech K400 Plus
 
 ### Key bindings
 #
@@ -269,6 +293,7 @@ bindsym $mod+k exec kodi
 for_window [class="Kodi"] border none
 
 for_window [class="Screenruler"] border none
+for_window [shell=".*"] title_format "%title :: %shell"
 
 bindsym $mod+e exec $term -e ranger
 
@@ -334,8 +359,9 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 # Enable polkit auth for GUI apps
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-exec mpv --title="washitsu" rtsp://10.9.8.135:7447/5a9e6fc05e0e9fb13861fc06_0 --mute=yes
-assign [title="washitsu"] 2
+#open security camera streams
+#exec mpv --title="washitsu" rtsp://10.9.8.135:7447/5a9e6fc05e0e9fb13861fc06_0 --mute=yes --quiet
+#assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
 
