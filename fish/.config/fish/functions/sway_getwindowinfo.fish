@@ -1,4 +1,4 @@
-function sway_getwindow
+function sway_getwindowinfo
   slurp -f "%x %y" | read x_sel y_sel
   for rect in (swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x) \(.width) \(.y) \(.height)"')
     echo $rect | read x1 w y1 h
