@@ -7,7 +7,11 @@ function git::get_ahead_count
 end
 
 function git::branch_name
-    command git symbolic-ref --short HEAD
+    if git symbolic-ref --short HEAD 2>/dev/null
+        echo (command git symbolic-ref --short HEAD 2> /dev/null)
+    else
+        echo (command git rev-parse --short HEAD)
+    end
 end
 
 function git::is_touched
