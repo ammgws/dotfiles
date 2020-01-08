@@ -5,10 +5,19 @@ if status is-login
   or set PATH ~/.local/bin $PATH
 end
 
-. ~/.config/fish/abbreviations.fish
-. ~/.config/fish/aliases.fish
+if status is-interactive
+  . ~/.config/fish/aliases.fish
+  eval (python -m virtualfish auto_activation)
+end
 
-eval (python -m virtualfish auto_activation)
+# Universal vars only need to be set once.
+# After adding a new var, run set --erase fish_initialized and restart fish.
+if status is-interactive
+and not set --query fish_initialized
+  . ~/.config/fish/abbreviations.fish  # abbr uses universal vars
+  set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
+  set --universal fish_initialized
+end
 
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
@@ -58,7 +67,6 @@ set --export SHELL /usr/bin/fish
 set --export TERMINAL kitty
 set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
 set --export XKB_DEFAULT_LAYOUT us
-set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
 
 # Used in my fish functions
 set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
@@ -97,4 +105,3 @@ if set --query SSH_CLIENT
     set --export EDITOR nano
   end
 end
-
