@@ -60,7 +60,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     end
 
     if test $status -ne 0
-    or not test -e $FILENAME
+        or not test -e $FILENAME
         return 1
     end
 
