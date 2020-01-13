@@ -31,8 +31,6 @@ output $downstairs_monitorL pos     0,0     res 1920x1080
 output $downstairs_monitorR pos  1920,0     res 1920x1080
 #output $tv                  pos -1920,1080  res 1920x1080
 #output $tv disable
-workspace 1 output $upstairs_monitorR
-exec swaymsg focus output $upstairs_monitorR
 
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
@@ -267,9 +265,11 @@ bar {
 set $term kitty
 bindsym $mod+Return exec $term
 
-# Note: it's recommended that you pass the final command to sway
-#set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
-set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history
+# Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
+# so when the child gets around to opening the window sway can place it on the original workspace 
+# (eg. if you launch something then immediately switch to another workspace before the window appears).
+#set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
+set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
 #set $menu wofi --show drun -i | xargs swaymsg exec --
 bindsym $mod+d exec ibus engine xkb:us::eng && exec $menu
 
@@ -280,8 +280,9 @@ bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; e
 bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
 #assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
-
 for_window [class="MozillaWindowClass"] border none
+for_window [app_id="firefox"] border none
+
 
 bindsym $mod+k exec kodi
 for_window [class="Kodi"] border none
@@ -334,7 +335,8 @@ include /etc/sway/config.d/*
 exec systemctl --user start mako.service
 
 #exec systemctl --user start ibus.service
-exec ibus-daemon --xim --replace --panel=disable --daemonize
+# Note: change to exec if not using --replace flag
+exec_always ibus-daemon --xim --replace --daemonize
 
 exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
@@ -363,3 +365,5 @@ for_window [app_id="mpv"] inhibit_idle fullscreen
 exec_always fish --command=import-gsettings
 
 exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
+
+exec autotiling
