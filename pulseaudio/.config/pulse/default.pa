@@ -140,3 +140,6 @@ load-module module-filter-apply
 ### Make some devices default
 #set-default-sink output
 #set-default-source input
+
+# automatically switch to newly-connected devices (20180413)
+#load-module module-switch-on-connect
