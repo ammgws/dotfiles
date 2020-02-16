@@ -105,3 +105,5 @@ if set --query SSH_CLIENT
     set --export EDITOR nano
   end
 end
+
+thefuck --alias | source
