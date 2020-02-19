@@ -275,6 +275,7 @@ bindsym $mod+Return exec $term
 #set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
 set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
 #set $menu wofi --show drun -i | xargs swaymsg exec --
+#TODO dont fail to show menu if ibus fails
 bindsym $mod+d exec ibus engine xkb:us::eng && exec $menu
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
