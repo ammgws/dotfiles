@@ -297,7 +297,7 @@ for_window [shell=".*"] title_format "%title :: %shell"
 
 bindsym $mod+e exec $term -e ranger
 
-bindsym $mod+ctrl+b exec swaylock
+bindsym $mod+l exec swaylock
 
 bindsym Print exec fish --command=screenshot
 bindsym $mod+Print exec swaygrab $SCREENSHOT_DIR/temp.jpg
