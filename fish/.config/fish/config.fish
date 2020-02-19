@@ -3,6 +3,8 @@ if status is-login
   or set PATH /usr/local/bin $PATH
   contains ~/.local/bin $PATH
   or set PATH ~/.local/bin $PATH
+  contains ~/.cargo/bin $PATH
+  or set PATH ~/.cargo/bin $PATH
 end
 
 if status is-interactive
