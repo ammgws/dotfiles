@@ -249,6 +249,7 @@ bar {
     height 18
     position top
     status_command i3status-rs
+    #status_command RUST_BACKTRACE=1 i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.tomldev 2> /tmp/i3statusrs.log
     status_padding 0
     colors {
         separator #666666
@@ -362,8 +363,11 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 for_window [app_id="mpv"] inhibit_idle fullscreen
 
 # See https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+exec /usr/bin/xsettingsd
 exec_always fish --command=import-gsettings
+# For all applications except GTK, you can set the cursor theme in the sway config:
+seat seat0 xcursor_theme ComixCursors-Slim-Blue
 
 exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
 
-exec autotiling
+#exec autotiling
