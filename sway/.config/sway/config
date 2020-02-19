@@ -347,11 +347,6 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 #exec_always flashfocus
 
-#exec_always $XDG_CONFIG_HOME/waybar/waybar.sh
-
-# rofi settings are inside xresources
-#exec xrdb -merge $XDG_CONFIG_HOME/X11/xresources
-
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
 #assign [class="ammcon"] $workspace02
