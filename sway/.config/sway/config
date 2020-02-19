@@ -38,11 +38,13 @@ output * bg #000000 solid_color
 #exec glpaper "HDMI-A-1" $upstairs_monitorL $XDG_CONFIG_HOME/glpaper/fragments/matrix.frag
 
 ### Idle configuration
+# To make sure swayidle waits for swaylock to lock the screen before it releases the inhibition lock,
+# the -w options is used in swayidle, and -f in swaylock (I set `daemonize` in the swaylock config file).
 exec swayidle -w \
-    timeout 300 'swaylock' \
-    timeout 600 'swaymsg "output * dpms off"' \
-         resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock --daemonize'
+         timeout 300 'swaylock' \
+         timeout 600 'swaymsg "output * dpms off"' \
+              resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock'
 
 ### Input configuration
 input * xkb_numlock enabled
