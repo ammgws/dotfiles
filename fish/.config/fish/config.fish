@@ -98,7 +98,7 @@ if set --query SSH_CLIENT
 
   if ! set --query SWAYSOCK
   and pidof "sway"
-    set --export SWAYSOCK (sway --get-socketpath)
+    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
   end
 
   # Change editor when remoting in from phone
