@@ -6,35 +6,9 @@
   gpgsign = true
 [core]
   autocrlf = input
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta --dark
 [init]
   templatedir = ~/.config/git/template
-
-[color]
-  ui = true
-[color "diff-highlight"]
-  oldNormal = red bold
-  oldHighlight = red bold 52
-  newNormal = green bold
-  newHighlight = green bold 22
-[color "diff"]
-  meta = yellow
-  frag = magenta bold
-  commit = yellow bold
-  old = red bold
-  new = green bold
-  whitespace = red reverse
-
-# Show diffs with the diff-so-fancy tool, and seed the pager with a search
-# pattern so files can be jumped to with n/N
-[pager]
-  log = diff-so-fancy | less --pattern='^(added|deleted|modified): '
-  show = diff-so-fancy | less --pattern='^(added|deleted|modified): '
-  diff = diff-so-fancy | less --pattern='^(added|deleted|modified): '
-
-# currently broken, see https://github.com/so-fancy/diff-so-fancy/issues/296
-#[interactive]
-#  diffFilter = diff-so-fancy
 
 # Clone GitHub repos using shortcut URL: "gh:WnndGws/dotfiles"
 [url "https://github.com/"]
