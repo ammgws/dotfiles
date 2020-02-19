@@ -1,7 +1,7 @@
 [user]
-  email = user@domain.com
-  name = yourname
-  signingkey = yoursigningkey
+  email = jason.nader@protonmail.com
+  name = Jason Nader
+  signingkey = 6CDCD9911FC611E05E9B4A6CEE220FCAA09AF23D
 [commit]
   gpgsign = true
 [core]
