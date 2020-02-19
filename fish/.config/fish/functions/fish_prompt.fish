@@ -1,31 +1,12 @@
 function fish_prompt
-    set --local code $status
-    test $code -ne 0
-    and set --local colors 600 900 c00
-    or set --local colors 333 666 aaa
+    set --local last_exit_code $pipestatus
+    set --local prompt_status (__fish_print_pipestatus "[" "]" "|" (set_color $fish_color_status) (set_color --bold $fish_color_status) $last_exit_code)
+    echo -n -s "$prompt_status"
 
-    fish_prompt_helpers
-
-    set --local pwd (prompt_pwd)
-    set --local base (basename "$pwd")
-
-    set --local expr "s|~|"(fst)"^^"(off)"|g; \
-                   s|/|"(snd)"/"(off)"|g;  \
-                   s|"$base"|"(fst)$base(off)" |g"
-
-    echo -n (echo "$pwd" | sed --expression $expr)(off)
-
-    for color in $colors
-        echo -n (set_color $color)">"
-    end
-    if test $code -ne 0
-        echo -n "("(trd)"$code"(dim)") "(off)
+    if string length -q "$prompt_status"
+        set prompt_char (set_color red)">"(set_color normal)
     else
-        echo -n " "
-    end
-
-    if test "$USER" = "root"
-        echo -n -s (set_color --background red black) "ROOT" (set_color normal) " "
+        set prompt_char ">"
     end
 
     if set --query VIRTUAL_ENV
@@ -37,8 +18,18 @@ function fish_prompt
         echo -n -s (set_color --background green white) "(SSH: " (hostname) ")" (set_color normal) " "
     end
 
-    check_kernel
-    if test $status -ne 0
-        echo -n -s (set_color --background red white) "RESTART FOR NEW KERNEL!" (set_color normal) " "
+    if functions --query check_kernel
+        if test "$status" -ne 0
+            echo -n -s (set_color --background red white) "RESTART FOR NEW KERNEL!" (set_color normal) " "
+        end
     end
+
+    if set --query SWAYSOCK
+        and not set --query SSH_CLIENT
+        # just rely on the window title since it shows pwd by default
+    else
+        echo -n (prompt_pwd)
+    end
+
+    echo -n -s $prompt_char
 end
