@@ -247,7 +247,7 @@ bindsym $mod+r mode "resize"
 bar {
     font pango:DejaVu Sans Mono, FontAwesome 10
     position top
-    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.toml
+    status_command i3status-rs
     colors {
         separator #666666
         background #222222
