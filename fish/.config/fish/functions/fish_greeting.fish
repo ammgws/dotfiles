@@ -7,8 +7,7 @@ function fish_greeting
       (uptime --pretty) \
       (systemd-analyze time)
     )
-        echo -e $msg | ponysay
-        #fortune | ponysay
+        echo -e $msg | cowsay
     else
         # no greeting
         set last_login_desktop (date --date (last -R (whoami) | awk '/still logged in/ {print $3,$4,$5,$6}' | head --lines=1) +%s)
