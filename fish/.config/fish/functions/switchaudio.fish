@@ -71,7 +71,11 @@ function switchaudio --description 'Switch between audio devices and move all cu
             tr --delete ' '
     end
 
-    set sinks (pactl list short sinks)
+    set sinks (pactl list short sinks 2> /dev/null)
+    if test $status -ne 0
+        echo "Error calling pulseaudio" >&2
+        return 1
+    end
 
     if test $use_menu
         for sink in $sinks
