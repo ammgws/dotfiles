@@ -21,3 +21,7 @@ In order to have GNU Stow symlink correctly, the directory structure inside this
  - `<B>` is `wynn` from above, and
  - `<A>` is the name used with GNU Stow. Can be the same as `<B>`, or you could have different configs
          for multiple versions of a program by using `wynn_v1`, `wynn_v2` etc.
+
+## Note
+pulseaudio config dir cannot be symlinked due to https://gitlab.freedesktop.org/pulseaudio/pulseaudio/issues/624
+need to manually copy it for now until it's fixed
