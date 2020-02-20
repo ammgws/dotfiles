@@ -21,7 +21,17 @@ fish/.config/fish/conf.d/done.fish
 
 gtk-3.0/.config/gtk-3.0/bookmarks
 gtk-3.0/.config/gtk-3.0/servers
+
+mpd/.config/mpd/database
+mpd/.config/mpd/pid
 mpd/.config/mpd/state
+mpd/.config/mpd/sticker.sql
+
+pulseaudio/.config/pulse/*.tdb
+pulseaudio/.config/pulse/*default*
+pulseaudio/.config/pulse/cookie
+
 ranger/.config/ranger/bookmarks
 ranger/.config/ranger/history
 ranger/.config/ranger/tagged
+
