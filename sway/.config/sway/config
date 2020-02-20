@@ -241,6 +241,9 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+# font for title bars
+font pango:DejaVu Sans Mono, FontAwesome 10
+
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Status bar
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
