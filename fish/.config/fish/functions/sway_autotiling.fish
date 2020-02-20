@@ -1,0 +1,36 @@
+function sway_autotiling
+  swaymsg --type subscribe "['window']" --monitor | while read --local line
+    string length --quiet "$line"
+    or continue
+
+    set focused_container (swaymsg -t get_tree | jq -r '[null,.]|recurse(.[1] as $parent|try (.[1].nodes[]|[($parent|del(.nodes)),.]) catch empty) | select(.[1].focused)')
+    set con (echo "$focused_container" | jq '.[1]')
+    set parent (echo "$focused_container" | jq '.[1]')
+
+    string length --quiet "$con"
+    or continue
+
+    test (echo "$con" | jq '.type') = "floating_con"
+    and continue
+    test (echo "$con" | jq '.fullscreen_mode') -ne 0
+    and continue
+    test (echo "$parent" | jq '.fullscreen_mode') -ne 0
+    and continue
+
+    set cur_layout (echo $parent | jq '.layout')
+    test "$cur_layout" = "tabbed"
+    and continue
+    test "$cur_layout" = "stacked"
+    and continue
+
+    set height (echo $con | jq '.rect.height')
+    set width (echo $con | jq '.rect.width')
+
+    test "$height" -gt "$width"
+    and set new_layout "splitv"
+    or set new_layout "splith"
+
+    test "$cur_layout" != "$new_layout"
+    and swaymsg "$new_layout"
+  end
+end
