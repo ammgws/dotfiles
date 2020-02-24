@@ -41,11 +41,11 @@ output * bg #000000 solid_color
 # To make sure swayidle waits for swaylock to lock the screen before it releases the inhibition lock,
 # swayidle's -w (wait) option and swaylock's -f/--daemonize options are used.
 exec swayidle -w \
-         timeout 300 'swaylock --daemonize' \
+         timeout 300 'fish --command sway_lock' \
          idlehint 300 \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock --daemonize' \
+         before-sleep 'fish --command sway_lock' \
 
 ### Input configuration
 input * xkb_numlock enabled
