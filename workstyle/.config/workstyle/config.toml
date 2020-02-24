@@ -1,0 +1,39 @@
+# Config for workstyle
+#
+# Format:
+# "pattern" = "icon"
+#
+# The pattern will be used to match against the application name.
+# The icon will be used to represent that application.
+#
+# Note if multiple patterns are present in the same application name,
+# precedence is given in order of apparition in this file.
+
+"fish" = ""
+"bash" = ""
+"nvim" = ""
+"vim" = ""
+"micro" = ""
+"nano" = ""
+"gedit" = ""
+"github" = ""
+"rust" = ""
+"google" = ""
+"private browsing" = ""
+"firefox" = ""
+"chrome" = ""
+"ranger" = ""
+"libreoffice calc" = ""
+"libreoffice writer" = ""
+"libreoffice" = ""
+"kodi" = ""
+"steam" = ""
+"ncmpcpp" = ""
+"imv" = ""
+"youtube-viewer" = ""
+"mpv" =  ""
+"Signal" = ""
+".pdf" = ""
+
+[other]
+default_icon = "?"
