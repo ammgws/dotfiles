@@ -75,9 +75,9 @@ interval = 60
 block = "net"
 device = "enp3s0"
 
-[[block]]
-block = "custom_dbus"
-name = "SoundDevice"
+#[[block]]
+#block = "custom_dbus"
+#name = "SoundDevice"
 
 # if have issues then disable this block until it has been cleared of unwraps
 [[block]]
