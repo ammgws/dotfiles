@@ -1,5 +1,4 @@
-# Defined in /tmp/fish.yIArfP/move_all_workspaces.fish @ line 2
-function move_all_workspaces --description 'Move all workspaces to the currently focused output.'
+function sway_move_all_workspaces --description 'Move all workspaces to the currently focused output.'
     function print_help
         echo "Usage: move_all_workspaces [options]"
         echo "Options:"
@@ -18,7 +17,11 @@ function move_all_workspaces --description 'Move all workspaces to the currently
         set from_output $_flag_from
     end
 
-    set current_output (swaymsg -t get_outputs | jq '.[] | select(.focused==true) | .name')
+    set --local tree (swaymsg --type get_outputs 2>/dev/null)
+    or return 1
+
+    set --local current_output (echo "$tree" | jq '.[] | select(.focused==true) | .name')
+    or return 1
 
     if set --query from_output
         set workspaces (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null and .output == \"$from_output\") | .name")
