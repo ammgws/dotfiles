@@ -63,8 +63,9 @@ set --export DefaultIMModule ibus
 
 # Other
 set --export BROWSER /usr/bin/firefox-nightly
+set --export EDITOR micro
 set --export FZF_DEFAULT_COMMAND "fd --type f"
-set --export GIT_EDITOR nano
+set --export GIT_EDITOR micro
 set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'"  # use bat to colourise man
 set --export MOZ_WEBRENDER 1
 set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0  # for when playing games
@@ -106,8 +107,8 @@ if set --query SSH_CLIENT
   # Change editor when remoting in from phone
   set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
   if test "$ip" = "10.8.7.2"
-    set --export GIT_EDITOR nano
-    set --export EDITOR nano
+    set --export GIT_EDITOR micro
+    set --export EDITOR micro
   end
 end
 
