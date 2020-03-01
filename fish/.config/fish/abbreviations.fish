@@ -1,10 +1,14 @@
 # Abbreviations (text expansion)
-# After adding a new entry, run set --erase fish_initialized and restart fish.
+# After adding a new entry, run `set --erase fish_initialized` and restart fish.
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
+abbr --add cp 'cp --interactive --verbose'
+abbr --add gdb 'gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 abbr --add gp 'git push'
 abbr --add gpf 'git push --force'
 abbr --add gst 'git status'  # gs taken by Ghostscript
 abbr --add icat 'kitty +kitten icat'
+abbr --add ln 'ln --interactive --verbose'
+abbr --add mv 'mv --interactive --verbose'
 abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add pikin 'pikaur --sync --refresh --sysupgrade'
