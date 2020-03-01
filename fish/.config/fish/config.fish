@@ -18,6 +18,7 @@ if status is-interactive
 and not set --query fish_initialized
   . ~/.config/fish/abbreviations.fish  # abbr uses universal vars
   set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
+  set --universal __done_sway_ignore_visible 1
   set --universal fish_initialized
 end
 
