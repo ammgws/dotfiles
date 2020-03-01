@@ -44,6 +44,7 @@ set --export XDG_CACHE_HOME ~/.cache
 set --export XDG_CONFIG_HOME ~/.config
 set --export XDG_DATA_HOME ~/.local/share
 set --export XDG_RUNTIME_DIR /run/user/(id -u)
+set --export CARGO_HOME $XDG_DATA_HOME/cargo
 set --export DVDCSS_CACHE $XDG_DATA_HOME/dvdcss
 set --export GNUPGHOME $XDG_CONFIG_HOME/gnupg
 set --export ICEAUTHORITY $XDG_RUNTIME_DIR/ICEauthority
