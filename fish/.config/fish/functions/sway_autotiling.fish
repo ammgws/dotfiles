@@ -9,6 +9,8 @@ function sway_autotiling
 
     string length --quiet "$con"
     or continue
+    test (echo "$con" | jq any)
+    or continue
 
     test (echo "$con" | jq '.type') = "floating_con"
     and continue
