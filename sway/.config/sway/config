@@ -365,6 +365,7 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [app_id="pavucontrol"] floating enable
 
 # See https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 exec /usr/bin/xsettingsd
