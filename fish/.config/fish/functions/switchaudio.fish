@@ -76,17 +76,21 @@ function switchaudio --description 'Switch between audio devices and move all cu
         echo "Error calling pulseaudio" >&2
         return 1
     end
+    set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
 
     if test $use_menu
         for sink in $sinks
             set sink_info (string split \t $sink)
+            set sink_id $sink_info[1]
             set sink_name (prettify_name $sink_info[2])
+            if test $sink_id = $default_sink_id
+                set sink_name "$sink_name (current)"
+            end
             set device_choices (string join "\n" $device_choices $sink_name)
         end
         set device (echo -e "$device_choices" | bemenu)
     end
 
-    set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
     for sink in $sinks
         set sink_info (string split \t $sink)
         set sink_id $sink_info[1]
@@ -153,6 +157,9 @@ function switchaudio --description 'Switch between audio devices and move all cu
             pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
         end
     end
+
+    string length --quiet $new_default_sink_name
+    or return 1
 
     qdbus localhost.statusbar.DBus \
         /localhost/statusbar/DBus/SoundDevice \
