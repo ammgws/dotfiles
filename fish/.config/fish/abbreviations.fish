@@ -9,6 +9,7 @@ abbr --add gst 'git status'  # gs taken by Ghostscript
 abbr --add icat 'kitty +kitten icat'
 abbr --add ln 'ln --interactive --verbose'
 abbr --add mv 'mv --interactive --verbose'
+abbr --add nano 'micro'
 abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add pikin 'pikaur --sync --refresh --sysupgrade'
