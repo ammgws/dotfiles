@@ -4,6 +4,7 @@
   signingkey = 6CDCD9911FC611E05E9B4A6CEE220FCAA09AF23D
 [commit]
   gpgsign = true
+  verbose = true
 [push]
   default = current
 [core]
