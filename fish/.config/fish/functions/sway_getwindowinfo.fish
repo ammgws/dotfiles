@@ -1,8 +1,9 @@
 function sway_getwindowinfo
-    slurp -f "%x %y" | read x_sel y_sel
-    if test $status -ne 0
-        return 1
-    end
+    slurp -p -f "%x %y" | read x_sel y_sel
+    or return 1
+
+    # TODO: this returns everything when there is only one container open in the workspace
+    # need to fix the logic
     for rect in (swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x) \(.width) \(.y) \(.height)"')
         echo $rect | read x1 w y1 h
         set x2 (math $x1 + $w)
