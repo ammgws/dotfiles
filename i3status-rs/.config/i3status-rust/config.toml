@@ -97,9 +97,9 @@ interval = 5
 
 [[block]]
 block = "ibus"
-#[block.mappings]
-#"mozc-jp" = "JP"
-#"xkb:us::eng" = "EN"
+[block.mappings]
+"mozc-jp" = "JP"
+"xkb:us::eng" = "EN"
 
 [[block]]
 block = "custom"
