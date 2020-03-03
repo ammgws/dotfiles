@@ -15,7 +15,7 @@ set $tv "Goldstar Company Ltd LG TV 0x00000101"
 
 #       0     1920    3840
 #       
-# 2060  _______________
+# 0     _______________
 #       |      |      |
 #       | up L | up R |
 # 1080  |______|______|
@@ -23,13 +23,13 @@ set $tv "Goldstar Company Ltd LG TV 0x00000101"
 # 1080  _______________
 #       |      |      |
 #       | dn L | dn R |
-# 0     |______|______|
+# 2160  |______|______|
 
-output $upstairs_monitorL   pos     0,1080  res 1920x1080
-output $upstairs_monitorR   pos  1920,1080  res 1920x1080
-output $downstairs_monitorL pos     0,0     res 1920x1080
-output $downstairs_monitorR pos  1920,0     res 1920x1080
-#output $tv                  pos -1920,1080  res 1920x1080
+output $upstairs_monitorL   pos     0,0     res 1920x1080
+output $upstairs_monitorR   pos  1920,0     res 1920x1080
+output $downstairs_monitorL pos     0,1080  res 1920x1080
+output $downstairs_monitorR pos  1920,1080  res 1920x1080
+#output $tv                  pos -1920,1080 res 1920x1080
 #output $tv disable
 
 # Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
