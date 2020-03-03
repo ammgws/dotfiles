@@ -3,6 +3,8 @@
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
 abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; or paccache -rvk0; and pikaur -Scc'
 abbr --add cp 'cp --interactive --verbose'
+abbr --add gco 'git switch'
+abbr --add gconq 'git switch -c'
 abbr --add gdb 'gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 abbr --add gp 'git push'
 abbr --add gpf 'git push --force'
