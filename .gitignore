@@ -19,6 +19,8 @@ fish/.config/fish/functions/fishtape.fish
 fish/.config/fish/functions/humanize_duration.fish
 fish/.config/fish/conf.d/done.fish
 
+gnupg/.config/gnupg/*
+
 gtk-3.0/.config/gtk-3.0/bookmarks
 gtk-3.0/.config/gtk-3.0/servers
 
