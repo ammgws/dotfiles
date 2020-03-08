@@ -50,7 +50,8 @@ exec swayidle -w \
 ### Input configuration
 input * xkb_numlock enabled
 # upstairs
-input 5426:22:Razer_Razer_DeathAdder map_to_region 0 1080 3840 1080
+#input 5426:22:Razer_Razer_DeathAdder map_to_region 0 0 3840 1080
+#input 1133:49284:Logitech_G102_Prodigy_Gaming_Mouse map_to_region 0 1080 1920 2160
 
 # downstairs
 #input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_output $downstairs_monitorR
@@ -352,6 +353,9 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 #exec_always flashfocus
 
+exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
+exec autotiling
+
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
 #assign [class="ammcon"] $workspace02
@@ -367,12 +371,13 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [app_id="pavucontrol"] floating enable
 
-# See https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
-exec /usr/bin/xsettingsd
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
+# ┃ Theming
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+# For X apps using XSETTINGS:
+# exec /usr/bin/xsettingsd
+# For GTK applications, import GTK2/3 settings:
+# https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
 exec_always fish --command=import-gsettings
-# For all applications except GTK, you can set the cursor theme in the sway config:
+# For all applications except GTK:
 seat seat0 xcursor_theme ComixCursors-Slim-Blue
-
-exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
-
-#exec autotiling
