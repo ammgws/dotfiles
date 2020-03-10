@@ -90,6 +90,9 @@ function switchaudio --description 'Switch between audio devices and move all cu
         end
         set device (echo -e "$device_choices" | bemenu)
     end
+    if not string length --quiet $device
+        return 1
+    end
 
     for sink in $sinks
         set sink_info (string split \t $sink)
