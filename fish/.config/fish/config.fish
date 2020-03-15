@@ -32,6 +32,7 @@ set --export ECORE_EVAS_ENGINE wayland_egl
 set --export ELM_ENGINE wayland_egl
 set --export _JAVA_AWT_WM_NONREPARENTING 1
 set --export MOZ_ENABLE_WAYLAND 1
+set --export MOZ_WAYLAND_USE_VAAPI 1
 set --export QT_QPA_PLATFORM wayland-egl
 set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 set --export SDL_VIDEODRIVER wayland
