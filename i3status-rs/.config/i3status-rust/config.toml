@@ -80,6 +80,7 @@ device = "enp3s0"
 #name = "SoundDevice"
 
 # if have issues then disable this block until it has been cleared of unwraps
+# once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
 [[block]]
 block = "sound"
 driver = "pulseaudio"
