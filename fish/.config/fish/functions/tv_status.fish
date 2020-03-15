@@ -1,5 +1,5 @@
 function tv_status --description="Return active status of the connected TV to my desktop."
-    argparse --name check_xclients 'h/help' 'b/barmode' -- $argv
+    argparse --name check_xclients h/help b/barmode -- $argv
     or return 1 # error
 
     function print_help
@@ -20,9 +20,9 @@ function tv_status --description="Return active status of the connected TV to my
 
     set --local tv_status (swaymsg -t get_outputs | jq --raw-output '.. | objects | select(.model == "LG TV") | .active')
     if test $MODE = bar
-        if test $tv_status = "true"
+        if test $tv_status = true
             printf "<span color='green'>📺ON</span>"
-        else if test $tv_status = "false"
+        else if test $tv_status = false
             printf "<span color='green'>📺OFF</span>"
         end
     else

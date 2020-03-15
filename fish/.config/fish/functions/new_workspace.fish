@@ -8,7 +8,7 @@ function new_workspace --description="Create new workspace on the current monito
     # default values (that can be changed via args)
     set MOVE_FOCUSED 0
 
-    argparse --name new_workspace 'h/help' 'm/move-focused' -- $argv
+    argparse --name new_workspace h/help m/move-focused -- $argv
     or return 1 #error
 
     if set -lq _flag_help

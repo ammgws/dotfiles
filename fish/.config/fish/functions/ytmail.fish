@@ -16,9 +16,9 @@ function ytmail --description 'Download and email youtube videos. Useful for wor
 
     # default values for optional arguments
     set DEBUG 0
-    set SIZE "9M"
+    set SIZE 9M
 
-    argparse --name ytmail 'h/help' 'd-debug' 's-splitsize=' -- $argv
+    argparse --name ytmail h/help d-debug 's-splitsize=' -- $argv
     or return 1 #error
 
     if set --local --query _flag_help
@@ -42,7 +42,7 @@ function ytmail --description 'Download and email youtube videos. Useful for wor
     echo (set_color green)"ytmail: Video file: $VIDEO_FILEPATH"(set_color $fish_color_normal)
     echo (set_color green)"ytmail: Archive file: $ARCHIVE_FILEPATH.*"(set_color $fish_color_normal)
 
-    youtube-dl --recode-video "mp4" --output $VIDEO_FILEPATH $URL
+    youtube-dl --recode-video mp4 --output $VIDEO_FILEPATH $URL
 
     if test -e $VIDEO_FILEPATH
         echo (set_color green)"ytmail: Found video file, creating archive now..."(set_color $fish_color_normal)

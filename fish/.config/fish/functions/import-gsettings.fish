@@ -1,7 +1,7 @@
 function import-gsettings --description="Set GTK-3 settings since need to do it ourselves when using `sway`"
     # Note list of valid keys to use with gset: `gsettings list-keys org.gnome.desktop.interface`
     # TODO: reference for how these match up with settings.ini since key names appear to differ
-    argparse --name import-gsettings 'h/help' 'd-debug' -- $argv
+    argparse --name import-gsettings h/help d-debug -- $argv
     or return 1 #error
 
     function print_help

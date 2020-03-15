@@ -5,7 +5,7 @@ function sway_move_all_workspaces --description 'Move all workspaces to the curr
         echo (set_color green)"--from"(set_color $fish_color_normal)": Specify output name from which workspaces are to be moved (defaults to all)."
     end
 
-    argparse --name move_all_workspaces 'f/from=' 'h/help' -- $argv
+    argparse --name move_all_workspaces 'f/from=' h/help -- $argv
     or return 1 #error
 
     if set -lq _flag_help

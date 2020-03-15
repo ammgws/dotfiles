@@ -1,25 +1,25 @@
 if status is-login
-  contains /usr/local/bin $PATH
-  or set PATH /usr/local/bin $PATH
-  contains ~/.local/bin $PATH
-  or set PATH ~/.local/bin $PATH
-  contains ~/.cargo/bin $PATH
-  or set PATH ~/.cargo/bin $PATH
+    contains /usr/local/bin $PATH
+    or set PATH /usr/local/bin $PATH
+    contains ~/.local/bin $PATH
+    or set PATH ~/.local/bin $PATH
+    contains ~/.cargo/bin $PATH
+    or set PATH ~/.cargo/bin $PATH
 end
 
 if status is-interactive
-  . ~/.config/fish/aliases.fish
-  eval (python -m virtualfish auto_activation)
+    . ~/.config/fish/aliases.fish
+    eval (python -m virtualfish auto_activation)
 end
 
 # Universal vars only need to be set once.
 # After adding a new var, run set --erase fish_initialized and restart fish.
 if status is-interactive
-and not set --query fish_initialized
-  . ~/.config/fish/abbreviations.fish  # abbr uses universal vars
-  set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
-  set --universal __done_sway_ignore_visible 1
-  set --universal fish_initialized
+    and not set --query fish_initialized
+    . ~/.config/fish/abbreviations.fish # abbr uses universal vars
+    set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
+    set --universal __done_sway_ignore_visible 1
+    set --universal fish_initialized
 end
 
 # Encourage programs to use Wayland
@@ -67,12 +67,12 @@ set --export BROWSER /usr/bin/firefox-nightly
 set --export EDITOR micro
 set --export FZF_DEFAULT_COMMAND "fd --type f"
 set --export GIT_EDITOR micro
-set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'"  # use bat to colourise man
+set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'" # use bat to colourise man
 set --export MOZ_WEBRENDER 1
-set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0  # for when playing games
+set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
 set --export SHELL /usr/bin/fish
 set --export TERMINAL kitty
-set --export VDPAU_DRIVER radeonsi  # keeps trying to use nvidia driver
+set --export VDPAU_DRIVER radeonsi # keeps trying to use nvidia driver
 set --export XKB_DEFAULT_LAYOUT us
 
 # Used in my fish functions
@@ -80,37 +80,37 @@ set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
 # User experience improvements over SSH
 if set --query SSH_CLIENT
-  set --erase BROWSER
+    set --erase BROWSER
 
-  if ! set --query XDG_RUNTIME_DIR
-    set --export XDG_RUNTIME_DIR /run/user/(id -u)
-  end
-
-  set --export GPG_TTY (tty)
-
-  if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
-    set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
-    if test -e $dbus_session_file
-      while read --local --array line
-        set match (string match --regex "^DBUS_SESSION_BUS_ADDRESS=(.+)" $line)
-        if test $status -eq 0
-          set --export DBUS_SESSION_BUS_ADDRESS $match[2]
-        end
-      end < $dbus_session_file
+    if ! set --query XDG_RUNTIME_DIR
+        set --export XDG_RUNTIME_DIR /run/user/(id -u)
     end
-  end
 
-  if ! set --query SWAYSOCK
-  and pidof "sway"
-    set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
-  end
+    set --export GPG_TTY (tty)
 
-  # Change editor when remoting in from phone
-  set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
-  if test "$ip" = "10.8.7.2"
-    set --export GIT_EDITOR micro
-    set --export EDITOR micro
-  end
+    if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
+        set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
+        if test -e $dbus_session_file
+            while read --local --array line
+                set match (string match --regex "^DBUS_SESSION_BUS_ADDRESS=(.+)" $line)
+                if test $status -eq 0
+                    set --export DBUS_SESSION_BUS_ADDRESS $match[2]
+                end
+            end <$dbus_session_file
+        end
+    end
+
+    if ! set --query SWAYSOCK
+        and pidof sway
+        set --export SWAYSOCK /run/user/(id -u)/sway-ipc.(id -u).(pidof sway).sock
+    end
+
+    # Change editor when remoting in from phone
+    set ip (string match --regex "(\d+.\d+.\d+.\d)" $SSH_CONNECTION)[2]
+    if test "$ip" = "10.8.7.2"
+        set --export GIT_EDITOR micro
+        set --export EDITOR micro
+    end
 end
 
 thefuck --alias | source
