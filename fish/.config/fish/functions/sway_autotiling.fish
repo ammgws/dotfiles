@@ -12,7 +12,7 @@ function sway_autotiling
         test (echo "$con" | jq any)
         or continue
 
-        test (echo "$con" | jq '.type') = "floating_con"
+        test (echo "$con" | jq '.type') = floating_con
         and continue
         test (echo "$con" | jq '.fullscreen_mode') -ne 0
         and continue
@@ -20,17 +20,17 @@ function sway_autotiling
         and continue
 
         set cur_layout (echo $parent | jq '.layout')
-        test "$cur_layout" = "tabbed"
+        test "$cur_layout" = tabbed
         and continue
-        test "$cur_layout" = "stacked"
+        test "$cur_layout" = stacked
         and continue
 
         set height (echo $con | jq '.rect.height')
         set width (echo $con | jq '.rect.width')
 
         test "$height" -gt "$width"
-        and set new_layout "splitv"
-        or set new_layout "splith"
+        and set new_layout splitv
+        or set new_layout splith
 
         test "$cur_layout" != "$new_layout"
         and swaymsg "$new_layout"

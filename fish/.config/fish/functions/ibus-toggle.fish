@@ -3,7 +3,7 @@ function ibus-toggle --description="Switches between IBus input methods and disp
     if test $status -ne 0
         notify-send "Failed to switch ibus engine" --icon=keyboard --expire-time=1000
         return 1
-    else if test "$engine" = "mozc-jp"
+    else if test "$engine" = mozc-jp
         ibus engine xkb:us::eng
         set msg "English input"
     else

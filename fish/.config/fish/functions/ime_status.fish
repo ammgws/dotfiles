@@ -4,9 +4,9 @@ function ime_status --description="Returns current IBus input language: EN/JP/??
         printf '%s' '??'
     else if test $current_ime = 'xkb:us::eng'
         printf '%s' '🇦🇺'
-    else if test "$current_ime" = 'anthy'
+    else if test "$current_ime" = anthy
         printf '%s' '🇯🇵'
-    else if test "$current_ime" = 'mozc-jp'
+    else if test "$current_ime" = mozc-jp
         printf '%s' '🇯🇵'
     else
         printf '%s' '??'

@@ -1,5 +1,5 @@
 function check_kernel --description='Output message if installed and running kernels are different.'
-    argparse --name check_kernel 'h/help' 'b-barmode' -- $argv
+    argparse --name check_kernel h/help b-barmode -- $argv
     or return 1 #error
 
     function print_help
@@ -32,13 +32,13 @@ function check_kernel --description='Output message if installed and running ker
     # e.g. `4.18.4-arch1-1-ARCH`
     set running (string match --regex '\d\d?.\d\d?.\d\d?' (uname --kernel-release))
     if test ! $running = $installed
-        if test $OUTPUT_MODE = "boolean"
+        if test $OUTPUT_MODE = boolean
             return 1
         else
             printf "🐧😞"
         end
     else
-        if test $OUTPUT_MODE = "boolean"
+        if test $OUTPUT_MODE = boolean
             return 0
         else
             printf "🐧☺️"

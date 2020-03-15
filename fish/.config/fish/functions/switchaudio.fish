@@ -10,7 +10,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
         echo (set_color green)"-m/--menu"(set_color $fish_color_normal)": Display menu to choose from."
     end
 
-    argparse --name switchaudio 'h/help' 'm/menu' 'k/keep' 'd/device=' -- $argv
+    argparse --name switchaudio h/help m/menu k/keep 'd/device=' -- $argv
     or return 1 #error
 
     if set -lq _flag_help
@@ -32,28 +32,28 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
     function prettify_name --argument-names sink_raw_name
         if string match --quiet '*Pebbles*' $sink_raw_name
-            echo "speakers"
+            echo speakers
         else if string match --quiet 'alsa_output.pci-0000_00_1b.0.analog-stereo' $sink_raw_name
-            echo "headphones"
+            echo headphones
         else if string match --quiet '*PCH*' $sink_raw_name
-            echo "headphones"
+            echo headphones
         else if string match --quiet 'bluez_sink*' $sink_raw_name
-            echo "bluetooth"
+            echo bluetooth
         else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra*' $sink_raw_name
-            echo "TV"
+            echo TV
         else
             echo $sink_raw_name
         end
     end
 
     function get_icon --argument-names output_device
-        if string match --quiet 'headphones' $output_device
+        if string match --quiet headphones $output_device
             echo "🎧"
-        else if string match --quiet 'speakers' $output_device
+        else if string match --quiet speakers $output_device
             echo "🔈"
-        else if string match --quiet 'bluetooth' $output_device
-            echo "BT"
-        else if string match --quiet 'TV' $output_device
+        else if string match --quiet bluetooth $output_device
+            echo BT
+        else if string match --quiet TV $output_device
             echo "📺"
         else
             echo "??"
@@ -141,7 +141,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
 
     # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
-    if test $new_default_sink_name = "TV"
+    if test $new_default_sink_name = TV
         # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
         # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
         set TV_hdmi_port_profile (pactl list cards | \

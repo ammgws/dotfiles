@@ -1,5 +1,5 @@
 function check_xclients --description="Return number of current X clients"
-    argparse --name check_xclients 'h/help' 'b-barmode' -- $argv
+    argparse --name check_xclients h/help b-barmode -- $argv
     or return 1 # error
 
     function print_help
