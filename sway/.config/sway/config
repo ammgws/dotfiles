@@ -278,11 +278,7 @@ bindsym $mod+Return exec $term
 # Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
 # so when the child gets around to opening the window sway can place it on the original workspace 
 # (eg. if you launch something then immediately switch to another workspace before the window appears).
-#set $menu j4-dmenu-desktop --no-generic --dmenu="bemenu -i" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
-set $menu j4-dmenu-desktop --no-generic --dmenu="wofi --fork --show drun --allow-images" --term="kitty" --usage-log=$XDG_CACHE_HOME/appmenu.history | xargs swaymsg exec --
-#set $menu wofi --show drun -i | xargs swaymsg exec --
-#TODO dont fail to show menu if ibus fails
-bindsym $mod+d exec ibus engine xkb:us::eng && exec $menu
+bindsym $mod+d exec fish --command=sway_menu | xargs swaymsg --
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
