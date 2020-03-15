@@ -54,6 +54,10 @@ input * xkb_numlock enabled
 #input 1133:49284:Logitech_G102_Prodigy_Gaming_Mouse map_to_region 0 1080 1920 2160
 
 # downstairs
+input 9610:42:SINO_WEALTH_Gaming_KB {
+	# make `Menu` key into `Super_R` since this keyboard only has one Super key
+	xkb_options altwin:menu_win
+}
 #input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_output $downstairs_monitorR
 #input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_region 1920 0 1920 1080
 
