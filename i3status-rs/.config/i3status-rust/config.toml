@@ -13,10 +13,10 @@ alternating_tint_bg = "#444444"
 block = "pacman"
 interval = 600
 
-#TODO
+# Re-enable this when https://github.com/greshake/i3status-rust/pull/515 is merged
 #[[block]]
 #block = "custom"
-#command = "checkupdates && pikaur --query --sysupgrade --aur 2>/dev/null"
+#command = "fish --command='check_aur_pending --barmode'"
 
 [[block]]
 block = "custom"
