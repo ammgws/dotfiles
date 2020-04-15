@@ -15,10 +15,11 @@ function fish_prompt
 
     # could or may also need to check SSH_TTY or SSH_CONNECTION
     if set --query SSH_CLIENT
-        echo -n -s (set_color --background green white) "(SSH: " (hostname) ")" (set_color normal) " "
+        echo -n -s (set_color --background green black) "SSH:" (hostname) (set_color normal) " "
     end
 
     if functions --query check_kernel
+        check_kernel
         if test "$status" -ne 0
             echo -n -s (set_color --background red white) "RESTART FOR NEW KERNEL!" (set_color normal) " "
         end
