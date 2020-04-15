@@ -1,11 +1,13 @@
 # Abbreviations (text expansion)
 # After adding a new entry, run `set --erase fish_initialized` and restart fish.
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
-abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; or paccache -rvk0; and pikaur -Scc'
+abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; paccache -rvk0; pikaur -Scc; yarn cache clean; cargo cache --autoclean; rm ~/.cache/electron/*'
 abbr --add cp 'cp --interactive --verbose'
 abbr --add e micro
+abbr --add ga 'git add --patch'
+abbr --add gcl 'git clone' # gc taken
 abbr --add gco 'git switch'
-abbr --add gconq 'git switch -c'
+abbr --add gcr 'git switch --create'
 abbr --add gdb 'gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 abbr --add gp 'git push'
 abbr --add gpf 'git push --force'
