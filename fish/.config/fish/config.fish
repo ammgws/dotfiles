@@ -53,7 +53,7 @@ end
 # Re-enabling this so systemd-login IdleHints to work
 set --export XDG_SESSION_TYPE wayland
 
-# Encourage use of XDG dirs
+# Encourage use of XDG Base Directory spec
 set --export XDG_CACHE_HOME ~/.cache
 set --export XDG_CONFIG_HOME ~/.config
 set --export XDG_DATA_HOME ~/.local/share
@@ -65,6 +65,7 @@ set --export ICEAUTHORITY $XDG_RUNTIME_DIR/ICEauthority
 set --export LESSHISTFILE $XDG_CACHE_HOME/less/history
 set --export LESSKEY $XDG_CONFIG_HOME/less/lesskey
 set --export MPLAYER_HOME $XDG_CONFIG_HOME/mplayer
+set --export WEECHAT_HOME $XDG_CONFIG_HOME/weechat
 set --export WGETRC $XDG_CONFIG_HOME/wget/wgetrc
 set --export XAUTHORITY $XDG_RUNTIME_DIR/Xauthority
 set --export XINITRC $XDG_CONFIG_HOME/X11/xinitrc
