@@ -1,15 +1,10 @@
-#version 330 core
-
 #define RAIN_SPEED 0.75 // Speed of rain droplets
 #define DROP_SIZE  15.0  // Higher value lowers, the size of individual droplets
 
+precision highp float;
+
 uniform float time;
 uniform vec2 resolution;
-
-out vec4 frag_color;
-
-float iTime = time;
-vec2 iResolution = resolution;
 
 float rand(vec2 co){
     return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
@@ -28,10 +23,10 @@ float rchar(vec2 outer, vec2 inner, float globalTime) {
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 
-	vec2 position = fragCoord.xy / iResolution.xy;
+	vec2 position = fragCoord.xy / resolution.xy;
 	vec2 uv = vec2(position.x, position.y);
-    position.x /= iResolution.x / iResolution.y;
-	float globalTime = iTime * RAIN_SPEED;
+    position.x /= resolution.x / resolution.y;
+	float globalTime = time * RAIN_SPEED;
 	
 	float scaledown = DROP_SIZE;
 	float rx = fragCoord.x / (40.0 * scaledown);
@@ -99,5 +94,5 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
 }
 
 void main() {
-	mainImage(frag_color, gl_FragCoord.xy);
+	mainImage(gl_FragColor, gl_FragCoord.xy);
 }

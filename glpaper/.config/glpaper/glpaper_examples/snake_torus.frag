@@ -1,17 +1,12 @@
-#version 330 core
-
 /*
 * License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 * Created by bal-khan
 */
 
-out vec4 frag_color;
+precision highp float;
 
 uniform float time;
 uniform vec2 resolution;
-
-float iTime = time;
-vec2 iResolution = resolution;
 
 vec2	march(vec3 pos, vec3 dir);
 vec3	camera(vec2 uv);
@@ -51,9 +46,9 @@ vec3 blackbody(float Temp)
 
 void mainImage(out vec4 c_out, in vec2 f)
 {
-    t  = iTime*.125;
+    t  = time*.125;
     vec3	col = vec3(0., 0., 0.);
-	vec2 R = iResolution.xy,
+	vec2 R = resolution.xy,
           uv  = vec2(f-R/2.) / R.y;
 	vec3	dir = camera(uv);
     vec3	pos = vec3(.0, .0, 0.0);
@@ -67,7 +62,7 @@ void mainImage(out vec4 c_out, in vec2 f)
 }
 
 void main() {
-	mainImage(frag_color, gl_FragCoord.xy);
+	mainImage(gl_FragColor, gl_FragCoord.xy);
 }
 
 float	scene(vec3 p)
@@ -76,22 +71,22 @@ float	scene(vec3 p)
     float	mind = 1e5;
     p.z += 10.;
     
-    rotate(p.xz, 1.57-.5*iTime );
-    rotate(p.yz, 1.57-.5*iTime );
+    rotate(p.xz, 1.57-.5*time );
+    rotate(p.yz, 1.57-.5*time );
     var = atan(p.x,p.y);
     vec2 q = vec2( ( length(p.xy) )-6.,p.z);
-    rotate(q, var*.25+iTime*2.*0.);
+    rotate(q, var*.25+time*2.*0.);
     vec2 oq = q ;
     q = abs(q)-2.5;
     if (oq.x < q.x && oq.y > q.y)
-    	rotate(q, ( (var*1.)+iTime*0.)*3.14+iTime*0.);
+    	rotate(q, ( (var*1.)+time*0.)*3.14+time*0.);
     else
-        rotate(q, ( .28-(var*1.)+iTime*0.)*3.14+iTime*0.);
+        rotate(q, ( .28-(var*1.)+time*0.)*3.14+time*0.);
     float	oldvar = var;
     ret_col = 1.-vec3(.350, .2, .3);
-    mind = length(q)+.5+1.05*(length(fract(q*.5*(3.+3.*sin(oldvar*1. - iTime*2.)) )-.5)-1.215);
-    h -= vec3(-3.20,.20,1.0)*vec3(1.)*.0025/(.051+(mind-sin(oldvar*1. - iTime*2. + 3.14)*.125 )*(mind-sin(oldvar*1. - iTime*2. + 3.14)*.125 ) );
-    h -= vec3(1.20,-.50,-.50)*vec3(1.)*.025/(.501+(mind-sin(oldvar*1. - iTime*2.)*.5 )*(mind-sin(oldvar*1. - iTime*2.)*.5 ) );
+    mind = length(q)+.5+1.05*(length(fract(q*.5*(3.+3.*sin(oldvar*1. - time*2.)) )-.5)-1.215);
+    h -= vec3(-3.20,.20,1.0)*vec3(1.)*.0025/(.051+(mind-sin(oldvar*1. - time*2. + 3.14)*.125 )*(mind-sin(oldvar*1. - time*2. + 3.14)*.125 ) );
+    h -= vec3(1.20,-.50,-.50)*vec3(1.)*.025/(.501+(mind-sin(oldvar*1. - time*2.)*.5 )*(mind-sin(oldvar*1. - time*2.)*.5 ) );
     h += vec3(.25, .4, .5)*.0025/(.021+mind*mind);
     
     return (mind);

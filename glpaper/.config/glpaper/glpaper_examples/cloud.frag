@@ -1,9 +1,9 @@
-#version 330 core
 #ifdef GL_ES
 precision highp float;
 #endif
 
 uniform float time;
+uniform vec2 mouse;
 uniform vec2 resolution;
 
 #define CHAR_SIZE vec2(6, 7)
@@ -11,7 +11,7 @@ uniform vec2 resolution;
 
 #define DOWN_SCALE 2.0
 
-vec2 res = resolution.xy / DOWN_SCALE;
+vec2 res;
 vec2 start_pos = vec2(0);
 vec2 print_pos = vec2(0);
 vec2 print_pos_pre_move = vec2(0);
@@ -189,7 +189,7 @@ vec3 Text(vec2 uv)
     	vec2 center_pos = vec2(res.x/2.0 - STRWIDTH(20.0)/2.0,res.y/2.0 - STRHEIGHT(1.0)/2.0);
        	
     	BEGIN_TEXT(center_pos.x,center_pos.y)
-	HEX(0x00ffFF) _ _ _w _ _a _ _t _ _ _e _ _r;
+	HEX(0x00ffFF) _ _ _C _L _O _U _D _ _N _I _N _J _A;
 	BEGIN_TEXT(res.x/2.0-STRWIDTH(11.0)/2.0,res.y/2.0)
 	print_pos += vec2(cos(time)*96.,sin(time)*96.);
 	
@@ -200,6 +200,7 @@ vec3 Text(vec2 uv)
 
 void main( void )
 {
+	res = resolution.xy / DOWN_SCALE;
 	vec2 uv = gl_FragCoord.xy / DOWN_SCALE;
 	vec2 duv = floor(gl_FragCoord.xy / DOWN_SCALE);
     
