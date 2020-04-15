@@ -49,7 +49,7 @@ void main( void )
 	//uv.x = cos(angle) * (uv.x - center.x) - sin(angle) * (uv.y - center.y) + center.x;
 	//uv.y = sin(angle) * (uv.x - center.y) + cos(angle) * (uv.y - center.y) + center.y;
 	
-	vec3 finalColor = vec3( 255.0 );
+	vec3 finalColor = vec3( 0.0 );
 	for( int i=0; i < 3; ++i )
 	{
 		float t = abs( 1.4 / (sin(uv.y + fbm( uv + time * 0.4 )) * 100.0) );

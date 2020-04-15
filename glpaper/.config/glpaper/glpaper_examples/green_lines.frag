@@ -1,28 +1,30 @@
-#version 330 core
-
 #ifdef GL_ES
 precision mediump float;
 #endif
 
-out vec4 frag;
-
 uniform float time;
+//uniform vec2 mouse;
 uniform vec2 resolution;
 
 // bonniemathew@gmail.com
 
-vec3 COLOR1 = vec3(0.0, 0.0, 0.30);
-vec3 COLOR2 = vec3(0.50, .0, 0.0);
+//vec3 COLOR1 = vec3(0.0, 0.0, 0.50);
+//vec3 COLOR2 = vec3(0.30, .0, 0.0);
+
+const vec3 COLOR1 = vec3(0.0, 0.0, 0.0);
+vec3 COLOR2 = COLOR1;
 
 float BLOCK_WIDTH = 0.01; 
 
-void main( void ) {
+void main() {
+
+	
 	vec2 position = ( gl_FragCoord.xy / resolution.xy );
 	vec3 final_color = vec3(1.0);
 	
 	// For creating the BG pattern
 	float c1 = mod(position.x, 2.0 * BLOCK_WIDTH);
-	c1 = step(BLOCK_WIDTH, c1);
+	c1 = step(position.x*0.01, c1);
 	float c2 = mod(position.y, 2.0 * BLOCK_WIDTH);
 	c2 = step(BLOCK_WIDTH, c2);
 	
@@ -34,12 +36,12 @@ void main( void ) {
 	float lineWidth = 10.0;
 	vec2 sPos = position ;
 	for( float i = 0.0; i < 13.; i++) {
-		sPos.y += (0.07 * sin(position.x + i/5.0+ time*1.));
+		sPos.y += ((0.07*cos(time)) * tan(position.x + i/5.0+ sin(time*0.5)));
 		
-		lineWidth  =  abs(1.0 / (1000.0 * sPos.y));
-		final_color = final_color + vec3(lineWidth * 2.9, lineWidth*0., lineWidth * 1.); 
+		lineWidth  =  abs(1.0 / (750.0 * sPos.y));
+		final_color = final_color + vec3(lineWidth * 0.9, lineWidth*1.9, lineWidth * 0.); 
 		
 	}
 	
-	frag = vec4(final_color, 1.0);
+	gl_FragColor = vec4(final_color, 1.0);
 }

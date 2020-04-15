@@ -1,7 +1,20 @@
 /*
 * License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
-* Created by bal-khan
+*
+* Created by wj just by playing with the formula of the original version
+* 
+* here: https://www.shadertoy.com/view/lt2fDz created by bal-khan
+*
+* (and by adding some music..=
 */
+
+precision highp float;
+
+uniform float time;
+uniform vec2 resolution;
+
+float iTime;
+vec2 iResolution;
 
 vec2	march(vec3 pos, vec3 dir);
 vec3	camera(vec2 uv);
@@ -48,7 +61,8 @@ void mainImage(out vec4 c_out, in vec2 f)
 	vec3	dir = camera(uv);
     vec3	pos = vec3(.0, .0, 0.0);
 
-    pos.z = 4.5+1.5*sin(t*10.);    
+    pos.z = 4.5+1.5*sin(t*10.);    // add camera movement
+    
     h*=0.;
     vec2	inter = (march(pos, dir));
     col.xyz = ret_col*(1.-inter.x*.0125);
@@ -56,29 +70,51 @@ void mainImage(out vec4 c_out, in vec2 f)
     c_out =  vec4(col,1.0);
 }
 
+void main() {
+	iTime = time;
+	iResolution = resolution;
+	mainImage(gl_FragColor, gl_FragCoord.xy);
+}
+
 float	scene(vec3 p)
 {  
     float	var;
     float	mind = 1e5;
-    p.z += 10.;
     
+    // overall object placement
+    p.z += 25.;
     rotate(p.xz, 1.57-.5*iTime );
     rotate(p.yz, 1.57-.5*iTime );
+    
     var = atan(p.x,p.y);
-    vec2 q = vec2( ( length(p.xy) )-6.,p.z);
-    rotate(q, var*.25+iTime*2.*0.);
+    vec2 q = vec2( ( length(p.xy) )-9.,p.z);
+    float ttwists=0.75;
+    rotate(q, var*ttwists+iTime*0.4);	
+    
     vec2 oq = q ;
-    q = abs(q)-2.5;
-    if (oq.x < q.x && oq.y > q.y)
-    	rotate(q, ( (var*1.)+iTime*0.)*3.14+iTime*0.);
-    else
-        rotate(q, ( .28-(var*1.)+iTime*0.)*3.14+iTime*0.);
+    
+    q = abs(q)-vec2(3.,3.)-sin(q)*7.; // add some twists
+
+    float twist= 3.3;	// twists the "blue" strands
+    float s= iTime*1.;   // add "movement speed" to the "blue" strands 
+    if (oq.x < q.x && oq.y > q.y){
+    	rotate(q, ( (var*twist)+s)*3.14+s);
+    }else{
+        rotate(q, ( 0.28-(var*twist)+s)*3.14+s);
+    }
+    
     float	oldvar = var;
     ret_col = 1.-vec3(.350, .2, .3);
-    mind = length(q)+.5+1.05*(length(fract(q*.5*(3.+3.*sin(oldvar*1. - iTime*2.)) )-.5)-1.215);
+    
+    q=q*0.2;
+
+    mind = length(q)+.5+1.05*(length(fract(q*.5*(3.+3.*sin(oldvar*1. - iTime*1.)) )-.5)-1.215);
+    // only the coloring:   
     h -= vec3(-3.20,.20,1.0)*vec3(1.)*.0025/(.051+(mind-sin(oldvar*1. - iTime*2. + 3.14)*.125 )*(mind-sin(oldvar*1. - iTime*2. + 3.14)*.125 ) );
     h -= vec3(1.20,-.50,-.50)*vec3(1.)*.025/(.501+(mind-sin(oldvar*1. - iTime*2.)*.5 )*(mind-sin(oldvar*1. - iTime*2.)*.5 ) );
     h += vec3(.25, .4, .5)*.0025/(.021+mind*mind);
+
+    // add some music feedback
     
     return (mind);
 }
@@ -121,4 +157,3 @@ vec3	camera(vec2 uv)
 
     return (normalize((uv.x) * right + (uv.y) * up + fov * forw));
 }
-

@@ -3,15 +3,11 @@ precision highp float;
 #endif
 
 uniform float time;
-uniform vec2 mouse;
 uniform vec2 resolution;
 
 #define CHAR_SIZE vec2(6, 7)
 #define CHAR_SPACING vec2(6, 9)
 
-#define DOWN_SCALE 2.0
-
-vec2 res = resolution.xy / DOWN_SCALE;
 vec2 start_pos = vec2(0);
 vec2 print_pos = vec2(0);
 vec2 print_pos_pre_move = vec2(0);
@@ -186,11 +182,11 @@ vec3 Text(vec2 uv)
 {
     	vec3 col = vec3(0.0);
     	
-    	vec2 center_pos = vec2(res.x/2.0 - STRWIDTH(20.0)/2.0,res.y/2.0 - STRHEIGHT(1.0)/2.0);
+    	vec2 center_pos = vec2(resolution.x/2.0 - STRWIDTH(20.0)/2.0,resolution.y/2.0 - STRHEIGHT(1.0)/2.0);
        	
     	BEGIN_TEXT(center_pos.x,center_pos.y)
-	HEX(0x00ffFF) _ _ _C _L _O _U _D _ _N _I _N _J _A;
-	BEGIN_TEXT(res.x/2.0-STRWIDTH(11.0)/2.0,res.y/2.0)
+	HEX(0x00ffFF) _ _ _w _ _a _ _t _ _ _e _ _r;
+	BEGIN_TEXT(resolution.x/2.0-STRWIDTH(11.0)/2.0,resolution.y/2.0)
 	print_pos += vec2(cos(time)*96.,sin(time)*96.);
 	
 	// RGB(1,0,0) _M RGB(1,.5,0)_o RGB(1,1,0)_v RGB(0,1,0)_i RGB(0,.5,1)_n RGB(0.5,0,1)_g _ RGB(1,0,0)_T RGB(1,.5,0)_e RGB(1,1,0)_x RGB(0,1,0)_t
@@ -200,8 +196,8 @@ vec3 Text(vec2 uv)
 
 void main( void )
 {
-	vec2 uv = gl_FragCoord.xy / DOWN_SCALE;
-	vec2 duv = floor(gl_FragCoord.xy / DOWN_SCALE);
+	vec2 uv = gl_FragCoord.xy;
+	vec2 duv = floor(gl_FragCoord.xy);
     
 	vec3 pixel = Text(duv);
     
