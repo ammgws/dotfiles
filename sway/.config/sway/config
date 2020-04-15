@@ -321,7 +321,7 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 #exec_always flashfocus
 
 exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
-exec autotiling
+exec autotiling 2& > /tmp/autotiling.log
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
