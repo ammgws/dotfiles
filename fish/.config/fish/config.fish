@@ -9,7 +9,6 @@ end
 
 if status is-interactive
     . ~/.config/fish/aliases.fish
-    eval (python -m virtualfish auto_activation)
 end
 
 # Universal vars only need to be set once.
