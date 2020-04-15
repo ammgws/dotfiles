@@ -49,7 +49,9 @@ end
 
 # Trying to get IBus' default candidate window but cannot get it to show
 # (https://github.com/google/mozc/issues/431)
-#set --export XDG_SESSION_TYPE wayland
+# Also see https://www.reddit.com/r/swaywm/comments/eeavlo/sway_on_arch_does_not_change_session_type
+# Re-enabling this so systemd-login IdleHints to work
+set --export XDG_SESSION_TYPE wayland
 
 # Encourage use of XDG dirs
 set --export XDG_CACHE_HOME ~/.cache
