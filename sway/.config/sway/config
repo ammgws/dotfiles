@@ -251,7 +251,7 @@ bindsym $mod+Return exec $term
 # Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
 # so when the child gets around to opening the window sway can place it on the original workspace 
 # (eg. if you launch something then immediately switch to another workspace before the window appears).
-bindsym $mod+d exec fish --command=sway_menu | xargs swaymsg --
+bindsym $mod+d exec fish --command=sway_menu | xargs swaymsg exec --
 
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
