@@ -47,11 +47,11 @@ and string length --quiet SWAYSOCK
     set --export XDG_CURRENT_DESKTOP sway
 end
 
-# Trying to get IBus' default candidate window but cannot get it to show
-# (https://github.com/google/mozc/issues/431)
-# Also see https://www.reddit.com/r/swaywm/comments/eeavlo/sway_on_arch_does_not_change_session_type
-# Re-enabling this so systemd-login IdleHints to work
-set --export XDG_SESSION_TYPE wayland
+# Enabling this might make systemd-login IdleHints to work
+# (see https://www.reddit.com/r/swaywm/comments/eeavlo/sway_on_arch_does_not_change_session_type)
+# However, it breaks IBus' default canditate window so need to disable it
+# (see https://github.com/google/mozc/issues/431)
+# set --export XDG_SESSION_TYPE wayland
 
 # Encourage use of XDG Base Directory spec
 set --export XDG_CACHE_HOME ~/.cache
