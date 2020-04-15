@@ -240,10 +240,10 @@ bar {
     }
 }
 
-#
+
 # Application hotkeys
 # ━━━━━━━━━━━━━━━━━━━━━━━━
-# NOTE: exec --no-startup-id is not supported in sway
+# NOTE: exec --no-startup-id is not supported/required in sway
 
 set $term kitty
 bindsym $mod+Return exec $term
@@ -262,7 +262,6 @@ bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec e
 for_window [class="Google-chrome"] border none
 for_window [class="MozillaWindowClass"] border none
 for_window [app_id="firefox"] border none
-
 
 bindsym $mod+k exec kodi
 for_window [class="Kodi"] border none
