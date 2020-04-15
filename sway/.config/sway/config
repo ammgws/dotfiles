@@ -6,35 +6,26 @@
 # WinKey = Mod4, Alt=Mod1
 set $mod Mod4
 
-### Output configuration
-set $upstairs_monitorL "Acer Technologies Acer KA270H T3QSJ0014200"
-set $upstairs_monitorR "Ancor Communications Inc ASUS VP278 K3LMTF030840"
-set $downstairs_monitorL "Make Model Serial"
-set $downstairs_monitorR "Samsung Electric Company S27A950D 0x00000000"
-set $tv "Goldstar Company Ltd LG TV 0x00000101"
+### Input/output configuration
+exec fish --command "sway_setup_outputs --mode upstairs"
 
-#       0     1920    3840
-#       
-# 0     _______________
-#       |      |      |
-#       | up L | up R |
-# 1080  |______|______|
-# 
-# 1080  _______________
-#       |      |      |
-#       | dn L | dn R |
-# 2160  |______|______|
+input * xkb_numlock enabled
+# make `Menu` key into `Super_R` since this keyboard only has one Super key
+input 9610:42:SINO_WEALTH_Gaming_KB {
+	xkb_options altwin:menu_win
+}
 
-output $upstairs_monitorL   pos     0,0     res 1920x1080
-output $upstairs_monitorR   pos  1920,0     res 1920x1080
-output $downstairs_monitorL pos     0,1080  res 1920x1080
-output $downstairs_monitorR pos  1920,1080  res 1920x1080
-#output $tv                  pos -1920,1080 res 1920x1080
-#output $tv disable
+# tv
+#input 1133:16461:Logitech_K400_Plus map_to_output $tv
 
-# Default wallpaper (more resolutions are available in __DATADIR__/backgrounds/sway/)
-#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#seat tv hide_cursor 1000
+#seat tv attach Logitech K400 Plus
+# Seat configuration
+seat seat0 hide_cursor 2000
+
+# Wallpaper
 output * bg #000000 solid_color
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #exec glpaper "HDMI-A-1" $upstairs_monitorL $XDG_CONFIG_HOME/glpaper/fragments/matrix.frag
 
 ### Idle configuration
@@ -46,28 +37,6 @@ exec swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
          before-sleep 'fish --command sway_lock' \
-
-### Input configuration
-input * xkb_numlock enabled
-# upstairs
-#input 5426:22:Razer_Razer_DeathAdder map_to_region 0 0 3840 1080
-#input 1133:49284:Logitech_G102_Prodigy_Gaming_Mouse map_to_region 0 1080 1920 2160
-
-# downstairs
-input 9610:42:SINO_WEALTH_Gaming_KB {
-	# make `Menu` key into `Super_R` since this keyboard only has one Super key
-	xkb_options altwin:menu_win
-}
-#input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_output $downstairs_monitorR
-#input 4815:12467:Dexin_Corp._2.4GHz_Keyboard/mouse_set_(02/09/2012)A_Mouse map_to_region 1920 0 1920 1080
-
-# tv
-#input 1133:16461:Logitech_K400_Plus map_to_output $tv
-
-# Seat configuration
-seat seat0 hide_cursor 2000
-#seat tv hide_cursor 1000
-#seat tv attach Logitech K400 Plus
 
 ### Key bindings
 #
@@ -303,14 +272,12 @@ for_window [shell=".*"] title_format "%title :: %shell"
 
 bindsym $mod+e exec $term -e ranger
 
-
 bindsym Print exec fish --command=screenshot
-bindsym $mod+Print exec swaygrab $SCREENSHOT_DIR/temp.jpg
-
 bindsym $mod+l exec fish --command=sway_lock
 bindsym $mod+F1 exec fish --command=sway_selector
 bindsym $mod+F3 exec fish --command=sway_preview_outputs
 bindsym $mod+F9 exec fish --command=sway_move_all_workspaces
+bindsym --locked $mod+F1 exec fish --command="sway_setup_desktop --toggle"
 bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
 bindsym --locked $mod+F7 exec fish --command="switchaudio --menu"
 bindsym --locked $mod+F8 exec fish --command=tv_toggle
