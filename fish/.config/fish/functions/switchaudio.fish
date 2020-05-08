@@ -26,6 +26,8 @@ function switchaudio --description 'Switch between audio devices and move all cu
         set keep_sinks 1
     end
 
+    # use menu by default for now. Add in terminal menu later.
+    set use_menu 1
     if set -lq _flag_menu
         set use_menu 1
     end
@@ -47,28 +49,24 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
 
     function get_icon --argument-names output_device
-        if string match --quiet headphones $output_device
-            echo "🎧"
-        else if string match --quiet speakers $output_device
+        switch $output_device
+            case headphones
+                echo "🎧"
+            case speakers
             echo "🔈"
-        else if string match --quiet bluetooth $output_device
+            case bluetooth
             echo BT
-        else if string match --quiet TV $output_device
+            case TV
             echo "📺"
-        else
+            case '*'
             echo "??"
         end
     end
 
     function get_sink_volume --argument-names sink_id
-        pacmd list-sinks | \
-            grep --after-context=15 "index: $sink_id\$" | \
-            grep 'volume:' | \
-            grep --extended-regexp --invert-match 'base volume:' | \
-            awk -F : '{print $3}' | \
-            grep --only-matching --perl-regexp '.{0,3}%' | \
-            sed 's/.$//' | \
-            tr --delete ' '
+        pacmd list-sinks | grep --after-context=15 "index: $sink_id\$" |
+        grep 'volume:' | grep --extended-regexp --invert-match 'base volume:' | awk -F : '{print $3}' |
+        grep --only-matching --perl-regexp '.{0,3}%' | sed 's/.$//' | tr --delete ' '
     end
 
     set sinks (pactl list short sinks 2> /dev/null)
@@ -78,7 +76,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
     set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
 
-    if test $use_menu
+    if not set --query device
         for sink in $sinks
             set sink_info (string split \t $sink)
             set sink_id $sink_info[1]
@@ -88,10 +86,11 @@ function switchaudio --description 'Switch between audio devices and move all cu
             end
             set device_choices (string join "\n" $device_choices $sink_name)
         end
-        set device (echo -e "$device_choices" | bemenu)
-    end
-    if not string length --quiet $device
-        return 1
+        set device (echo -e "$device_choices" | bemenu --ignorecase --wrap --prompt "Select new sound output:")
+        if not string length --quiet $device
+            echo "no device selected"
+            return 1
+        end
     end
 
     for sink in $sinks
@@ -99,32 +98,16 @@ function switchaudio --description 'Switch between audio devices and move all cu
         set sink_id $sink_info[1]
         set sink_name (prettify_name $sink_info[2])
         set sink_state $sink_info[5]
-        if test -z $device
-            if test (count $sinks) -le 2 -a "$sink_id" -ne "$default_sink_id"
-                set new_default_sink_id $sink_id
-                set new_default_sink_name $sink_name
-            else
-                if test "$sink_id" -ne "$default_sink_id" -a "$sink_id" -ne "$SOUND_PREV"
-                    set new_default_sink_id $sink_id
-                    set new_default_sink_name $sink_name
-                end
-            end
-        else
-            if test "$sink_name" = "$device"
-                set new_default_sink_id $sink_id
-                set new_default_sink_name $sink_name
-            end
+        if test "$sink_name" = "$device"
+            set new_default_sink_id $sink_id
+            set new_default_sink_name $sink_name
+            break
         end
-    end
-
-    if test -z $new_default_sink_id
-        return 1 # couldn't find matching device
     end
 
     # If the output we switch to is not set as default then the
     # system volume slider controls will not affect it.
     pactl set-default-sink $new_default_sink_id
-    set --universal SOUND_PREV $default_sink_id
 
     set new_sink_volume (get_sink_volume $default_sink_id)
     if test $new_sink_volume -gt 100
