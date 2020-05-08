@@ -53,13 +53,13 @@ function switchaudio --description 'Switch between audio devices and move all cu
             case headphones
                 echo "🎧"
             case speakers
-            echo "🔈"
+                echo "🔈"
             case bluetooth
-            echo BT
+                echo BT
             case TV
-            echo "📺"
+                echo "📺"
             case '*'
-            echo "??"
+                echo "??"
         end
     end
 
