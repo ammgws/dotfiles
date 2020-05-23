@@ -87,11 +87,10 @@ function switchaudio --description 'Switch between audio devices and move all cu
             set device_choices (string join "\n" $device_choices $sink_name)
         end
         set device (echo -e "$device_choices" | bemenu --ignorecase --wrap --prompt "Select new sound output:")
+        set device (string split --fields 1 "(current)" -- $device | string trim)
         if not string length --quiet $device
             echo "no device selected"
             return 1
-        else
-            set device (string split --fields 1 "(current)" -- $device)
         end
     end
 
@@ -100,7 +99,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
         set sink_id $sink_info[1]
         set sink_name (prettify_name $sink_info[2])
         set sink_state $sink_info[5]
-        if test "$sink_name" = "$device"
+        if string match --quiet "$sink_name" "$device"
             set new_default_sink_id $sink_id
             set new_default_sink_name $sink_name
             break
