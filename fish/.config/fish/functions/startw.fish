@@ -20,6 +20,8 @@ function startw --description 'startx equivalent for starting sway'
 
     # Some programs might (wrongly?) look for this var
     # https://github.com/swaywm/sway/pull/4876
+    # However Unity might be better for some apps with tray icons?
+    # https://www.reddit.com/r/swaywm/comments/gekpeq/waybar_for_a_functional_tray_install/fpv3i1y/
     if status is-interactive
         and string length --quiet SWAYSOCK
         set --export XDG_CURRENT_DESKTOP sway
