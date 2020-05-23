@@ -1,5 +1,4 @@
 function phone_battery_status --description='Get battery status and level from KDEConnect to display in i3status-rs'
-
     argparse --name phone_battery_status 'd/device=' -- $argv
     or return 1 #error
 
@@ -27,13 +26,13 @@ function phone_battery_status --description='Get battery status and level from K
     if test $level -ge 80
         # battery-full
         set icon ""
-    else if test ($level -ge 51) -a ($level -lt 80)
+    else if test $level -ge 51 -a $level -lt 80
         # battery-three-quarters
         set icon ""
-    else if test ($level -ge 26) -a ($level -lt 51)
+    else if test $level -ge 26 -a $level -lt 51
         # battery-half
         set icon ""
-    else if test ($level -ge 11) -a ($level -lt 26)
+    else if test $level -ge 11 -a $level -lt 26
         # battery-quarter
         set icon ""
     else if test $level -le 10
