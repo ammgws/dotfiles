@@ -3,7 +3,7 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         echo "Usage: " (status current-command) "[options]"
         echo "Options:"
         echo (set_color green)"-d --debug"(set_color $fish_color_normal)": Enable debug output"
-        echo (set_color green)"-t --toggle"(set_color $fish_color_normal)": Toggle between upstairs and downstairs mode"       
+        echo (set_color green)"-t --toggle"(set_color $fish_color_normal)": Toggle between upstairs and downstairs mode"
         echo (set_color green)"-m<name> --mode=<name>"(set_color $fish_color_normal)": Specify mode to switch to"
     end
 
@@ -11,7 +11,7 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
     or return 1 #error
 
     if set -lq _flag_help
-        print help
+        print_help
         return
     end
 
@@ -38,7 +38,6 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
     #       | dn L | dn R |    downstairs
     # 2160  |______|______|
 
-    ### Output configuration
     # double quotes are necessary so that it is passed as one arg to swaymsg
     set upstairs_monitorL "'Acer Technologies Acer KA270H T3QSJ0014200'"
     set upstairs_monitorR "'Ancor Communications Inc ASUS VP278 K3LMTF030840'"
@@ -51,7 +50,8 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
     set downstairs_keyboard "9610:42:SINO_WEALTH_Gaming_KB"
     set downstairs_mouse "1133:49284:Logitech_G102_Prodigy_Gaming_Mouse"
 
-    # Use mouse status as indicator of current mode
+    # Mouse will be disabled when not in use, so use it as indicator of current mode
+    # since have a feeling it might be more stable than checking monitor status.
     set upstairs_mouse_status (swaymsg --type get_inputs | jq -r ".[] | select(.identifier == \"$upstairs_mouse\") | .libinput | .send_events")
     if string match --quiet $upstairs_mouse_status enabled
         set current_mode upstairs
@@ -69,33 +69,63 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         set next_mode $MODE
     end
 
+    # make `Menu` key into `Super_R` since this keyboard only has one Super key
+    swaymsg input "$downstairs_keyboard" xkb_options altwin:menu_win
+    #seat tv hide_cursor 1000
+    #seat tv attach Logitech K400 Plus
+    # Seat configuration
+    swaymsg seat seat0 hide_cursor 2000
+
+    set enabled_outputs (swaymsg -t get_outputs | jq -r '.[] | select(.active) | "\(.make) \(.model) \(.serial)"')
     if string match --quiet $next_mode upstairs
-        swaymsg output "$upstairs_monitorL" enable
-        swaymsg output "$upstairs_monitorR" enable
         swaymsg output "$upstairs_monitorL" pos 0 0 res 1920x1080
         swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080
+        for monitor in "$upstairs_monitorL" "$upstairs_monitorR"
+            if not contains "$monitor" $enabled_outputs
+                swaymsg output "$monitor" enable
+            end
+        end
+        swaymsg workspace 2 output "$upstairs_monitorR"
+        swaymsg workspace 1 output "$upstairs_monitorL"
         swaymsg input "$upstairs_mouse" events enabled
         swaymsg output "$downstairs_monitorL" disable
         swaymsg output "$downstairs_monitorR" disable
         swaymsg input "$downstairs_mouse" events disabled
     else if string match --quiet $next_mode downstairs
-        swaymsg output "$downstairs_monitorL" enable
-        swaymsg output "$downstairs_monitorR" enable
         swaymsg output "$downstairs_monitorL" pos 0 0 res 1920x1080
         swaymsg output "$downstairs_monitorR" pos 1920 0 res 1920x1080
+        for monitor in "$downstairs_monitorL" "$downstairs_monitorR"
+            if not contains "$monitor" $enabled_outputs
+                swaymsg output "$monitor" enable
+            end
+        end
+        swaymsg workspace 2 output "$downstairs_monitorR"
+        swaymsg workspace 1 output "$downstairs_monitorL"
         swaymsg input "$downstairs_mouse" events enabled
         swaymsg output "$upstairs_monitorL" disable
         swaymsg output "$upstairs_monitorR" disable
         swaymsg input "$upstairs_mouse" events disabled
+        # TODO
+        # When starting up in upstairs mode then immediately switching to downstairs,
+        # the workspace number starts at 3.
+        #set focused_windows (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null) | .focus")
+        #if not string length --quiet $focused_windows
+        # set workspace to start from 1
+        #end
     else if string match --quiet $next_mode all
-        swaymsg output "$upstairs_monitorL" enable
-        swaymsg output "$upstairs_monitorR" enable
         swaymsg output "$upstairs_monitorL" pos 0 0 res 1920x1080
-        swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080   
-        swaymsg output "$downstairs_monitorL" enable
-        swaymsg output "$downstairs_monitorR" enable
+        swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080
         swaymsg output "$downstairs_monitorL" pos 0 1080 res 1920x1080
         swaymsg output "$downstairs_monitorR" pos 1920 1080 res 1920x1080
+        for monitor in "$upstairs_monitorL" "$upstairs_monitorR" "$downstairs_monitorL" "$downstairs_monitorR"
+            if not contains "$monitor" $enabled_outputs
+                swaymsg output "$monitor" enable
+            end
+        end
     end
+
+    # TODO:tv
+    #input 1133:16461:Logitech_K400_Plus map_to_output $tv
+
     echo "Changed to $next_mode mode"
 end
