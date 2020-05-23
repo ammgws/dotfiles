@@ -6,22 +6,11 @@
 # WinKey = Mod4, Alt=Mod1
 set $mod Mod4
 
-### Input/output configuration
-exec fish --command "sway_setup_outputs --mode upstairs"
-
+### Input/output/seat configuration
+# Moved to shell script to in order to have more functionality
+exec fish --command "sway_setup_desktop --mode upstairs"
+# this can only be used in config file:
 input * xkb_numlock enabled
-# make `Menu` key into `Super_R` since this keyboard only has one Super key
-input 9610:42:SINO_WEALTH_Gaming_KB {
-	xkb_options altwin:menu_win
-}
-
-# tv
-#input 1133:16461:Logitech_K400_Plus map_to_output $tv
-
-#seat tv hide_cursor 1000
-#seat tv attach Logitech K400 Plus
-# Seat configuration
-seat seat0 hide_cursor 2000
 
 # Wallpaper
 output * bg #000000 solid_color
