@@ -20,10 +20,10 @@ function check_aur_pending --description="Return number of pending AUR updates"
 
     set val (pikaur --query --sysupgrade --aur 2>/dev/null | wc --lines)
     if test $MODE = bar
-        if test val = 0
-            printf "{'state': 'Idle', 'text': \"$val\"}"
+        if test val -eq 0
+            echo "{\"state\": \"Idle\", \"text\": \"$val\"}"
         else
-            printf "{'state': 'Warning', 'text': \"$val\"}"
+            echo "{\"state\": \"Warning\", \"text\": \"$val\"}"
         end
     else
         echo $val
