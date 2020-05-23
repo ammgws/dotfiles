@@ -16,7 +16,7 @@ end
 if status is-interactive
     and not set --query fish_initialized
     . ~/.config/fish/abbreviations.fish # abbr uses universal vars
-    set --universal __done_exclude 'git|firefox-nightly|nano|vim|vi'
+    set --universal __done_exclude 'git|firefox-nightly|micro|nano|vim|vi'
     set --universal __done_sway_ignore_visible 1
     set --universal fish_initialized
 end
@@ -50,6 +50,7 @@ set --export EDITOR micro
 set --export FZF_DEFAULT_COMMAND "fd --type f"
 set --export GIT_EDITOR micro
 set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'" # use bat to colourise man
+set --export MOZ_DBUS_REMOTE 1  # allows X11 and Wayland Firefox instances to run together
 set --export MOZ_WEBRENDER 1
 set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
 set --export SHELL /usr/bin/fish
