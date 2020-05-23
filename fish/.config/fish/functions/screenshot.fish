@@ -54,7 +54,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) ".png")
 
     if test $WM = sway
-        slurp | grim -g - $FILENAME
+        slurp -d | grim -g - $FILENAME
     else if test $WM = i3
         set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
     end
