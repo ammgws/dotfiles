@@ -330,6 +330,7 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [title=".*YouTube.*"] inhibit idle fullscreen
 for_window [app_id="pavucontrol"] floating enable
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
