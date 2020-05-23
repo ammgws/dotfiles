@@ -61,6 +61,20 @@ set --export XKB_DEFAULT_LAYOUT us
 # Used in my fish functions
 set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
+# gpg-agent manpage: always add this to whatever init file is used for all shell invocations
+set --export GPG_TTY (tty)
+
+# Make ssh use gpg-agent instad of ssh-agent
+set --erase SSH_AGENT_PID
+if not set --query gnupg_SSH_AUTH_SOCK_by
+or test $gnupg_SSH_AUTH_SOCK_by -ne $fish_pid
+    set --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+end
+# gpg-agent manpage: Since the ssh-agent protocol does not contain a mechanism for telling the agent on which
+# display/terminal it is running, gpg-agent’s ssh-support will use the TTY or X display where gpg-agent has
+# been started. To switch this display to the current one, the following command may be used:
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
 # User experience improvements over SSH
 if set --query SSH_CLIENT
     set --erase BROWSER
@@ -68,8 +82,6 @@ if set --query SSH_CLIENT
     if ! set --query XDG_RUNTIME_DIR
         set --export XDG_RUNTIME_DIR /run/user/(id -u)
     end
-
-    set --export GPG_TTY (tty)
 
     if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
         set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
