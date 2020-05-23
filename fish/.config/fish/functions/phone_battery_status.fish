@@ -4,8 +4,9 @@ function phone_battery_status --description='Get battery status and level from K
     or return 1 #error
 
     if test -z $_flag_device
-        # just grab first device found (TODO: see what happens if more than one device is connected)
+        # just grab first device found
         set device (qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices)
+        set device $device[1]
         if test $status -ne 0
             # most likely kdeconnectd not running
             printf "📵"
@@ -41,8 +42,8 @@ function phone_battery_status --description='Get battery status and level from K
     end
 
     if test $charging = true
-        printf "$icon$level%%"
+        printf "$icon $level%%"
     else
-        printf "$icon$level%%"
+        printf "$icon $level%%"
     end
 end
