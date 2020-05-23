@@ -1,5 +1,6 @@
 # Abbreviations (text expansion)
 # After adding a new entry, run `set --erase fish_initialized` and restart fish.
+abbr --add cat 'bat'
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
 abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; paccache -rvk0; pikaur -Scc; yarn cache clean; cargo cache --autoclean; rm ~/.cache/electron/*'
 abbr --add cp 'cp --interactive --verbose'
@@ -19,6 +20,7 @@ abbr --add nano micro
 abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add pikin 'pikaur --sync --refresh --sysupgrade'
+abbr --add sclu 'systemctl --user'
 abbr --add upall 'pikaur --sync --refresh --sysupgrade --devel --needed --noconfirm; and fish_update_completions; and fisher'
 abbr --add uparch 'sudo pacman --sync --refresh --sysupgrade; and fish_update_completions'
 abbr --add upaur 'pikaur --sync --refresh --sysupgrade --devel --needed --noconfirm; and fish_update_completions'
