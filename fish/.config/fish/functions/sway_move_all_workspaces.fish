@@ -24,11 +24,11 @@ function sway_move_all_workspaces --description 'Move all workspaces to the curr
     or return 1
 
     if set --query from_output
-        set workspaces (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null and .output == \"$from_output\") | .name")
+        set workspaces (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null and .output == \"$from_output\") | .num")
     else
-        set workspaces (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null and .output != $current_output) | .name")
+        set workspaces (swaymsg --raw --type get_workspaces | jq --raw-output ".[] | select(.representation != null and .output != $current_output) | .num")
     end
     for ws in $workspaces
-        swaymsg [workspace="$ws"] move workspace to output $current_output
+        swaymsg [workspace=\""$ws"\"] move workspace to output $current_output
     end
 end
