@@ -149,10 +149,8 @@ function switchaudio --description 'Switch between audio devices and move all cu
     string length --quiet $new_default_sink_name
     or return 1
 
-    qdbus localhost.statusbar.DBus \
-        /localhost/statusbar/DBus/SoundDevice \
-        org.freedesktop.DBus.Properties.Set \
-        localhost.statusbar.DBus \
-        Status (get_icon $new_default_sink_name)
+    qdbus i3.status.rs \
+        /SoundDevice \
+        i3.status.rs.SetStatus (get_icon $new_default_sink_name)
     notify-send (string join " " "Switched to" $new_default_sink_name) --icon=audio-volume-high --expire-time=1000
 end
