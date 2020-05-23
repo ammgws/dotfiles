@@ -304,6 +304,7 @@ include /etc/sway/config.d/*
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
+exec systemctl --user start pscircle.service
 
 #exec systemctl --user start ibus.service
 # Note: change to exec if not using --replace flag
