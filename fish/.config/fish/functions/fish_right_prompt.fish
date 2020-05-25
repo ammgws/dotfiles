@@ -5,7 +5,7 @@ function fish_right_prompt
     set --global __fish_git_prompt_use_informative_chars 1
     set --global __fish_git_prompt_showcolorhints 1
     set --global __fish_git_prompt_char_stateseparator ""
-    echo -n -s (set_color normal) (string trim --chars ' ()' (fish_vcs_prompt))"$rp_sep"
+    echo -n -s (set_color normal) (fish_vcs_prompt %s)"$rp_sep"
 
     # Show duration of last command
     if test $CMD_DURATION
