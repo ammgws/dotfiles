@@ -310,11 +310,15 @@ exec systemctl --user start pscircle.service
 # Note: change to exec if not using --replace flag
 exec_always ibus-daemon --xim --replace --daemonize
 
+exec_always fish --command='switchaudio --device=headphones'
+
 exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 #exec_always flashfocus
 
 exec autotiling-rs
+
+exec swaywsr --icons awesome --no-names --config $XDG_CONFIG_HOME/swaywsr/config.toml
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
