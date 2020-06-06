@@ -99,12 +99,13 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         end
         swaymsg output "$downstairs_monitorL" pos 0 0 res 1920x1080
         swaymsg output "$downstairs_monitorR" pos 1920 0 res 1920x1080
-        swaymsg workspace 2 output "$downstairs_monitorR"
-        swaymsg workspace 1 output "$downstairs_monitorL"
         swaymsg input "$downstairs_mouse" events enabled
         swaymsg output "$upstairs_monitorL" disable
         swaymsg output "$upstairs_monitorR" disable
         swaymsg input "$upstairs_mouse" events disabled
+        swaymsg workspace 1 output "$downstairs_monitorR"
+        swaymsg workspace 2 output "$downstairs_monitorL"
+
         # TODO
         # When starting up in upstairs mode then immediately switching to downstairs,
         # the workspace number starts at 3.
