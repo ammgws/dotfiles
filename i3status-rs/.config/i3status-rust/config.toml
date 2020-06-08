@@ -22,11 +22,6 @@ aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 
-# this apparently blocks the bar
-#[[block]]
-#block = "custom"
-#on_click = "alacritty -e neomutt"
-
 [[block]]
 block = "custom"
 command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
