@@ -7,15 +7,11 @@
 set $mod Mod4
 
 ### Input/output/seat configuration
-# Moved to shell script to in order to have more functionality
-exec fish --command "sway_setup_desktop --mode upstairs"
-# this can only be used in config file:
-input * xkb_numlock enabled
+# Disable numlock as it makes laptop keyboard act weird
+input * xkb_numlock disabled
 
 # Wallpaper
 output * bg #000000 solid_color
-#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#exec glpaper "HDMI-A-1" $upstairs_monitorL $XDG_CONFIG_HOME/glpaper/fragments/matrix.frag
 
 ### Idle configuration
 # To make sure swayidle waits for swaylock to lock the screen before it releases the inhibition lock,
@@ -237,7 +233,7 @@ bar {
 # ━━━━━━━━━━━━━━━━━━━━━━━━
 # NOTE: exec --no-startup-id is not supported/required in sway
 
-set $term kitty
+set $term alacritty
 bindsym $mod+Return exec $term
 
 # Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
@@ -250,7 +246,6 @@ set $prompt echo | $_menu
 
 bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
 bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
-#assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
 for_window [class="MozillaWindowClass"] border none
 for_window [app_id="firefox"] border none
@@ -304,30 +299,15 @@ include /etc/sway/config.d/*
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 exec systemctl --user start mako.service
-exec systemctl --user start pscircle.service
 
-#exec systemctl --user start ibus.service
-# Note: change to exec if not using --replace flag
 exec_always ibus-daemon --xim --replace --daemonize
 
 exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
-#exec_always flashfocus
-
-exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
-exec autotiling 2& > /tmp/autotiling.log
-
-#AmmCon
-#exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
-#assign [class="ammcon"] $workspace02
-#for_window [class="ammcon"] border none
+exec autotiling-rs 2& > /tmp/autotiling-rs.log
 
 # Enable polkit auth for GUI apps
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
-#open security camera streams
-#exec mpv --title="washitsu" rtsp://10.9.8.135:7447/5a9e6fc05e0e9fb13861fc06_0 --mute=yes --quiet
-#assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [title=".*YouTube.*"] inhibit idle fullscreen
