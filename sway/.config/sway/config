@@ -291,8 +291,8 @@ bindsym $mod+Shift+a exec fish --command=ibus-toggle
 bindsym $mod+Shift+r exec kitty --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
 for_window [app_id="^launcher$"] floating enable, border none
 
-bindsym $mod+grave exec fish --command=new_workspace
-bindsym $mod+Shift+grave exec fish --command="new_workspace --move-focused"
+bindsym $mod+grave exec fish --command=sway_new_workspace
+bindsym $mod+Shift+grave exec fish --command="sway_new_workspace --move-focused"
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Other config files
@@ -310,12 +310,15 @@ exec systemctl --user start pscircle.service
 # Note: change to exec if not using --replace flag
 exec_always ibus-daemon --xim --replace --daemonize
 
+exec_always fish --command='switchaudio --device=headphones'
+
 exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 #exec_always flashfocus
 
-exec ~/.local/bin/i3statusrs_dbus_server SoundDevice
-exec autotiling 2& > /tmp/autotiling.log
+exec autotiling-rs
+
+exec swaywsr --icons awesome --no-names --config $XDG_CONFIG_HOME/swaywsr/config.toml
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon

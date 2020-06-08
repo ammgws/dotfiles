@@ -40,12 +40,11 @@ max_width = 25
 [[block]]
 block = "disk_space"
 path = "/"
-alias = "/"
 info_type = "available"
 unit = "GB"
-interval = 20
-warning = 20.0
-alert = 10.0
+interval = 60
+warning = 5.0
+alert = 2.0
 
 [[block]]
 block = "memory"
@@ -73,7 +72,6 @@ block = "net"
 device = "wlan0"
 speed_min_unit = "M"
 speed_digits = 2
-#bitrate = true
 ssid = true
 
 # if have issues then disable this block until it has been cleared of unwraps
@@ -85,7 +83,10 @@ step_width = 3
 on_click = "swaymsg exec 'pavucontrol'"
 #this crashes swaybar:
 #on_click = "pavucontrol 2>/dev/null"
-format = "{output_name} {volume}%"
+format = "{output_name} {volume}"
+[block.mappings]
+"alsa_output.usb-Harman_Multimedia_JBL_Pebbles_1.0.0-00.analog-stereo" = "🔈"
+"alsa_output.pci-0000_00_1b.0.analog-stereo" = "🎧"
 
 [[block]]
 block = "custom"

@@ -92,19 +92,20 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         swaymsg output "$downstairs_monitorR" disable
         swaymsg input "$downstairs_mouse" events disabled
     else if string match --quiet $next_mode downstairs
-        swaymsg output "$downstairs_monitorL" pos 0 0 res 1920x1080
-        swaymsg output "$downstairs_monitorR" pos 1920 0 res 1920x1080
         for monitor in "$downstairs_monitorL" "$downstairs_monitorR"
             if not contains "$monitor" $enabled_outputs
                 swaymsg output "$monitor" enable
             end
         end
-        swaymsg workspace 2 output "$downstairs_monitorR"
-        swaymsg workspace 1 output "$downstairs_monitorL"
+        swaymsg output "$downstairs_monitorL" pos 0 0 res 1920x1080
+        swaymsg output "$downstairs_monitorR" pos 1920 0 res 1920x1080
         swaymsg input "$downstairs_mouse" events enabled
         swaymsg output "$upstairs_monitorL" disable
         swaymsg output "$upstairs_monitorR" disable
         swaymsg input "$upstairs_mouse" events disabled
+        swaymsg workspace 1 output "$downstairs_monitorR"
+        swaymsg workspace 2 output "$downstairs_monitorL"
+
         # TODO
         # When starting up in upstairs mode then immediately switching to downstairs,
         # the workspace number starts at 3.
@@ -113,15 +114,15 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         # set workspace to start from 1
         #end
     else if string match --quiet $next_mode all
-        swaymsg output "$upstairs_monitorL" pos 0 0 res 1920x1080
-        swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080
-        swaymsg output "$downstairs_monitorL" pos 0 1080 res 1920x1080
-        swaymsg output "$downstairs_monitorR" pos 1920 1080 res 1920x1080
         for monitor in "$upstairs_monitorL" "$upstairs_monitorR" "$downstairs_monitorL" "$downstairs_monitorR"
             if not contains "$monitor" $enabled_outputs
                 swaymsg output "$monitor" enable
             end
         end
+        swaymsg output "$upstairs_monitorL" pos 0 0 res 1920x1080
+        swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080
+        swaymsg output "$downstairs_monitorL" pos 0 1080 res 1920x1080
+        swaymsg output "$downstairs_monitorR" pos 1920 1080 res 1920x1080
     end
 
     # TODO:tv
