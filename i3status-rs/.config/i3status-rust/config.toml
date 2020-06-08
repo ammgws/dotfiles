@@ -75,10 +75,6 @@ speed_min_unit = "M"
 speed_digits = 2
 #bitrate = true
 
-[[block]]
-block = "custom_dbus"
-name = "SoundDevice"
-
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
 [[block]]
@@ -88,7 +84,7 @@ step_width = 3
 on_click = "swaymsg exec 'pavucontrol'"
 #this crashes swaybar:
 #on_click = "pavucontrol 2>/dev/null"
-format = "{volume}%"
+format = "{output_name} {volume}%"
 
 [[block]]
 block = "custom"
