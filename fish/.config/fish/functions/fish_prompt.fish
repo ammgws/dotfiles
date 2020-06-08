@@ -9,6 +9,14 @@ function fish_prompt
         set prompt_char ">"
     end
 
+    if status is-login
+        switch $hostname
+            case '*lap*'
+                echo -n (set_color green)'['(iwctl station wlan0 show | string replace --regex --filter '^\s+Connected network\s+(\S*)\s*' 'WIFI: $1')']'(set_color normal)
+            case '*'
+        end
+    end
+
     if set --query VIRTUAL_ENV
         echo -n -s (set_color --background blue white) "[" (basename "$VIRTUAL_ENV") "]" (set_color normal) " "
     end
