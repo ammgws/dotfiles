@@ -70,10 +70,11 @@ interval = 60
 
 [[block]]
 block = "net"
-device = "enp3s0"
+device = "wlan0"
 speed_min_unit = "M"
 speed_digits = 2
 #bitrate = true
+ssid = true
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
@@ -103,14 +104,10 @@ block = "ibus"
 "xkb:us::eng" = "EN"
 
 [[block]]
-block = "custom"
-command = "fish --command=phone_battery_status"
-interval = 60
-
-[[block]]
-[[block]]
-block = "github"
-format = "{total} ({author}|{comment}|{mention}|{review_requested})"
+block = "battery"
+driver = "sysfs"
+device = "CMB1"
+format = "{percentage}% {time}"
 
 [[block]]
 block = "time"
