@@ -1,4 +1,4 @@
-function new_workspace --description="Create new workspace on the current monitor."
+function sway_new_workspace --description="Create new workspace on the current monitor."
     function print_help
         echo "Usage: new_workspace [options]"
         echo "Options:"
