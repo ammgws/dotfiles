@@ -12,6 +12,7 @@ function fish_prompt
     if status is-login
         switch $hostname
             case '*lap*'
+                echo -n (cat /sys/class/power_supply/CMB1/capacity)"% "
                 echo -n (set_color green)'['(iwctl station wlan0 show | string replace --regex --filter '^\s+Connected network\s+(\S*)\s*' 'WIFI: $1')']'(set_color normal)
             case '*'
         end
