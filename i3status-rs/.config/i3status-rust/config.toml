@@ -28,14 +28,14 @@ command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?
 interval = 600
 on_click = "true"
 
-[[block]]
-block = "music"
-player = "mpd"
-buttons = ["play"]
-marquee = false
-marquee_speed = 0.8
-marquee_interval = 3
-max_width = 25
+#[[block]]
+#block = "music"
+#player = "mpd"
+#buttons = ["play"]
+#marquee = false
+#marquee_speed = 0.8
+#marquee_interval = 3
+#max_width = 25
 
 [[block]]
 block = "disk_space"
