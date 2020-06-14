@@ -9,6 +9,9 @@ set $mod Mod4
 ### Input/output/seat configuration
 # Disable numlock as it makes laptop keyboard act weird
 input * xkb_numlock disabled
+# make `Menu` key into `Super_R` since this keyboard only has one Super key
+# not using any other keyboards with this laptop so just apply the setting to everything for now
+input * xkb_options altwin:menu_win
 
 # Wallpaper
 output * bg #000000 solid_color
@@ -312,6 +315,10 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [title=".*YouTube.*"] inhibit idle fullscreen
 for_window [app_id="pavucontrol"] floating enable
+
+# hide titlebars on laptop
+for_window [title=".*"] border pixel 1
+
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Theming
