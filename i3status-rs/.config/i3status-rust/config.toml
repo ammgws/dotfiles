@@ -99,6 +99,9 @@ command = "fish --command='check_xclients --barmode'"
 interval = 5
 
 [[block]]
+block = "focused_window"
+
+[[block]]
 block = "ibus"
 [block.mappings]
 "mozc-jp" = "JP"
