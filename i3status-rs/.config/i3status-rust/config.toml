@@ -22,11 +22,11 @@ aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 
-[[block]]
-block = "custom"
-command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
-interval = 600
-on_click = "true"
+#[[block]]
+#block = "custom"
+#command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
+#interval = 600
+#on_click = "true"
 
 #[[block]]
 #block = "music"
