@@ -318,7 +318,8 @@ exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
 
 exec autotiling-rs
 
-exec swaywsr --icons awesome --no-names --config $XDG_CONFIG_HOME/swaywsr/config.toml
+# need to work out some kinks
+#exec swaywsr --icons awesome --no-names --config $XDG_CONFIG_HOME/swaywsr/config.toml
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
