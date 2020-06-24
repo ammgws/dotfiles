@@ -1,7 +1,6 @@
 function fish_right_prompt
     set --local rp_sep "|"
 
-    set --global __fish_git_prompt_show_informative_status 1
     set --global __fish_git_prompt_use_informative_chars 1
     set --global __fish_git_prompt_showcolorhints 1
     set --global __fish_git_prompt_char_stateseparator ""
