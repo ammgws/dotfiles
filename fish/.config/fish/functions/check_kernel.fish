@@ -35,13 +35,13 @@ function check_kernel --description='Output message if installed and running ker
         if test $OUTPUT_MODE = boolean
             return 1
         else
-            printf "🐧😞"
+            printf ""
         end
     else
         if test $OUTPUT_MODE = boolean
             return 0
         else
-            printf "🐧☺️"
+            printf ""
         end
     end
 end

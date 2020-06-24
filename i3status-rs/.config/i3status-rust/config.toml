@@ -1,7 +1,7 @@
 [icons]
 name = "awesome5"
 [icons.overrides]
-net_wired = ""
+#net_wired = ""
 volume_empty = " "
 volume_half = " "
 volume_full = " "
@@ -17,30 +17,25 @@ separator = ""
 [[block]]
 block = "pacman"
 format = "{pacman}/{aur}"
-critical_updates_regex = "(linux |linux-lts|linux-zen)"
+critical_updates_regex = "(linux|linux-lts|linux-zen)"
 aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 
-# this apparently blocks the bar
 #[[block]]
 #block = "custom"
-#on_click = "alacritty -e neomutt"
+#command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
+#interval = 600
+#on_click = "true"
 
-[[block]]
-block = "custom"
-command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
-interval = 600
-on_click = "true"
-
-[[block]]
-block = "music"
-player = "mpd"
-buttons = ["play"]
-marquee = false
-marquee_speed = 0.8
-marquee_interval = 3
-max_width = 25
+#[[block]]
+#block = "music"
+#player = "mpd"
+#buttons = ["play"]
+#marquee = false
+#marquee_speed = 0.8
+#marquee_interval = 3
+#max_width = 25
 
 [[block]]
 block = "disk_space"
@@ -74,10 +69,10 @@ interval = 60
 
 [[block]]
 block = "net"
-device = "enp3s0"
+device = "wlan0"
 speed_min_unit = "M"
 speed_digits = 2
-#bitrate = true
+ssid = true
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
@@ -88,10 +83,10 @@ step_width = 3
 on_click = "swaymsg exec 'pavucontrol'"
 #this crashes swaybar:
 #on_click = "pavucontrol 2>/dev/null"
-format = "{output_name} {volume}"
+format = "{output_name} {volume}%"
 [block.mappings]
-"alsa_output.usb-Harman_Multimedia_JBL_Pebbles_1.0.0-00.analog-stereo" = "🔈"
-"alsa_output.pci-0000_00_1b.0.analog-stereo" = "🎧"
+"alsa_output.usb-Harman_Multimedia_JBL_Pebbles_1.0.0-00.analog-stereo" = ""
+"alsa_output.pci-0000_00_1b.0.analog-stereo" = ""
 
 [[block]]
 block = "custom"
@@ -104,20 +99,19 @@ command = "fish --command='check_xclients --barmode'"
 interval = 5
 
 [[block]]
+block = "focused_window"
+
+[[block]]
 block = "ibus"
 [block.mappings]
 "mozc-jp" = "JP"
 "xkb:us::eng" = "EN"
 
 [[block]]
-block = "custom"
-command = "fish --command=phone_battery_status"
-interval = 60
-
-[[block]]
-[[block]]
-block = "github"
-format = "{total} ({author}|{comment}|{mention}|{review_requested})"
+block = "battery"
+driver = "sysfs"
+device = "CMB1"
+format = "{percentage}% {time}"
 
 [[block]]
 block = "time"
