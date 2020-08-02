@@ -1,11 +1,13 @@
 function sway_preview_outputs --description="Show a screenshot of what is currently on each monitor."
-    for name in (swaymsg --raw --type get_outputs | jq --raw-output '.[].name')
+    for name in (swaymsg --raw --type get_outputs | jq --raw-output '.[] | select(.dpms==true) | .name')
         set --append output_names $name
     end
 
-    set current_output (swaymsg -t get_outputs | jq --raw-output '.[] | select(.focused==true) | .name')
-    if set --local index (contains --index $current_output $output_names)
-        set --erase output_names[$index]
+    if test (count $output_names) -gt 1
+        set current_output (swaymsg -t get_outputs | jq --raw-output '.[] | select(.focused==true) | .name')
+        if set --local index (contains --index $current_output $output_names)
+            set --erase output_names[$index]
+        end
     end
 
     set target_dir (mktemp --directory --tmpdir outputpreviews.XXXXXXXXXX)
