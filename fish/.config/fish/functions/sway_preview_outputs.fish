@@ -1,4 +1,4 @@
-function preview_outputs --description="Show a screenshot of what is currently on each monitor."
+function sway_preview_outputs --description="Show a screenshot of what is currently on each monitor."
     for name in (swaymsg --raw --type get_outputs | jq --raw-output '.[].name')
         set --append output_names $name
     end
