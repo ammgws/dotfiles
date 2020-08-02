@@ -1,3 +1,4 @@
+# While this runs on a workspace, tiling for new windows on the workspace will alternate between horizonal and splits
 function sway_autotiling
     swaymsg --type subscribe "['window']" --monitor | while read --local line
         string length --quiet "$line"
