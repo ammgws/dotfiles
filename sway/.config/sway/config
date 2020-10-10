@@ -303,8 +303,14 @@ include /etc/sway/config.d/*
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-exec systemctl --user start mako.service
 exec systemctl --user start pscircle.service
+# The below is needed for certain systemd services such as the one provided by mako to work.
+# Mako itself will be autostarted by systemd whenever something wants to use notifications,
+# however if I want to manually start a service that requires sway's environment vars then
+# the systemctl commands must be run synchronously and not split into two exec statements, 
+# since otherwise the service may be started before systemctl import-environment is complete.
+# For example: exec "systemctl --user import-environment; systemctl --user start example.service"
+exec systemctl --user import-environment
 
 #exec systemctl --user start ibus.service
 # Note: change to exec if not using --replace flag
