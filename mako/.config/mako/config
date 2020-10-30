@@ -5,9 +5,12 @@ default-timeout=3000
 border-radius=4
 layer=overlay
 
-[app-name=AN2Linux]
+[app-name=volumeOSD]
 text-color=#00bfff
 border-color=#00bfff
+border-radius=10
+max-visible=1
+default-timeout=1000
 
 [app-name=fish]
 ignore-timeout=1
