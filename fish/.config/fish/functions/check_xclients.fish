@@ -19,11 +19,15 @@ function check_xclients --description="Return number of current X clients"
     end
 
     set val (xlsclients | wc --lines)
+    if not string length --quiet "$val"
+        set val "?"
+    end
+
     if test $MODE = bar
         if test val = 0
-            printf "<span color='green'>X11(0)</span>"
+            printf "<span color='green'>No X11</span>"
         else
-            printf "<span color='red'>X11($val)</span>"
+            printf "<span color='red'>X11: $val</span>"
         end
     else
         echo $val
