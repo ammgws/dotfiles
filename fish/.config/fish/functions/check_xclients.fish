@@ -2,6 +2,7 @@ function check_xclients --description="Return number of current X clients"
     argparse --name check_xclients h/help b-barmode -- $argv
     or return 1 # error
 
+    # TODO: get info from swaymsg so can remove this dependency
     if not type -q xlsclients
         echo (set_color red)"You must have xlsclients installed."(set_color $fish_color_normal)
         return 1
