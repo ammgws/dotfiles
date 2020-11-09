@@ -2,6 +2,11 @@ function check_xclients --description="Return number of current X clients"
     argparse --name check_xclients h/help b-barmode -- $argv
     or return 1 # error
 
+    if not type -q xlsclients
+        echo (set_color red)"You must have xlsclients installed."(set_color $fish_color_normal)
+        return 1
+    end
+
     function print_help
         echo "Usage: check_xclients [options]"
         echo "Options:"
@@ -19,13 +24,12 @@ function check_xclients --description="Return number of current X clients"
     end
 
     set val (xlsclients | wc --lines)
-    if not string length --quiet "$val"
-        set val "?"
-    end
-
     if test $MODE = bar
-        if test val = 0
-            printf "<span color='green'>No X11</span>"
+        # use hide_when_empty in i3status-rs block config
+        if test "$val" = 0
+            printf ""
+        else if not string length --quiet "$val"
+            printf ""
         else
             printf "<span color='red'>X11: $val</span>"
         end
