@@ -111,6 +111,7 @@ block = "custom"
 # Show number of X11 apps running
 command = "fish --command='check_xclients --barmode'"
 interval = 5
+hide_when_empty = true
 
 [[block]]
 block = "ibus"
