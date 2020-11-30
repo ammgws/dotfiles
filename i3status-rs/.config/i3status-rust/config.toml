@@ -110,6 +110,7 @@ command = "fish --command='check_kernel --barmode'"
 block = "custom"
 # Show number of X11 apps running
 command = "fish --command='check_xclients --barmode'"
+on_click = "fish --command='check_xclients --menu'"
 interval = 5
 
 [[block]]
