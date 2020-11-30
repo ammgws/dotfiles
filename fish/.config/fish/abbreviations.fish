@@ -2,7 +2,7 @@
 # After adding a new entry, run `set --erase fish_initialized` and restart fish.
 abbr --add cat 'bat'
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
-abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; paccache -rvk0; pikaur -Scc; yarn cache clean; cargo cache --autoclean; rm ~/.cache/electron/*'
+abbr --add cleanup 'paccache --cachedir ~/.cache/pikaur/pkg -vrk0; paccache -rvk0; pikaur -Scc; yarn cache clean; cargo cache --autoclean; rm ~/.cache/electron/*; pikaur --remove --nosave --recursive (pacman --query --unrequired --deps --quiet)'
 abbr --add cp 'cp --interactive --verbose'
 abbr --add e micro
 abbr --add ga 'git add --patch'
