@@ -11,6 +11,9 @@ if status is-interactive
      . ~/.config/fish/aliases.fish
  end
 
+set --global __fish_git_prompt_use_informative_chars 1
+set --global __fish_git_prompt_showcolorhints 1
+set --global __fish_git_prompt_char_stateseparator ""
 
 # Universal vars only need to be set once.
 # After adding a new var, run set --erase fish_initialized and restart fish.
