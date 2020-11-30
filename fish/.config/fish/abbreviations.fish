@@ -25,4 +25,8 @@ abbr --add upall 'pikaur --sync --refresh --sysupgrade --devel --needed --noconf
 abbr --add uparch 'sudo pacman --sync --refresh --sysupgrade; and fish_update_completions'
 abbr --add upaur 'pikaur --sync --refresh --sysupgrade --devel --needed --noconfirm; and fish_update_completions'
 abbr --add send2phone 'kdeconnect-cli --device (kdeconnect-cli --list-available --id-only) --share $PWD/(fzf)'
+abbr --add sway_install_git 'pikaur --sync --refresh wlroots-git; and pikaur --sync --refresh sway-git swayidle-git swaybg-git swaylock-git; and pikaur --sync --refresh swaynagmode'
+abbr --add sway_remove_git 'sudo pacman --remove swaynagmode; and sudo pacman --remove --recursive wlroots-git sway-git swayidle-git swaybg-git swaylock-git'
+abbr --add sway_install_release 'sudo pacman --sync --refresh --sysupgrade sway swayidle swaybg swaylock; and pikaur --sync --refresh swaynagmode'
+abbr --add sway_remove_release 'sudo pacman --remove --recursive sway swayidle swaybg swaylock'
 abbr --add ytdl youtube-dl
