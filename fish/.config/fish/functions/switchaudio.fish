@@ -34,7 +34,9 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
     function prettify_name --argument-names sink_raw_name
         if string match --quiet '*Pebbles*' $sink_raw_name
-            echo speakers
+            echo upstairs_speakers
+        else if string match --quiet '*Sound_Blaster_Play*' $sink_raw_name
+            echo downstairs_speakers
         else if string match --quiet 'alsa_output.pci-0000_00_1b.0.analog-stereo' $sink_raw_name
             echo headphones
         else if string match --quiet '*PCH*' $sink_raw_name
@@ -81,12 +83,17 @@ function switchaudio --description 'Switch between audio devices and move all cu
             set sink_info (string split \t $sink)
             set sink_id $sink_info[1]
             set sink_name (prettify_name $sink_info[2])
-            if test $sink_id = $default_sink_id
+            if test "$sink_id" = "$default_sink_id"
                 set sink_name "$sink_name (current)"
             end
             set device_choices (string join "\n" $device_choices $sink_name)
         end
-        set device (echo -e "$device_choices" | bemenu --ignorecase --wrap --prompt "Select new sound output:")
+        if set --query SSH_CLIENT
+            set device (echo -e "$device_choices" | fzf)
+        else
+            #set device (echo -e "$device_choices" | bemenu --ignorecase --wrap --index 1 --prompt "Select new sound output:" --monitor all)
+            set device (echo -e "$device_choices" | wofi --show dmenu)
+        end
         set device (string split --fields 1 "(current)" -- $device | string trim)
         if not string length --quiet $device
             echo "no device selected"
@@ -108,7 +115,11 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
     # If the output we switch to is not set as default then the
     # system volume slider controls will not affect it.
-    pactl set-default-sink $new_default_sink_id
+    if string length --quiet $new_default_sink_id
+        pactl set-default-sink $new_default_sink_id
+    else
+        echo "default sink not changed. bug?"
+    end
 
     set new_sink_volume (get_sink_volume $default_sink_id)
     if test $new_sink_volume -gt 100
@@ -119,13 +130,13 @@ function switchaudio --description 'Switch between audio devices and move all cu
     if not set --query keep_sinks
         set inputs (pactl list short sink-inputs)
         for input in $inputs
-            set input_id (string split \t $input)[1]
+            set input_id (string split --field 1 \t $input)
             pactl move-sink-input $input_id $new_default_sink_id
         end
     end
 
     # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
-    if test $new_default_sink_name = TV
+    if test "$new_default_sink_name" = TV
         # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
         # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
         set TV_hdmi_port_profile (pactl list cards | \
