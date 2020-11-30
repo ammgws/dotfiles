@@ -1,4 +1,4 @@
-if status is-login
+ if status is-login
     contains /usr/local/bin $PATH
     or set PATH /usr/local/bin $PATH
     contains ~/.local/bin $PATH
@@ -8,18 +8,19 @@ if status is-login
 end
 
 if status is-interactive
-    . ~/.config/fish/aliases.fish
-end
+     . ~/.config/fish/aliases.fish
+ end
+
 
 # Universal vars only need to be set once.
 # After adding a new var, run set --erase fish_initialized and restart fish.
-if status is-interactive
-    and not set --query fish_initialized
-    . ~/.config/fish/abbreviations.fish # abbr uses universal vars
-    set --universal __done_exclude 'git|firefox-nightly|micro|nano|vim|vi'
-    set --universal __done_sway_ignore_visible 1
-    set --universal fish_initialized
-end
+ if status is-interactive
+     and not set --query fish_initialized
+     . ~/.config/fish/abbreviations.fish # abbr uses universal vars
+     set --universal __done_exclude 'git|firefox-nightly|micro|nano|vim|vi'
+     set --universal __done_sway_ignore_visible 1
+     set --universal fish_initialized
+ end
 
 # Encourage use of XDG Base Directory spec
 set --export XDG_CACHE_HOME ~/.cache
@@ -61,9 +62,9 @@ set --export XKB_DEFAULT_LAYOUT us
 # Used in my fish functions
 set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
-# gpg-agent manpage: always add this to whatever init file is used for all shell invocations
+# # gpg-agent manpage: always add this to whatever init file is used for all shell invocations
 set --export GPG_TTY (tty)
-
+ 
 # Make ssh use gpg-agent instad of ssh-agent
 set --erase SSH_AGENT_PID
 if not set --query gnupg_SSH_AUTH_SOCK_by
@@ -78,11 +79,11 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 # User experience improvements over SSH
 if set --query SSH_CLIENT
     set --erase BROWSER
-
+ 
     if ! set --query XDG_RUNTIME_DIR
         set --export XDG_RUNTIME_DIR /run/user/(id -u)
     end
-
+ 
     if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
         set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
         if test -e $dbus_session_file
