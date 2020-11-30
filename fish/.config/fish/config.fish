@@ -1,4 +1,4 @@
- if status is-login
+if status is-login
     contains /usr/local/bin $PATH
     or set PATH /usr/local/bin $PATH
     contains ~/.local/bin $PATH
@@ -8,8 +8,8 @@
 end
 
 if status is-interactive
-     . ~/.config/fish/aliases.fish
- end
+    . ~/.config/fish/aliases.fish
+end
 
 set --global __fish_git_prompt_use_informative_chars 1
 set --global __fish_git_prompt_showcolorhints 1
@@ -17,13 +17,13 @@ set --global __fish_git_prompt_char_stateseparator ""
 
 # Universal vars only need to be set once.
 # After adding a new var, run set --erase fish_initialized and restart fish.
- if status is-interactive
-     and not set --query fish_initialized
-     . ~/.config/fish/abbreviations.fish # abbr uses universal vars
-     set --universal __done_exclude 'git|firefox-nightly|micro|nano|vim|vi'
-     set --universal __done_sway_ignore_visible 1
-     set --universal fish_initialized
- end
+if status is-interactive
+    and not set --query fish_initialized
+    . ~/.config/fish/abbreviations.fish # abbr uses universal vars
+    set --universal __done_exclude 'git|firefox-nightly|micro|nano|vim|vi'
+    set --universal __done_sway_ignore_visible 1
+    set --universal fish_initialized
+end
 
 # Encourage use of XDG Base Directory spec
 set --export XDG_CACHE_HOME ~/.cache
@@ -54,7 +54,7 @@ set --export EDITOR micro
 set --export FZF_DEFAULT_COMMAND "fd --type f"
 set --export GIT_EDITOR micro
 set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'" # use bat to colourise man
-set --export MOZ_DBUS_REMOTE 1  # allows X11 and Wayland Firefox instances to run together
+set --export MOZ_DBUS_REMOTE 1 # allows X11 and Wayland Firefox instances to run together
 set --export MOZ_WEBRENDER 1
 set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
 set --export SHELL /usr/bin/fish
@@ -67,11 +67,11 @@ set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
 
 # # gpg-agent manpage: always add this to whatever init file is used for all shell invocations
 set --export GPG_TTY (tty)
- 
+
 # Make ssh use gpg-agent instad of ssh-agent
 set --erase SSH_AGENT_PID
 if not set --query gnupg_SSH_AUTH_SOCK_by
-or test $gnupg_SSH_AUTH_SOCK_by -ne $fish_pid
+    or test $gnupg_SSH_AUTH_SOCK_by -ne $fish_pid
     set --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 end
 # gpg-agent manpage: Since the ssh-agent protocol does not contain a mechanism for telling the agent on which
@@ -82,11 +82,11 @@ gpg-connect-agent updatestartuptty /bye >/dev/null
 # User experience improvements over SSH
 if set --query SSH_CLIENT
     set --erase BROWSER
- 
+
     if ! set --query XDG_RUNTIME_DIR
         set --export XDG_RUNTIME_DIR /run/user/(id -u)
     end
- 
+
     if ! set --query DBUS_SESSION_BUS_ADDRESS -o test -z $DBUS_SESSION_ADDRESS
         set --local dbus_session_file $HOME/.dbus/session-bus/(cat /var/lib/dbus/machine-id)-0
         if test -e $dbus_session_file
