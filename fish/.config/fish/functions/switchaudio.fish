@@ -39,11 +39,17 @@ function switchaudio --description 'Switch between audio devices and move all cu
             echo downstairs_speakers
         else if string match --quiet 'alsa_output.pci-0000_00_1b.0.analog-stereo' $sink_raw_name
             echo headphones
+            # pipewire
+        else if string match --quiet 'alsa_output.pci-0000:00:1b.0.analog-stereo' $sink_raw_name
+            echo headphones
         else if string match --quiet '*PCH*' $sink_raw_name
             echo headphones
         else if string match --quiet 'bluez_sink*' $sink_raw_name
             echo bluetooth
         else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra*' $sink_raw_name
+            echo TV
+            # pipewire    
+        else if string match --quiet 'alsa_output.pci-0000:01:00.1.hdmi-stereo-extra*' $sink_raw_name
             echo TV
         else
             echo $sink_raw_name
@@ -65,28 +71,28 @@ function switchaudio --description 'Switch between audio devices and move all cu
         end
     end
 
-    function get_sink_volume --argument-names sink_id
-        pacmd list-sinks | grep --after-context=15 "index: $sink_id\$" |
-        grep 'volume:' | string match --regex '^((?!base volume:).)*$' |
-        string replace --regex --filter ".* (\d+)%.*" '$1'
+    function get_sink_volume --argument-names sink_name
+        pactl list sinks | grep --after-context=15 "Name: $sink_name\$" |
+            grep 'Volume:' | string match --regex '^((?!Base Volume:).)*$' |
+            string replace --regex --filter ".* (\d+)%.*" '$1'
     end
 
     set sinks (pactl list short sinks 2> /dev/null)
     if test $status -ne 0
-        echo "Error calling pulseaudio" >&2
+        echo "Error calling `pactl`" >&2
         return 1
     end
-    set default_sink_id (pacmd list-sinks | awk '/* index:/{print $3}')
+    set default_sink_name (pactl info | sed -En 's/Default Sink: (.*)/\1/p')
 
     if not set --query device
         for sink in $sinks
             set sink_info (string split \t $sink)
-            set sink_id $sink_info[1]
-            set sink_name (prettify_name $sink_info[2])
-            if test "$sink_id" = "$default_sink_id"
-                set sink_name "$sink_name (current)"
+            set sink_name $sink_info[2]
+            set sink_name_pretty (prettify_name $sink_name)
+            if test "$sink_name" = "$default_sink_name"
+                set sink_name_pretty "$sink_name_pretty (current)"
             end
-            set device_choices (string join "\n" $device_choices $sink_name)
+            set device_choices (string join "\n" $device_choices $sink_name_pretty)
         end
         if set --query SSH_CLIENT
             set device (echo -e "$device_choices" | fzf)
@@ -103,35 +109,35 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
     for sink in $sinks
         set sink_info (string split \t $sink)
-        set sink_id $sink_info[1]
-        set sink_name (prettify_name $sink_info[2])
+        set sink_name $sink_info[2]
+        set sink_name_pretty (prettify_name $sink_name)
         set sink_state $sink_info[5]
-        if string match --quiet "$sink_name" "$device"
-            set new_default_sink_id $sink_id
+        if string match --quiet "$sink_name_pretty" "$device"
             set new_default_sink_name $sink_name
+            set new_default_sink_name_pretty $sink_name_pretty
             break
         end
     end
 
     # If the output we switch to is not set as default then the
     # system volume slider controls will not affect it.
-    if string length --quiet $new_default_sink_id
-        pactl set-default-sink $new_default_sink_id
+    if string length --quiet $new_default_sink_name
+        pactl set-default-sink $new_default_sink_name
     else
         echo "default sink not changed. bug?"
     end
 
-    set new_sink_volume (get_sink_volume $default_sink_id)
+    set new_sink_volume (get_sink_volume $default_sink_name)
     if test $new_sink_volume -gt 100
         set new_sink_volume 100
     end
-    pactl set-sink-volume $new_default_sink_id "$new_sink_volume%"
+    pactl set-sink-volume @DEFAULT_SINK@ "$new_sink_volume%"
 
     if not set --query keep_sinks
         set inputs (pactl list short sink-inputs)
         for input in $inputs
             set input_id (string split --field 1 \t $input)
-            pactl move-sink-input $input_id $new_default_sink_id
+            pactl move-sink-input $input_id @DEFAULT_SINK@
         end
     end
 
