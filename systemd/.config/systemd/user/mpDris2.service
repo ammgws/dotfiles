@@ -1,7 +1,7 @@
 [Unit]
 Description=mpDris2 daemon
 BindsTo=mpd.service
-After=mpd.service dunst.service
+After=mpd.service mako.service
 
 [Service]
 ExecStart=/usr/bin/mpDris2
