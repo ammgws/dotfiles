@@ -41,7 +41,7 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
     # double quotes are necessary so that it is passed as one arg to swaymsg
     set upstairs_monitorL "'Acer Technologies Acer KA270H T3QSJ0014200'"
     set upstairs_monitorR "'Ancor Communications Inc ASUS VP278 K3LMTF030840'"
-    set downstairs_monitorL "'Make Model Serial'"
+    set downstairs_monitorL "'Dell Inc. DELL ST2220L 6WV9C0CR141L'"
     set downstairs_monitorR "'Samsung Electric Company S27A950D 0x00000000'"
     set tv "'Goldstar Company Ltd LG TV 0x00000101'"
 
@@ -85,8 +85,8 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
                 swaymsg output "$monitor" enable
             end
         end
-        swaymsg workspace 2 output "$upstairs_monitorR"
-        swaymsg workspace 1 output "$upstairs_monitorL"
+        #swaymsg workspace 2 output "$upstairs_monitorR"
+        #swaymsg workspace 1 output "$upstairs_monitorL"
         swaymsg input "$upstairs_mouse" events enabled
         swaymsg output "$downstairs_monitorL" disable
         swaymsg output "$downstairs_monitorR" disable
@@ -103,8 +103,8 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         swaymsg output "$upstairs_monitorL" disable
         swaymsg output "$upstairs_monitorR" disable
         swaymsg input "$upstairs_mouse" events disabled
-        swaymsg workspace 1 output "$downstairs_monitorR"
-        swaymsg workspace 2 output "$downstairs_monitorL"
+        #swaymsg workspace 1 output "$downstairs_monitorR"
+        #swaymsg workspace 2 output "$downstairs_monitorL"
 
         # TODO
         # When starting up in upstairs mode then immediately switching to downstairs,
