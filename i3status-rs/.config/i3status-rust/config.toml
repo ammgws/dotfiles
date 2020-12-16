@@ -28,12 +28,6 @@ aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 interval = 1800
 
 [[block]]
-block = "custom"
-command = "uptime --pretty | sed --regexp-extended 's/ week(s)?,/w/g; s/ day(s)?,/d/; s/ hour(s)?,/h/; s/ minute(s)?/m/'"
-interval = 600
-on_click = "true"
-
-[[block]]
 block = "music"
 buttons = ["play", "prev", "next"]
 marquee = true
