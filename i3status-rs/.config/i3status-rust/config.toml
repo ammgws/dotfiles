@@ -26,6 +26,7 @@ critical_updates_regex = "(linux |linux-lts|linux-zen)"
 aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
+hide_when_uptodate = true
 
 [[block]]
 block = "music"
