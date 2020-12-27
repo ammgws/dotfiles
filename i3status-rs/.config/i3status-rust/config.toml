@@ -67,17 +67,8 @@ interval = 60
 
 [[block]]
 block = "net"
-device = "enp3s0"
 speed_min_unit = "M"
 speed_digits = 2
-
-[[block]]
-block = "net"
-device = "wlan0"
-speed_min_unit = "M"
-speed_digits = 2
-bitrate = true
-hide_missing = true
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
