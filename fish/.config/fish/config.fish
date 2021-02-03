@@ -43,6 +43,7 @@ set --export XAUTHORITY $XDG_RUNTIME_DIR/Xauthority
 set --export XINITRC $XDG_CONFIG_HOME/X11/xinitrc
 
 # For Japanese IME support
+set --export GTFW_IM_MODULE ibus
 set --export GTK_IM_MODULE ibus
 set --export QT_IM_MODULE ibus
 set --export XMODIFIERS @im=ibus
