@@ -210,29 +210,6 @@ bindsym $mod+r mode "resize"
 # FontAwesome 5
 font pango:DejaVu Sans Mono, FontAwesome5Free 10, FontAwesome5Brands 10
 
-# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-# ┃ Status bar
-# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    font pango:DejaVu Sans Mono, FontAwesome 10
-    height 18
-    position top
-    status_command i3status-rs
-    #status_command RUST_BACKTRACE=1 i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.tomldev 2> /tmp/i3statusrs.log
-    status_padding 0
-    colors {
-        separator #666666
-        background #222222
-        statusline #dddddd
-        focused_workspace #0088CC #0088CC #ffffff
-        active_workspace #333333 #333333 #ffffff
-        inactive_workspace #333333 #333333 #888888
-        urgent_workspace #2f343a #900000 #ffffff
-    }
-}
-
-
 # Application hotkeys
 # ━━━━━━━━━━━━━━━━━━━━━━━━
 # NOTE: exec --no-startup-id is not supported/required in sway
