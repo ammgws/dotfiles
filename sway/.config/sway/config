@@ -263,12 +263,6 @@ for_window [app_id="^launcher$"] floating enable, border none
 bindsym $mod+grave exec fish --command=sway_new_workspace
 bindsym $mod+Shift+grave exec fish --command="sway_new_workspace --move-focused"
 
-# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-# ┃ Other config files
-# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-include /etc/sway/config.d/*
-#include ~/.config/sway/`hostname`/*
-
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
@@ -329,3 +323,11 @@ for_window [class="steam_app*"] inhibit_idle focus
 exec_always fish --command=import-gsettings
 # For all applications except GTK:
 seat seat0 xcursor_theme ComixCursors-Slim-Blue
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Other config files
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+include /etc/sway/config.d/*
+include ~/.config/sway/config.d/*
+# TODO?
+#include ~/.config/sway/`hostname`/*
