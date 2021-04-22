@@ -62,8 +62,8 @@ interval = 60
 
 [[block]]
 block = "net"
-format = "{speed_down;M} {speed_up;M}"
-icons_format = " "
+format = " {speed_down;M} {speed_up;M}"
+icons_format = "{icon}"
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
