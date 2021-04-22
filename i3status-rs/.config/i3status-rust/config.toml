@@ -12,8 +12,6 @@ name = "slick"
 [theme.overrides]
 separator = ""
 separator_bg = "auto"
-#idle_bg = "#000000"
-#alternating_tint_bg = "#444444"
 
 [[block]]
 block = "pacman"
@@ -25,14 +23,13 @@ aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 hide_when_uptodate = true
+on_click = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-ammgws/ | wofi --show dmenu"
 
 [[block]]
 block = "music"
 buttons = ["play", "prev", "next"]
-marquee = true
-marquee_speed = 0.8
-marquee_interval = 3
-max_width = 15
+marquee = false
+max_width = 25
 
 [[block]]
 block = "disk_space"
