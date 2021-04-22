@@ -4,6 +4,8 @@ name = "awesome5"
 net_up = ""
 net_down = ""
 net_wired = ""
+toggle_on = ""
+toggle_off = ""
 
 [theme]
 name = "slick"
@@ -121,3 +123,9 @@ service = { name = "openweathermap", units = "metric" }
 block = "time"
 interval = 5
 format = "%a %d/%m %H:%M"
+
+[[block]]
+block = "toggle"
+command_on = "systemctl --user start swayidle"
+command_off = "systemctl --user stop swayidle"
+command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 0; and echo on"
