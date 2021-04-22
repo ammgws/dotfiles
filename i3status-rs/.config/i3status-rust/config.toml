@@ -15,15 +15,15 @@ separator_bg = "auto"
 
 [[block]]
 block = "pacman"
-format = "{pacman}/{aur}"
-format_singular = "{pacman}/{aur}"
-format_up_to_date = "{pacman}/{aur}"
-critical_updates_regex = "(linux |linux-lts|linux-zen)"
+format = "{pacman:0}/{aur:0}"
+format_singular = "{pacman:0}/{aur:0}"
+format_up_to_date = "{pacman:0}/{aur:0}"
+critical_updates_regex = "(linux|linux-lts|linux-zen)"
 aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 hide_when_uptodate = true
-on_click = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-ammgws/ | wofi --show dmenu"
+on_click = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-juaninch/ | wofi --show dmenu"
 
 [[block]]
 block = "music"
@@ -43,13 +43,12 @@ alert = 2.0
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mug}GB({Mupi}%)"
-format_swap = "{SUp}%"
+format_mem = "{mem_used;G} ({mem_used_percents:1})"
+format_swap = "{swap_used_percents}"
 
 [[block]]
 block = "cpu"
-format = "{utilization}"
-per_core = true
+format = "{utilization1} {utilization2} {utilization3} {utilization4}"
 
 [[block]]
 block = "load"
@@ -63,8 +62,8 @@ interval = 60
 
 [[block]]
 block = "net"
-speed_min_unit = "M"
-speed_digits = 2
+format = "{speed_down;M} {speed_up;M}"
+icons_format = " "
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
@@ -113,7 +112,7 @@ device_id = "689ccf9fd6f3272d"
 
 [[block]]
 block = "weather"
-format = "{apparent}℃ {humidity}%"
+format = "{apparent*_}℃ {humidity}%"
 service = { name = "openweathermap", units = "metric" }
 
 [[block]]
