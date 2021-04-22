@@ -280,7 +280,7 @@ exec systemctl --user start swayidle.service
 
 #exec systemctl --user start ibus.service
 # Note: change to exec if not using --replace flag
-exec_always ibus-daemon --xim --replace --daemonize
+exec_always DISPLAY= ibus-daemon --xim --replace --daemonize
 
 exec_always fish --command='switchaudio --device=headphones'
 
