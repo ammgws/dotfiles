@@ -266,7 +266,6 @@ bindsym $mod+Shift+grave exec fish --command="sway_new_workspace --move-focused"
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Autostart
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-exec systemctl --user start pscircle.service
 # The below is needed for certain systemd services such as the one provided by mako to work.
 # Mako itself will be autostarted by systemd whenever something wants to use notifications,
 # however if I want to manually start a service that requires sway's environment vars then
