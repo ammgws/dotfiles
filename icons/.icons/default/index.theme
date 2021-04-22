@@ -1,5 +1,8 @@
-[Icon Theme] 
+[Icon Theme]
+Name=MyDefault
+Comment=Default Cursor Theme
 Inherits=ComixCursors-Slim-Blue
+Directories=ComixCursors-Slim-Blue
 
 # Currently installed themes:
 # find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
