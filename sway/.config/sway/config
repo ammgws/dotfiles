@@ -219,6 +219,7 @@ bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; e
 bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
 #assign [class="Google-chrome"] $workspace01
 for_window [class="Google-chrome"] border none
+for_window [app_id="Google-chrome"] border none
 for_window [class="MozillaWindowClass"] border none
 for_window [app_id="firefox"] border none
 
@@ -312,8 +313,11 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #assign [title="washitsu"] 2
 
 for_window [app_id="mpv"] inhibit_idle fullscreen
-for_window [title=".*YouTube.*"] inhibit idle fullscreen
+for_window [title=".*\(Kayo Sports\).*"] inhibit idle visible
+for_window [title=".*\(YouTube\).*"] inhibit idle visible
 for_window [app_id="pavucontrol"] floating enable
+for_window [class="steam_app*"] inhibit_idle focus
+
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Theming
