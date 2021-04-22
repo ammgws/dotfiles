@@ -78,6 +78,7 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
 
     set enabled_outputs (swaymsg -t get_outputs | jq -r '.[] | select(.active) | "\(.make) \(.model) \(.serial)"')
     if string match --quiet $next_mode upstairs
+        switchaudio --device headphones
         swaymsg output "$upstairs_monitorL" pos 0 0 res 1920x1080
         swaymsg output "$upstairs_monitorR" pos 1920 0 res 1920x1080
         for monitor in "$upstairs_monitorL" "$upstairs_monitorR"

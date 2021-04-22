@@ -33,5 +33,9 @@ function startw --description 'startx equivalent for starting sway'
     # (see https://github.com/google/mozc/issues/431)
     # set --export XDG_SESSION_TYPE wayland
 
+    # For setting Qt5 theme
+    # See https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    set --export QT_QPA_PLATFORMTHEME qt5ct
+
     sway $argv
 end
