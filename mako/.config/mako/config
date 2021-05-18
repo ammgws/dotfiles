@@ -9,7 +9,9 @@ layer=overlay
 text-color=#00bfff
 border-color=#00bfff
 border-radius=10
-max-visible=1
+# Getting errors so disable this for now
+# Setting `max_visible` is allowed only for `output` and/or `anchor`
+#max-visible=1
 default-timeout=1000
 
 [app-name=fish]

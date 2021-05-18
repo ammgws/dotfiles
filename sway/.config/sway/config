@@ -243,7 +243,6 @@ bindsym --locked $mod+F7 exec fish --command=switchaudio
 bindsym --locked $mod+F8 exec fish --command=tv_toggle
 
 # Media keys
-# Revisit these two once (if?) https://github.com/emersion/mako/pull/270 is merged
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && notify-send --hint int:value:"$(pamixer --get-volume)" --app-name volumeOSD "Vol"
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && notify-send --hint int:value:"$(pamixer --get-volume)" --app-name volumeOSD "Vol"
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
