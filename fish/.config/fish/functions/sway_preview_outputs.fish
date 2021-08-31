@@ -20,5 +20,5 @@ function sway_preview_outputs --description="Show a screenshot of what is curren
     echo -e '[options]\ntitle_text = output previews\noverlay_text = output preview\n\n[binds]\n<Return> = exec echo $imv_current_file && kill $imv_pid' >"$config_file"
     set choice (env imv_config="$config_file" imv -f -d "$target_dir")
     set name (string match --regex "$target_dir/(.*).png" "$choice")[2]
-    and move_all_workspaces --from "$name"
+    and sway_move_all_workspaces --from "$name"
 end
