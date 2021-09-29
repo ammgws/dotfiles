@@ -71,10 +71,10 @@ function switchaudio --description 'Switch between audio devices and move all cu
         end
     end
 
+    # reminder: can rewrite to be 100% robust once the PR below makes it into a release
+    # https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/497
     function get_sink_volume --argument-names sink_name
-        pactl list sinks | grep --after-context=15 "Name: $sink_name\$" |
-            grep 'Volume:' | string match --regex '^((?!Base Volume:).)*$' |
-            string replace --regex --filter ".* (\d+)%.*" '$1'
+        pactl get-sink-volume "$sink_name" | string replace --regex --filter ".* (\d+)%.*" '$1'
     end
 
     set sinks (pactl list short sinks 2> /dev/null)
@@ -82,7 +82,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
         echo "Error calling `pactl`" >&2
         return 1
     end
-    set default_sink_name (pactl info | sed -En 's/Default Sink: (.*)/\1/p')
+    set default_sink_name (pactl get-default-sink)
 
     if not set --query device
         for sink in $sinks
