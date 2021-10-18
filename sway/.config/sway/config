@@ -35,7 +35,7 @@ output * bg #000000 solid_color
     bindsym $mod+Shift+c reload
 
     # exit sway (logs you out of your Wayland session)
-    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' --button-no-terminal 'Yes, exit sway' 'swaymsg exit'
     # use swaynagmode instead of the above so can exit using keyboard
     set {
       $nag         exec swaynagmode
