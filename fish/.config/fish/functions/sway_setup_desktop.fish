@@ -73,6 +73,9 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
     swaymsg input "$downstairs_keyboard" xkb_options altwin:menu_win
     #seat tv hide_cursor 1000
     #seat tv attach Logitech K400 Plus
+
+    swaymsg input "1133:16461:Logitech_K400_Plus" map_to_output $tv
+
     # Seat configuration
     swaymsg seat seat0 hide_cursor 2000
 
