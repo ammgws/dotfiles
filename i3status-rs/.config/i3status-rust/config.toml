@@ -127,3 +127,7 @@ block = "toggle"
 command_on = "systemctl --user start swayidle"
 command_off = "systemctl --user stop swayidle"
 command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 0; and echo on"
+
+[[block]]
+block = "custom"
+command = "fish --command='tv_status --barmode'"
