@@ -85,6 +85,8 @@ icons_format = " "
 "alsa_output.usb-Harman_Multimedia_JBL_Pebbles_1.0.0-00.analog-stereo" = "U"
 "alsa_output.usb-Creative_Technology_Ltd_Sound_Blaster_Play__3_00145592-00.analog-stereo" = "D"
 "bluez_sink.20_74_CF_26_25_D0.a2dp_sink" = "BT"
+"alsa_output.pci-0000_01_00.1.hdmi-stereo-extra4" = "TV"
+"alsa_output.pci-0000_01_00.1.hdmi-stereo-extra5" = "TV"
 # pipewire-pulse
 "alsa_output.pci-0000:00:1b.0.analog-stereo" = ""
 
