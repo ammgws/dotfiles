@@ -8,8 +8,8 @@ function fish_right_prompt
 
     # Show duration of last command
     if test $CMD_DURATION
-        if functions --query humanize_duration
-            echo -n -s (echo "$CMD_DURATION" | humanize_duration)
+        if functions --query humantime
+            echo -n -s (humantime "$CMD_DURATION")
         else
             echo -n -s "$CMD_DURATION"
         end
