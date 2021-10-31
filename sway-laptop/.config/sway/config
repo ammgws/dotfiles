@@ -11,6 +11,9 @@ input * xkb_numlock disabled
 # make `Menu` key into `Super_R` since this keyboard only has one Super key
 # not using any other keyboards with this laptop so just apply the setting to everything for now
 input * xkb_options altwin:menu_win
+# laptop hasjapanese layout
+input * xkb_layout jp
+input * xkb_model jp106
 
 # Wallpaper
 output * bg #000000 solid_color
