@@ -219,7 +219,7 @@ bar {
     font pango:DejaVu Sans Mono, FontAwesome 10
     height 18
     position top
-    status_command i3status-rs
+    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config-laptop.toml
     #status_command RUST_BACKTRACE=1 i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.tomldev 2> /tmp/i3statusrs.log
     status_padding 0
     colors {
