@@ -30,13 +30,10 @@ alert = 2.0
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mug}GB({Mupi}%)"
-format_swap = "{SUp}%"
 
 [[block]]
 block = "cpu"
 format = "{utilization}"
-per_core = true
 
 [[block]]
 block = "load"
@@ -51,9 +48,6 @@ interval = 60
 [[block]]
 block = "net"
 device = "wlan0"
-speed_min_unit = "M"
-speed_digits = 2
-ssid = true
 
 # if have issues then disable this block until it has been cleared of unwraps
 # once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
