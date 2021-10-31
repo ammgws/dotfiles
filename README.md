@@ -11,7 +11,8 @@ Pull the repository and [use GNU stow](https://alexpearce.me/2016/02/managing-do
 ```sh
 $ git clone git@github.com:ammgws/dotfiles.git ~/.dotfiles
 $ cd ~/.dotfiles
-$ stow wynn_v1  # this will symlink `~/.dotfiles/wynn_v1/.config/wynn` to `~/.config/wynn/`
+$ stow wynn_v1
+# this will symlink `~/.dotfiles/wynn_v1/.config/wynn` to `~/.config/wynn/`
 ```
 
 For example, say a program called `wynn` stores its config in `~/.config/wynn/`.
