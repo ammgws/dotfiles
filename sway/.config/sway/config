@@ -271,7 +271,9 @@ bindsym $mod+Shift+grave exec fish --command="sway_new_workspace --move-focused"
 # the systemctl commands must be run synchronously and not split into two exec statements, 
 # since otherwise the service may be started before systemctl import-environment is complete.
 # For example: exec "systemctl --user import-environment; systemctl --user start example.service"
-exec systemctl --user import-environment
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 # Running swayidle asa systemd service in order to be able to turn it on/off easier
 # using a Custom block in i3status-rs
