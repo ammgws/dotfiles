@@ -291,8 +291,8 @@ bindsym $mod+Shift+a exec fish --command=ibus-toggle
 bindsym $mod+Shift+r exec kitty --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
 for_window [app_id="^launcher$"] floating enable, border none
 
-bindsym $mod+grave exec fish --command=new_workspace
-bindsym $mod+Shift+grave exec fish --command="new_workspace --move-focused"
+bindsym $mod+Zenkaku_Hankaku exec fish --command=sway_new_workspace
+bindsym $mod+Shift+Zenkaku_Hankaku exec fish --command="sway_new_workspace --move-focused"
 
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 # ┃ Other config files
