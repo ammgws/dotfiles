@@ -14,7 +14,7 @@ separator = ""
 block = "pacman"
 format = "{pacman}/{aur}"
 critical_updates_regex = "(linux|linux-lts|linux-zen)"
-aur_command = "pikaur --query --sysupgrade --aur 2>/dev/null"
+aur_command = "paru --query --sysupgrade --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 
