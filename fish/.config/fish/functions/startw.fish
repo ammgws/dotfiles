@@ -37,5 +37,11 @@ function startw --description 'startx equivalent for starting sway'
     # See https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
     set --export QT_QPA_PLATFORMTHEME qt5ct
 
+    # For GTK3/4 applications. However some may still ignore this and thus need gsettings.
+    set --export GTK_THEME Nordic
+    # For GTK applications, import GTK2/3 settings:
+    # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+    import-gsettings
+
     sway $argv
 end

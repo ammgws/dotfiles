@@ -316,11 +316,6 @@ for_window [class="steam_app*"] inhibit_idle focus
 # ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
 # ┃ Theming
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-# For X apps using XSETTINGS:
-# exec /usr/bin/xsettingsd
-# For GTK applications, import GTK2/3 settings:
-# https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
-exec_always fish --command=import-gsettings
 # For all applications except GTK:
 seat seat0 xcursor_theme ComixCursors-Slim-Blue
 
