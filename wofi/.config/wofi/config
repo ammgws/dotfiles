@@ -1,2 +1,4 @@
 # this only works in the config file for now
 drun-print_command=true
+
+gtk_dark=true
