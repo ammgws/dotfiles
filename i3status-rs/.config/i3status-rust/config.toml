@@ -102,11 +102,11 @@ on_click = "fish --command='check_xclients --menu'"
 interval = 5
 hide_when_empty = true
 
-#[[block]]
-#block = "ibus"
-#[block.mappings]
-#"mozc-jp" = "JP"
-#"xkb:us::eng" = "EN"
+[[block]]
+block = "ibus"
+[block.mappings]
+"mozc-jp" = "JP"
+"xkb:us::eng" = "EN"
 
 [[block]]
 block = "kdeconnect"
