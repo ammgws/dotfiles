@@ -275,9 +275,12 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
-# Running swayidle asa systemd service in order to be able to turn it on/off easier
+# Running swayidle as a systemd service in order to be able to turn it on/off easier
 # using a Custom block in i3status-rs
 exec systemctl --user start swayidle.service
+
+# Restart udiskie service to try and make it display tray icon
+exec systemctl --user restart udiskie.service
 
 #exec systemctl --user start ibus.service
 # Note: change to exec if not using --replace flag
