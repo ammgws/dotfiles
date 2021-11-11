@@ -20,6 +20,7 @@ abbr --add nano micro
 abbr --add aurin 'paru --sync --refresh --sysupgrade'
 abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
+abbr --add paclargest "LC_ALL=C pacman --query --info | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort --human-numeric-sort"
 abbr --add sclu 'systemctl --user'
 abbr --add udm 'udiskie-mount --all'
 abbr --add udu 'udiskie-umount --all'
