@@ -4,7 +4,9 @@ BindsTo=mpd.service
 After=mpd.service
 
 [Service]
-ExecStart=/usr/bin/mpdscribble --no-daemon
+# TODO: remove --conf flag once a new release is out that includes the below PR
+# https://github.com/MusicPlayerDaemon/mpdscribble/pull/34
+ExecStart=/usr/bin/mpdscribble --no-daemon --conf=%E/mpdscribble/mpdscribble.conf
 
 [Install]
 WantedBy=default.target
