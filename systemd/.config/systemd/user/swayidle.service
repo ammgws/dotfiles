@@ -1,3 +1,5 @@
+# TODO: change if https://github.com/swaywm/swayidle/pull/82 is merged
+
 [Unit]
 Description=Idle manager for Wayland
 Documentation=man:swayidle(1)
