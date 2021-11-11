@@ -27,12 +27,6 @@ function startw --description 'startx equivalent for starting sway'
         set --export XDG_CURRENT_DESKTOP sway
     end
 
-    # Enabling this might make systemd-login IdleHints to work
-    # (see https://www.reddit.com/r/swaywm/comments/eeavlo/sway_on_arch_does_not_change_session_type)
-    # However, it breaks IBus' default canditate window so need to disable it
-    # (see https://github.com/google/mozc/issues/431)
-    # set --export XDG_SESSION_TYPE wayland
-
     # For setting Qt5 theme
     # See https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
     set --export QT_QPA_PLATFORMTHEME qt5ct
