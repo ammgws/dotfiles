@@ -19,7 +19,7 @@ format = "{pacman:0}/{aur:0}"
 format_singular = "{pacman:1}/{aur:1}"
 format_up_to_date = "{pacman:0}/{aur:0}"
 critical_updates_regex = "(linux|linux-lts|linux-zen)"
-aur_command = "paru --query --sysupgrade --aur 2>/dev/null"
+aur_command = "paru --query --upgrades --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 hide_when_uptodate = true
