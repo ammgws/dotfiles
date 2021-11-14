@@ -288,8 +288,6 @@ exec_always DISPLAY= ibus-daemon --xim --replace --daemonize
 
 exec_always fish --command='switchaudio --device=headphones'
 
-exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
-
 #exec_always flashfocus
 
 exec autotiling-rs
