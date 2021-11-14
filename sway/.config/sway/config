@@ -280,7 +280,8 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 exec systemctl --user start swayidle.service
 
 # Restart udiskie service to try and make it display tray icon
-exec systemctl --user restart udiskie.service
+# Disable for now since the tray icon is broken (red smiley face)
+#exec systemctl --user restart udiskie.service
 
 #exec systemctl --user start ibus.service
 # Note: change to exec if not using --replace flag
