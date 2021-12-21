@@ -1,3 +1,10 @@
+# Over in swayidle, am using the -w (wait) option which blocks until the timeout
+# command has finished executing. The goal is to ensure swaylock has finished
+# locking the screen, so we need to use daemonize here otherwise swayidle
+# will only continue after swaylock has exited via unlock, and any other timeout
+# commands will not run until then
+daemonize
+
 ignore-empty-password
 show-failed-attempts
 show-keyboard-layout
