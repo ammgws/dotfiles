@@ -1,4 +1,7 @@
 function startw --description 'startx equivalent for starting sway'
+    systemctl --user import-environment DISPLAY XAUTHORITY
+    dbus-update-activation-environment DISPLAY XAUTHORITY
+
     # Encourage programs to use Wayland
     # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
     set --export BEMENU_BACKEND wayland

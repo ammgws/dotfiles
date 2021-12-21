@@ -76,11 +76,11 @@ interval = 5
 [[block]]
 block = "focused_window"
 
-#[[block]]
-#block = "ibus"
-#[block.mappings]
-#"mozc-jp" = "JP"
-#"xkb:us::eng" = "EN"
+[[block]]
+block = "ibus"
+[block.mappings]
+"mozc-jp" = "JP"
+"xkb:us::eng" = "EN"
 
 [[block]]
 block = "battery"
