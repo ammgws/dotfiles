@@ -7,12 +7,14 @@ function startw --description 'startx equivalent for starting sway'
     # GTK3+ will default to Wayland, so do not set otherwise it will break some apps.
     #set --export GDK_BACKEND wayland
 
+    # https://www.enlightenment.org/about-wayland
     set --export ECORE_EVAS_ENGINE wayland_egl
     set --export ELM_ENGINE wayland_egl
     set --export _JAVA_AWT_WM_NONREPARENTING 1
     set --export MOZ_ENABLE_WAYLAND 1
     set --export MOZ_WAYLAND_USE_VAAPI 1
-    set --export QT_QPA_PLATFORM wayland-egl
+    # make sure qt5-wayland/qt6-wayland are installed as well:
+    set --export QT_QPA_PLATFORM wayland
     set --export QT_WAYLAND_DISABLE_WINDOWDECORATION 1
 
     # Setting this was preventing Stardew Valley from running
