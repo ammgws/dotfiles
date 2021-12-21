@@ -127,3 +127,11 @@ icons_format = " {icon}"
 [[block]]
 block = "custom"
 command = "fish --command='tv_status --barmode'"
+
+[[block]]
+block = "battery"
+device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
+format = "PS5: {percentage}"
+full_format = "PS5: {percentage}"
+missing_format = "PS5: N/A"
+allow_missing = true
