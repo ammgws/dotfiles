@@ -12,6 +12,8 @@ exec fish --command "sway_setup_desktop --mode upstairs"
 # this can only be used in config file:
 input * xkb_numlock enabled
 
+seat * idle_wake keyboard switch
+
 # Wallpaper
 output * bg #000000 solid_color
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
