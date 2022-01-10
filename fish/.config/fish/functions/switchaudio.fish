@@ -2,6 +2,8 @@ function switchaudio --description 'Switch between audio devices and move all cu
     # model name of the TV. Can find via `swaymsg -t get_outputs` or `pactl list cards`
     set TV_MODEL_NAME "LG TV"
 
+    complete --command switchaudio --exclusive --long device --arguments "headphones upstairs_speakers downstairs_speakers bluetooth TV"
+
     function print_help
         echo "Usage: switchaudio [options]"
         echo "Options:"
