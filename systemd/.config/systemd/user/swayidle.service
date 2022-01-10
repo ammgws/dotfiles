@@ -6,7 +6,7 @@ Documentation=man:swayidle(1)
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/fish --command=sway_idle
+ExecStart=swayidle
 
 [Install]
 WantedBy=default.target
