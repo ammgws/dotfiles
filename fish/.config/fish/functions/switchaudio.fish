@@ -104,7 +104,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
         end
         set device (string split --fields 1 "(current)" -- $device | string trim)
         if not string length --quiet $device
-            echo "no device selected"
+            echo "no device selected" >&2
             return 1
         end
     end
