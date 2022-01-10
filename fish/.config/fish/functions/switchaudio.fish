@@ -126,7 +126,23 @@ function switchaudio --description 'Switch between audio devices and move all cu
     if string length --quiet $new_default_sink_name
         pactl set-default-sink $new_default_sink_name
     else
-        echo "default sink not changed. bug?"
+        echo "default sink not changed. bug?" >&2
+    end
+
+    # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
+    # Do this before moving sinks otherwise it sometimes doesn't seem to stick?
+    # TODO: rewrite once PulseAudio JSON output is available (v16?)
+    if test "$new_default_sink_name" = TV
+        # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
+        # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
+        set TV_hdmi_port_profile (pactl list cards | \
+            grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
+            sed '/Card/Q' | \
+            grep --after-context=1 "$TV_MODEL_NAME" | \
+            string match --regex '(output:hdmi-[^,]+)')[2]
+        or return 9
+
+        pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
     end
 
     set new_sink_volume (get_sink_volume $default_sink_name)
@@ -142,28 +158,4 @@ function switchaudio --description 'Switch between audio devices and move all cu
             pactl move-sink-input $input_id @DEFAULT_SINK@
         end
     end
-
-    # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
-    if test "$new_default_sink_name" = TV
-        # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
-        # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
-        set TV_hdmi_port_profile (pactl list cards | \
-      grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
-      sed '/Card/Q' | \
-      grep --after-context=1 "$TV_MODEL_NAME" | \
-      string match --regex '(output:hdmi-[^,]+)')[2]
-        or return 1
-
-        set active_profile (pactl list cards | \
-                     grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
-                     sed '/Card/Q' | \
-                     string match --regex 'Active Profile: (output:hdmi-.+)')[2]
-
-        if test "$TV_hdmi_port_profile" != "$active_profile"
-            pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
-        end
-    end
-
-    string length --quiet $new_default_sink_name
-    or return 1
 end
