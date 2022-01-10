@@ -128,11 +128,24 @@ icons_format = " {icon}"
 [[block]]
 block = "custom"
 command = "fish --command='tv_status --barmode'"
+on_click = "fish --command='sway_setup_tv_gaming'"
+
+[[block]]
+block = "bluetooth"
+mac = "D0:BC:C1:E6:57:5C"
+controller_id = "hci1"
+format = "OK"
+format_disconnected = "D/C"
+format_unavailable = "N/A"
+[block.theme_overrides]
+alternating_tint_bg = "#00000000"
+alternating_tint_fg = "#00000000"
 
 [[block]]
 block = "battery"
 device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
-format = "PS5: {percentage}"
-full_format = "PS5: {percentage}"
-missing_format = "PS5: N/A"
 allow_missing = true
+hide_missing = true
+[block.theme_overrides]
+alternating_tint_bg = "#00000000"
+alternating_tint_fg = "#00000000"
