@@ -20,9 +20,9 @@ function tv_status --description="Return active status of the connected TV to my
 
     set --local tv_status (swaymsg -t get_outputs | jq --raw-output '.. | objects | select(.model == "LG TV") | .active')
     if test $MODE = bar
-        if test $tv_status = true
-            printf "<span color='green'>📺ON</span>"
-        else if test $tv_status = false
+        if string length --quiet "$tv_status"
+            printf "<span color='red'>📺ON</span>"
+        else
             printf "<span color='green'>📺OFF</span>"
         end
     else
