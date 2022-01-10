@@ -44,11 +44,11 @@ if status is-login
     set --export XINITRC $XDG_CONFIG_HOME/X11/xinitrc
 
     # For Japanese IME support
-    set --export GTFW_IM_MODULE ibus
-    set --export GTK_IM_MODULE ibus
-    set --export QT_IM_MODULE ibus
-    set --export XMODIFIERS @im=ibus
-    set --export DefaultIMModule ibus
+    set --export GTFW_IM_MODULE fcitx
+    set --export GTK_IM_MODULE fcitx
+    set --export QT_IM_MODULE fcitx
+    set --export XMODIFIERS @im=fcitx
+    set --export DefaultIMModule fcitx
 
     # Other
     set --export BROWSER /usr/bin/firefox-nightly
