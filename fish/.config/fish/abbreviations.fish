@@ -13,14 +13,17 @@ abbr --add gdb 'gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init'
 abbr --add gp 'git push'
 abbr --add gpf 'git push --force'
 abbr --add gst 'git status' # gs taken by Ghostscript
+abbr --add tagdates "git tag -l --sort=-creatordate --format='%(creatordate:short):  %(refname:short)'"
 abbr --add icat 'kitty +kitten icat'
 abbr --add ln 'ln --interactive --verbose'
 abbr --add mv 'mv --interactive --verbose'
 abbr --add nano micro
 abbr --add aurin 'paru --sync --refresh --sysupgrade'
+abbr --add rebuildpyton 'pacman -Qoq /usr/lib/python3.9 | pacman -Qmq - | paru -S --rebuild -'
 abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add paclargest "LC_ALL=C pacman --query --info | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort --human-numeric-sort"
+abbr --add reinstallaur "for pkg in (pacman -Qm); paru --sync --refresh --skipreview --noconfirm (string replace --regex --filter '(.*)\s.*'  '\$1' -- \$pkg); end"
 abbr --add sclu 'systemctl --user'
 abbr --add udm 'udiskie-mount --all'
 abbr --add udu 'udiskie-umount --all'
