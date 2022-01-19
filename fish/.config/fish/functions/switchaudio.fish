@@ -1,8 +1,6 @@
 function switchaudio --description 'Switch between audio devices and move all current audio outputs to the new device.'
-    # model name of the TV. Can find via `swaymsg -t get_outputs` or `pactl list cards`
-    set TV_MODEL_NAME "LG TV"
-
-    complete --command switchaudio --exclusive --long device --arguments "headphones upstairs_speakers downstairs_speakers bluetooth TV"
+    set valid_devices headphones upstairs_speakers downstairs_speakers bluetooth TV
+    complete --command switchaudio --exclusive --long device --arguments "$valid_devices"
 
     function print_help
         echo "Usage: switchaudio [options]"
@@ -13,7 +11,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
 
     argparse --name switchaudio h/help m/menu k/keep 'd/device=' -- $argv
-    or return 1 #error
+    or return 1
 
     if set -lq _flag_help
         print_help
@@ -32,6 +30,11 @@ function switchaudio --description 'Switch between audio devices and move all cu
     set use_menu 1
     if set -lq _flag_menu
         set use_menu 1
+    end
+
+    if not contains $device $valid_devices
+        echo "'$device' not valid, must be one of '$valid_devices'" >&2
+        return 1
     end
 
     function prettify_name --argument-names sink_raw_name
@@ -84,14 +87,16 @@ function switchaudio --description 'Switch between audio devices and move all cu
         echo "Error calling `pactl`" >&2
         return 1
     end
-    set default_sink_name (pactl get-default-sink)
+    set current_default_sink_name (pactl get-default-sink)
+    set current_default_sink_volume (get_sink_volume $current_default_sink_name)
+    echo "Current: $current_default_sink_name"
 
     if not set --query device
         for sink in $sinks
             set sink_info (string split \t $sink)
             set sink_name $sink_info[2]
             set sink_name_pretty (prettify_name $sink_name)
-            if test "$sink_name" = "$default_sink_name"
+            if test "$sink_name" = "$current_default_sink_name"
                 set sink_name_pretty "$sink_name_pretty (current)"
             end
             set device_choices (string join "\n" $device_choices $sink_name_pretty)
@@ -111,43 +116,61 @@ function switchaudio --description 'Switch between audio devices and move all cu
 
     for sink in $sinks
         set sink_info (string split \t $sink)
+        set sink_id $sink_info[1]
         set sink_name $sink_info[2]
         set sink_name_pretty (prettify_name $sink_name)
         set sink_state $sink_info[5]
         if string match --quiet "$sink_name_pretty" "$device"
+            set new_default_sink_id $sink_id
             set new_default_sink_name $sink_name
             set new_default_sink_name_pretty $sink_name_pretty
             break
         end
     end
 
-    # If the output we switch to is not set as default then the
-    # system volume slider controls will not affect it.
-    if string length --quiet $new_default_sink_name
-        pactl set-default-sink $new_default_sink_name
-    else
-        echo "default sink not changed. bug?" >&2
+    if not string length --quiet $new_default_sink_id
+        echo "Default sink not changed. Is '$device' actually available?" >&2
+        return 1
     end
 
     # For the TV, ensure the card profile is set to the correct HDMI port, otherwise we get no sound.
     # Do this before moving sinks otherwise it sometimes doesn't seem to stick?
     # TODO: rewrite once PulseAudio JSON output is available (v16?)
-    if test "$new_default_sink_name" = TV
+    if test "$new_default_sink_name_pretty" = TV
         # Get the first profile listed after "Part of profile(s):" for the HDMI port the TV is connected to.
         # Will probably be 'output:hdmi-stereo-extra*'. TODO: Will I ever want the non-stereo profiles?
+        set HDMI_card_name "alsa_card.pci-0000_01_00.1"
+        set TV_model_name "LG TV"
         set TV_hdmi_port_profile (pactl list cards | \
-            grep --after-context=100 "Name: alsa_card.pci-0000_01_00.1" | \
+            grep --after-context=100 "Name: $HDMI_card_name" | \
             sed '/Card/Q' | \
-            grep --after-context=1 "$TV_MODEL_NAME" | \
+            grep --after-context=1 "$TV_model_name" | \
             string match --regex '(output:hdmi-[^,]+)')[2]
         or return 9
 
-        pactl set-card-profile alsa_card.pci-0000_01_00.1 $TV_hdmi_port_profile
+        pactl set-card-profile $HDMI_card_name $TV_hdmi_port_profile
+        echo "Changed card profile to '$TV_hdmi_port_profile'"
     end
 
-    set new_sink_volume (get_sink_volume $default_sink_name)
-    if test $new_sink_volume -gt 100
+    # If the output we switch to is not set as default then the
+    # system volume slider controls will not affect it.
+    # Note: Must use sink ID here, as sink name can change after chaning the card profile
+    # e.g. alsa_output.pci-0000_01_00.1.hdmi-stereo-extra4 vs alsa_output.pci-0000_01_00.1.hdmi-stereo-extra5
+    pactl set-default-sink $new_default_sink_id
+    or return 1
+
+    set new_default_sink_name_check (pactl get-default-sink)
+    if string match --quiet "$new_default_sink_name" "$new_default_sink_name_check"
+        echo "New: $new_default_sink_name"
+    else
+        echo "Something went wrong - set-default-sink has fallen back to $new_default_sink_name_check"
+        return 1
+    end
+
+    if test $current_default_sink_volume -gt 100
         set new_sink_volume 100
+    else
+        set new_sink_volume $current_default_sink_volume
     end
     pactl set-sink-volume @DEFAULT_SINK@ "$new_sink_volume%"
 
@@ -158,4 +181,6 @@ function switchaudio --description 'Switch between audio devices and move all cu
             pactl move-sink-input $input_id @DEFAULT_SINK@
         end
     end
+
+    echo "Successfully changed default sink to '$device'!"
 end
