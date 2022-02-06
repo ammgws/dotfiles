@@ -23,3 +23,4 @@ function sway_disconnect_controller --argument controller_mac_address
         echo "Disconnecting controller!"
         bluetoothctl disconnect "$controller_mac_address" &
     end
+end
