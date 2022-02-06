@@ -32,16 +32,17 @@ function check_kernel --description='Output message if installed and running ker
     # e.g. `4.18.4-arch1-1-ARCH`
     set running (string match --regex '\d\d?.\d\d?.\d\d?' (uname --kernel-release))
     if test ! $running = $installed
-        if test $OUTPUT_MODE = boolean
+        if test $OUTPUT_MODE = bar
             return 1
         else
-            printf ""
+            printf " KERNEL UPDATED!"
         end
     else
-        if test $OUTPUT_MODE = boolean
+        if test $OUTPUT_MODE = bar
             return 0
         else
-            printf ""
+            # i3status-rs block will be hidden (make sure to set `hide_when_empty` in i3-rs config)
+            printf ""
         end
     end
 end

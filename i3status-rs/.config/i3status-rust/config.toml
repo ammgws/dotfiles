@@ -95,6 +95,7 @@ icons_format = " "
 [[block]]
 block = "custom"
 command = "fish --command='check_kernel --barmode'"
+hide_when_empty = true
 
 [[block]]
 block = "custom"
