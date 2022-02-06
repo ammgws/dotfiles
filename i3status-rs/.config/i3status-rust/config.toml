@@ -114,11 +114,6 @@ format = "{apparent*_}℃ {humidity}%"
 service = { name = "openweathermap", units = "metric" }
 
 [[block]]
-block = "time"
-interval = 5
-format = "%a %d/%m %H:%M"
-
-[[block]]
 block = "toggle"
 command_on = "systemctl --user start swayidle"
 command_off = "systemctl --user stop swayidle"
@@ -126,9 +121,17 @@ command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 
 icons_format = " {icon}"
 
 [[block]]
-block = "custom"
-command = "fish --command='tv_status --barmode'"
-on_click = "fish --command='sway_setup_tv_gaming'"
+block = "time"
+interval = 5
+format = "%a %d/%m %H:%M"
+
+[[block]]
+block = "toggle"
+command_on = "fish --command='sway_setup_tv_gaming'"
+command_off = "fish --command='sway_end_tv_gaming'"
+command_state = "lgtv audio getVolume"
+icons_format = "TV: {icon}"
+interval = 60
 
 [[block]]
 block = "bluetooth"
@@ -143,9 +146,26 @@ alternating_tint_fg = "#00000000"
 
 [[block]]
 block = "battery"
-device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
+driver = "upower"
+device = "gaming_input_ps_controller_battery_d0obcoc1oe6o57o5c"
+format = "PS5: {percentage}"
+full_format = "PS5: {percentage}"
+missing_format = "PS5: N/A"
 allow_missing = true
 hide_missing = true
-[block.theme_overrides]
-alternating_tint_bg = "#00000000"
-alternating_tint_fg = "#00000000"
+on_click = "fish --command='sway_setup_tv_gaming'"
+
+[[block]]
+block = "custom"
+command = "fish --command='systemd_failed_units'"
+hide_when_empty = true
+interval = 30
+
+# [[block]]
+# block = "battery"
+# device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
+# allow_missing = true
+# hide_missing = true
+# [block.theme_overrides]
+# alternating_tint_bg = "#00000000"
+# alternating_tint_fg = "#00000000"
