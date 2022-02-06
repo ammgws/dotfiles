@@ -1,10 +1,17 @@
+# TODO: check differences with shipped service and move overrides to
+# .config/systemd/user/mpd.service.d/override.conf
+
 [Unit]
 Description=Music Player Daemon
 Documentation=man:mpd(1) man:mpd.conf(5)
 After=network.target sound.target
 
 [Service]
-Type=notify
+#Type=notify
+# Work around issue with mpd not notifying systemd fast enough
+# so it times out before the database has been scanned.
+# https://github.com/MusicPlayerDaemon/MPD/issues/259
+Type=simple
 ExecStart=/usr/bin/mpd --no-daemon
 
 # allow MPD to use real-time priority 50
