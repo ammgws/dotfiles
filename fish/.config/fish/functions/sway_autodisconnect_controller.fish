@@ -7,7 +7,7 @@
 #
 # TODO: check parent pid of the container that was closed, and if it was steam then
 #       we could assume it was a game? might work for native games as well..
-function sway_disconnect_controller --argument controller_mac_address
+function sway_autodisconnect_controller --argument controller_mac_address
     swaymsg --type subscribe "['window']" --monitor | while read --local line
         string length --quiet "$line"
         or continue
