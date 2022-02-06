@@ -91,7 +91,7 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
     set current_default_sink_name (pactl get-default-sink)
     set current_default_sink_volume (get_sink_volume $current_default_sink_name)
-    echo "Current: $current_default_sink_name"
+    echo "Cur: $current_default_sink_name"
 
     if not set --query device
         for sink in $sinks
