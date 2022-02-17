@@ -19,6 +19,16 @@ function sway_wait_for_window --argument app_name
         or continue
 
         echo $event | jq --raw-output '.container | .id'
+
+        # this is needed so that fish exits the loop immediately
+        # See https://github.com/fish-shell/fish-shell/issues/1396
+        set swaymsg_pids (pidof swaymsg | string split ' ')
+        for pid in $swaymsg_pids
+            set swaymsg_parent_pid (ps -o ppid= -p $pid)
+            string match --quiet $swaymsg_parent_pid $fish_pid
+            and kill $pid
+        end
+
         break
     end
 end
