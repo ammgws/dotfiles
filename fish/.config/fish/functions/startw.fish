@@ -34,6 +34,7 @@ function startw --description 'startx equivalent for starting sway'
 
     # For setting Qt5 theme
     # See https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
+    # TODO: change to qt6ct?
     set --export QT_QPA_PLATFORMTHEME qt5ct
 
     # For GTK3/4 applications. However some may still ignore this and thus need gsettings.
