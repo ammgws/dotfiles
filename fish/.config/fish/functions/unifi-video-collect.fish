@@ -71,12 +71,10 @@ function unifi-video-collect
     echo "Getting videos for "(date --date "$from_date" +'%Y/%m/%d %H:%M')" to "(date --date "$to_date" +'%Y/%m/%d %H:%M')
     echo "(Timestamps: $start_timestamp to $end_timestamp)"
 
-    set temp_dir (mktemp --directory --tmpdir unifivideo.XXXXXXXXXX)
-
     # example filename:
     # /mnt/storage/videos/75ce7ab4-ddab-32e7-aeda-df3467f87916/2022/02/13/1644791631169_1644791633169_1631691600602_13100729057.mp4
-    set start_date_videos (ssh $server -o 'BatchMode yes' ls -dp "$start_date_folder/*.mp4")
-    set end_date_videos (ssh $server -o 'BatchMode yes' ls -dp "$end_date_folder/*.mp4")
+    set start_date_videos (ssh unifi-video@$server -o 'BatchMode yes' ls -dp "$start_date_folder/*.mp4")
+    set end_date_videos (ssh unifi-video@$server -o 'BatchMode yes' ls -dp "$end_date_folder/*.mp4")
 
     # TODO: see if rsync with list of files given to --files-from is faster?
     echo "Start folder has "(count $start_date_videos)" videos"
@@ -85,7 +83,7 @@ function unifi-video-collect
         if test $video_timestamp -ge $start_timestamp
             # seems to keep writing to the same folder even a few hours into the next day
             if test $video_timestamp -le $end_timestamp
-                scp unifi-video@$server:$f $temp_dir
+                scp unifi-video@$server:$f $output_dir
             end
         end
     end
