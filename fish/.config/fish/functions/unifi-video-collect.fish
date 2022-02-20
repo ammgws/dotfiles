@@ -12,7 +12,7 @@ function unifi-video-collect
         echo (set_color green)"--to"(set_color $fish_color_normal)": end datetime in the format YYYYmmdd HHMM"
     end
 
-    argparse --name unifi-video-collect h/help 'camera=' 'server=' 'recordings-folder=' 'from=' 'to=' -- $argv
+    argparse --name unifi-video-collect h/help 'camera=' 'server=' 'recordings-folder=' 'from=' 'to=' 'outputdir=' -- $argv
     or return 1
 
     if set -lq _flag_help
@@ -55,6 +55,12 @@ function unifi-video-collect
         return 1
     end
 
+    if set -lq _flag_outputdir
+        set output_dir $_flag_outputdir
+    else
+        set output_dir (mktemp --directory --tmpdir unifivideo.XXXXXXXXXX)
+    end
+
     # example folder name:
     # /mnt/storage/videos/75ce7ab4-ddab-32e7-aeda-df3467f87916/2022/02/13
     set start_date_folder $recordings_folder/$camera/(date --date "$from_date" +"%Y/%m/%d")
@@ -88,9 +94,9 @@ function unifi-video-collect
     for f in $end_date_videos
         set video_timestamp (string sub --end 10 (basename $f))
         if test $video_timestamp -le $end_timestamp
-            scp unifi-video@$server:$f $temp_dir
+            scp unifi-video@$server:$f $output_dir
         end
     end
 
-    echo "Videos saved to $temp_dir!"
+    echo "Videos saved to $output_dir!"
 end
