@@ -1,13 +1,13 @@
 function sway_getwindowinfo
-    argparse --name sway_getwindowinfo h/help 'f/focused-window' -- $argv
+    argparse --name sway_getwindowinfo h/help f/focused-window -- $argv
     or return 1
 
     if set -lq _flag_focused_window
-       swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible? and .focused?)' 
+        swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible? and .focused?)'
     else
         slurp -p -f "%x %y" | read x_sel y_sel
         or return 1
-        
+
         # TODO: this returns everything when there is only one container open in the workspace
         # need to fix the logic
         for rect in (swaymsg -t get_tree | jq -r '.. | select(.pid? and .visible?) | .rect | "\(.x) \(.width) \(.y) \(.height)"')
