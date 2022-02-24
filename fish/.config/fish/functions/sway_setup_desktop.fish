@@ -87,18 +87,24 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         for monitor in "$upstairs_monitorL" "$upstairs_monitorR"
             if not contains "$monitor" $enabled_outputs
                 swaymsg output "$monitor" enable
+                swaymsg output "$monitor" dpms on
             end
         end
         #swaymsg workspace 2 output "$upstairs_monitorR"
         #swaymsg workspace 1 output "$upstairs_monitorL"
         swaymsg input "$upstairs_mouse" events enabled
         swaymsg output "$downstairs_monitorL" disable
+        swaymsg output "$downstairs_monitorL" dpms off
         swaymsg output "$downstairs_monitorR" disable
+        swaymsg output "$downstairs_monitorR" dpms off
         swaymsg input "$downstairs_mouse" events disabled
+        swaymsg output "$tv" disable
+        swaymsg output "$tv" dpms off
     else if string match --quiet $next_mode downstairs
         for monitor in "$downstairs_monitorL" "$downstairs_monitorR"
             if not contains "$monitor" $enabled_outputs
                 swaymsg output "$monitor" enable
+                swaymsg output "$monitor" dpms on
             end
         end
         swaymsg output "$downstairs_monitorL" pos 0 0 res 1920x1080
@@ -107,6 +113,9 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         swaymsg output "$upstairs_monitorL" disable
         swaymsg output "$upstairs_monitorR" disable
         swaymsg input "$upstairs_mouse" events disabled
+        swaymsg output "$tv" disable
+        swaymsg output "$tv" dpms off
+
         #swaymsg workspace 1 output "$downstairs_monitorR"
         #swaymsg workspace 2 output "$downstairs_monitorL"
 
@@ -128,9 +137,6 @@ function sway_setup_desktop --description "Setup inputs and outputs for my deskt
         swaymsg output "$downstairs_monitorL" pos 0 1080 res 1920x1080
         swaymsg output "$downstairs_monitorR" pos 1920 1080 res 1920x1080
     end
-
-    # TODO:tv
-    #input 1133:16461:Logitech_K400_Plus map_to_output $tv
 
     echo "Changed to $next_mode mode"
 end
