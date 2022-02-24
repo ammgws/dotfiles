@@ -54,7 +54,7 @@ function screenshot --description="When using `sway`: Takes screenshot, uploads 
     set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) ".png")
 
     if test $WM = sway
-        # build locally until https://github.com/emersion/slurp/pull/56 is merged
+        # build locally until https://github.com/emersion/slurp/pull/95 is merged
         slurp -x -d | grim -g - $FILENAME
     else if test $WM = i3
         set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
