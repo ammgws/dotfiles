@@ -8,11 +8,5 @@ function fish_greeting
       (systemd-analyze time)
     )
         echo -e $msg | cowsay
-    else
-        # no greeting
-        set last_login_desktop (date --date (last -R (whoami) | awk '/still logged in/ {print $3,$4,$5,$6}' | head --lines=1) +%s)
-        #echo $last_login_desktop
-        set last_login_remote (date --date (last --nohostname --limit 1 (whoami) | awk '{print $3,$4,$5,$6}' | head --lines=1) +%s)
-        #echo $last_login_remote
     end
 end
