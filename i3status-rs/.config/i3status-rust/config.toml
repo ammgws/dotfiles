@@ -142,8 +142,10 @@ format = "OK"
 format_disconnected = "D/C"
 format_unavailable = "N/A"
 [block.theme_overrides]
-alternating_tint_bg = "#00000000"
-alternating_tint_fg = "#00000000"
+#alternating_tint_bg = ""
+#alternating_tint_fg = ""
+alternating_tint_bg = "#FFFFFFFF"
+alternating_tint_fg = "#FFFFFFFF"
 
 [[block]]
 block = "battery"
@@ -164,12 +166,3 @@ block = "custom"
 command = "fish --command='systemd_failed_units'"
 hide_when_empty = true
 interval = 30
-
-# [[block]]
-# block = "battery"
-# device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
-# allow_missing = true
-# hide_missing = true
-# [block.theme_overrides]
-# alternating_tint_bg = "#00000000"
-# alternating_tint_fg = "#00000000"
