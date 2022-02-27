@@ -10,9 +10,6 @@
 [core]
   autocrlf = input
   pager = delta --dark
-[init]
-  templatedir = ~/.config/git/template
-
 # Clone GitHub repos using shortcut URL: "gh:WnndGws/dotfiles"
 [url "https://github.com/"]
   insteadOf = "gh:"
