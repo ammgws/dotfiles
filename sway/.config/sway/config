@@ -194,7 +194,7 @@ font pango:DejaVu Sans Mono, FontAwesome5Free 10, FontAwesome5Brands 10
 # ━━━━━━━━━━━━━━━━━━━━━━━━
 # NOTE: exec --no-startup-id is not supported/required in sway
 
-set $term kitty
+set $term foot
 bindsym $mod+Return exec $term
 
 # Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
@@ -214,8 +214,7 @@ bindsym $mod+Shift+minus move scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 #bindsym $mod+minus scratchpad show
 
-# change `$term --class` to `$term -a` if changing from kitty to foot
-bindsym $mod+minus exec (swaymsg "[app_id=dropdown] scratchpad show") || exec $term --class dropdown
+bindsym $mod+minus exec (swaymsg "[app_id=dropdown] scratchpad show") || exec $term --app-id dropdown
 for_window [app_id="dropdown"] floating enable, \
     border pixel 5, \
     resize set 70 ppt 60 ppt, \
