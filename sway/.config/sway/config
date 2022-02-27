@@ -299,9 +299,7 @@ exec_always fcitx5 -d --replace
 exec_always fish --command='switchaudio --device=headphones'
 
 exec autotiling-rs
-
-# need to work out some kinks
-#exec swaywsr --icons awesome --no-names --config $XDG_CONFIG_HOME/swaywsr/config.toml
+exec swaywsr --icons awesome --no-names --remove-duplicates --config $XDG_CONFIG_HOME/swaywsr/config.toml
 
 #AmmCon
 #exec google-chrome-stable --user-data-dir=$XDG_CONFIG_HOME/ammcon-chrome --app=$AMMCON_URL -class=ammcon
