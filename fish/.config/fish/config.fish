@@ -122,7 +122,3 @@ if status is-interactive
         end
     end
 end
-
-if status is-interactive
-    thefuck --alias | source
-end
