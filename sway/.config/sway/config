@@ -246,7 +246,7 @@ bindsym $mod+F2 exec fish --command=sway_selector
 bindsym $mod+F3 exec fish --command=sway_preview_outputs
 bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
 bindsym $mod+F9 exec fish --command=sway_move_all_workspaces
-bindsym $mod+F7 exec fish --command="switchaudio --menu"
+bindsym $mod+F7 exec kill -9 (pgrep --full 'fish --command=switchaudio --menu') && exec fish --command="switchaudio --menu"
 bindsym --locked $mod+F7 exec fish --command=switchaudio
 bindsym --locked $mod+F8 exec fish --command=tv_toggle
 
