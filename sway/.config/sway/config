@@ -301,6 +301,7 @@ exec_always fish --command='switchaudio --device=headphones'
 exec pamixer --set-volume 20
 
 exec autotiling-rs
+exec fish --command "sway_autodisconnect_controller"
 exec swaywsr --icons awesome --no-names --remove-duplicates --config $XDG_CONFIG_HOME/swaywsr/config.toml
 
 #AmmCon
