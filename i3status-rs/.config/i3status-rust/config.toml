@@ -154,7 +154,10 @@ full_format = "PS5: {percentage}"
 missing_format = "PS5: N/A"
 allow_missing = true
 hide_missing = true
-on_click = "fish --command='sway_setup_tv_gaming'"
+on_click = "kill -9 (pgrep --full 'fish --command=sway_setup_tv_gaming') && fish --command=sway_setup_tv_gaming"
+[block.theme_overrides]
+alternating_tint_bg = "#FFFFFFFF"
+alternating_tint_fg = "#FFFFFFFF"
 
 [[block]]
 block = "custom"
