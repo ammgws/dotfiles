@@ -248,7 +248,7 @@ bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
 bindsym $mod+F9 exec fish --command=sway_move_all_workspaces
 bindsym $mod+F7 exec kill -9 (pgrep --full 'fish --command=switchaudio --menu') && exec fish --command="switchaudio --menu"
 bindsym --locked $mod+F7 exec fish --command=switchaudio
-bindsym --locked $mod+F8 exec fish --command=tv_toggle
+bindsym --locked $mod+F8 exec fish --command=sway_focus_tv
 
 # Media keys
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && notify-send --hint string:x-dunst-stack-tag:volume --hint int:value:"$(pamixer --get-volume)" --app-name volumeOSD "Vol"
