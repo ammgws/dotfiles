@@ -25,4 +25,3 @@ function phantombar --argument-names pid --description "Show how far along a pro
         sleep 1
     end | dialog --gauge "Progress reading $filename" 7 100
 end
-
