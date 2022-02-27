@@ -1,0 +1,30 @@
+[icons]
+# font awesome
+Signal = ""
+firefox = ""
+firefox-nightly = ""
+Alacritty = ""
+kitty = ""
+vim = ""
+micro = ""
+nano = ""
+gedit = ""
+code-oss = ""
+github = ""
+google = ""
+private_browsing = ""
+Google-chrome = ""
+ranger = ""
+Kodi = ""
+Steam = ""
+steam = ""
+ncmpcpp = ""
+imv = ""
+youtube-viewer = ""
+mpv =  ""
+
+[aliases]
+ghb = "HandBrake"
+
+[general]
+separator = ""
