@@ -297,6 +297,8 @@ exec systemctl --user start swayidle.service
 exec_always fcitx5 -d --replace
 
 exec_always fish --command='switchaudio --device=headphones'
+# would sometimes get system starting at 100%
+exec pamixer --set-volume 20
 
 exec autotiling-rs
 exec swaywsr --icons awesome --no-names --remove-duplicates --config $XDG_CONFIG_HOME/swaywsr/config.toml
