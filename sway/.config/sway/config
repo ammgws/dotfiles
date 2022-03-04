@@ -237,7 +237,7 @@ for_window [shell=".*"] title_format "%title :: %shell"
 
 bindsym $mod+e exec $term -e ranger
 
-bindsym Print exec kill -9 (pgrep --full 'fish --command=screenshot') && exec fish --command=screenshot
+bindsym Print exec "kill -9 (pgrep --full 'fish --command=screenshot')" || exec fish --command=screenshot
 bindsym $mod+Print exec fish --command=screenshot_focused
 bindsym $mod+l exec fish --command="sway_lock --debug 2>>/tmp/swaylock_manual.log"
 bindsym --locked $mod+F1 exec fish --command="sway_setup_desktop --toggle"
@@ -245,7 +245,7 @@ bindsym $mod+F2 exec fish --command=sway_selector
 bindsym $mod+F3 exec fish --command=sway_preview_outputs
 bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
 bindsym $mod+F9 exec fish --command=sway_move_all_workspaces
-bindsym $mod+F7 exec kill -9 (pgrep --full 'fish --command=switchaudio --menu') && exec fish --command="switchaudio --menu"
+bindsym $mod+F7 exec "kill -9 (pgrep --full 'fish --command=switchaudio --menu')" || exec fish --command='switchaudio --menu'
 bindsym --locked $mod+F7 exec fish --command=switchaudio
 bindsym --locked $mod+F8 exec fish --command=sway_focus_tv
 
