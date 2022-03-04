@@ -55,7 +55,6 @@ function screenshot --description="Saves screenshot and also copies image to cli
 
     if test $WM = i3
         xclip -selection clip -target image/png $FILENAME
-        echo -n $DROPBOX_LINK | xclip -selection primary
     else
         wl-copy --type image/png <$FILENAME
     end
