@@ -40,23 +40,21 @@ function switchaudio --description 'Switch between audio devices and move all cu
     end
 
     function prettify_name --argument-names sink_raw_name
+        # pipewire uses underscores instead of colons, so just replace them in case we are using  pulseaudio again for some reason
+        set sn (string replace --all ':' '_' $sink_raw_name)
         if string match --quiet '*Pebbles*' $sink_raw_name
             echo upstairs_speakers
         else if string match --quiet '*Sound_Blaster_Play*' $sink_raw_name
             echo downstairs_speakers
         else if string match --quiet 'alsa_output.pci-0000_00_1b.0.analog-stereo' $sink_raw_name
             echo headphones
-            # pipewire
-        else if string match --quiet 'alsa_output.pci-0000:00:1b.0.analog-stereo' $sink_raw_name
-            echo headphones
         else if string match --quiet '*PCH*' $sink_raw_name
+            echo headphones
+        else if string match --quiet 'alsa_output.pci-0000_00_1f.3.analog-stereo' $sink_raw_name
             echo headphones
         else if string match --quiet 'bluez_sink*' $sink_raw_name
             echo bluetooth
         else if string match --quiet 'alsa_output.pci-0000_01_00.1.hdmi-stereo-extra*' $sink_raw_name
-            echo TV
-            # pipewire    
-        else if string match --quiet 'alsa_output.pci-0000:01:00.1.hdmi-stereo-extra*' $sink_raw_name
             echo TV
         else
             echo $sink_raw_name
