@@ -238,7 +238,10 @@ bindsym $mod+k exec kodi
 for_window [class="Kodi"] border none
 
 for_window [class="Screenruler"] border none
+
 for_window [shell=".*"] title_format "%title :: %shell"
+
+for_window [title="WayVNC - TigerVNC"] title_format "<span foreground='yellow'>%title :: %shell</span>"
 
 bindsym $mod+e exec $term -e ranger
 
