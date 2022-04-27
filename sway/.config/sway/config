@@ -192,10 +192,8 @@ bindsym $mod+Pause mode passthrough
 
 
 # font for title bars
-# FontAwesome 4.7
-#font pango:DejaVu Sans Mono, FontAwesome 10
-# FontAwesome 5
-font pango:DejaVu Sans Mono, FontAwesome5Free 10, FontAwesome5Brands 10
+font pango:DejaVu Sans Mono, Font Awesome 6 Free 10
+#font pango:DejaVu Sans Mono 10, Font Awesome 6 Free 10, Font Awesome 6 Brands 10
 
 # Application hotkeys
 # ━━━━━━━━━━━━━━━━━━━━━━━━
