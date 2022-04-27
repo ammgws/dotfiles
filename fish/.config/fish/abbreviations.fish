@@ -4,6 +4,7 @@ abbr --add cat 'bat'
 abbr --add cf '$EDITOR $XDG_CONFIG_HOME/'
 abbr --add cleanup 'paccache -rvk0; yarn cache clean; cargo cache --autoclean; rm ~/.cache/electron/*; paru --remove --nosave --recursive (pacman --query --unrequired --deps --quiet)'
 abbr --add cp 'cp --interactive --verbose'
+abbr --add dd 'dd status=progress'
 abbr --add e micro
 abbr --add ga 'git add --patch'
 abbr --add gcl 'git clone' # gc taken
@@ -24,6 +25,7 @@ abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add paclargest "LC_ALL=C pacman --query --info | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort --human-numeric-sort"
 abbr --add reinstallaur "for pkg in (pacman -Qm); paru --sync --refresh --skipreview --noconfirm (string replace --regex --filter '(.*)\s.*'  '\$1' -- \$pkg); end"
+abbr --add rsync "rsync --progress"
 abbr --add sclu 'systemctl --user'
 abbr --add udm 'udiskie-mount --all'
 abbr --add udu 'udiskie-umount --all'
