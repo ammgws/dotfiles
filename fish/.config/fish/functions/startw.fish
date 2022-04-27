@@ -14,6 +14,9 @@ function startw --description 'startx equivalent for starting sway'
     set --export ECORE_EVAS_ENGINE wayland_egl
     set --export ELM_ENGINE wayland_egl
     set --export _JAVA_AWT_WM_NONREPARENTING 1
+    # TODO: check if android studio needs this specific verison of java
+    #set --export STUDIO_JDK /usr/lib/jvm/java-14-openjdk
+    #set --export STUDIO_JDK /usr/lib/jvm/java-11-openjdk-amd64/
     set --export MOZ_ENABLE_WAYLAND 1
     set --export MOZ_WAYLAND_USE_VAAPI 1
     # make sure qt5-wayland/qt6-wayland are installed as well:
