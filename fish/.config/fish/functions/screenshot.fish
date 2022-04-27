@@ -1,6 +1,4 @@
 function screenshot --description="Saves screenshot and also copies image to clipboard."
-    set SCREENSHOT_DIR $SCREENSHOT_DIR
-
     # define colours to use when printing messages
     set cRed (set_color red)
     set cGrn (set_color green)
@@ -15,21 +13,15 @@ function screenshot --description="Saves screenshot and also copies image to cli
 
     # default values (that can be changed via args)
     set OUTPUT_MODE image
-    set OPEN_URL 0
     set WM sway
     set DEPENDENCIES grim slurp wl-copy
 
-    argparse --name screenshot h/help i-i3 -- $argv
+    argparse --name screenshot h/help -- $argv
     or return 1 #error
 
     if set -lq _flag_help
         print help
         return
-    end
-
-    if set -lq _flag_i3
-        set DEPENDENCIES slop scrot xclip
-        set WM i3
     end
 
     for dependency in $DEPENDENCIES
@@ -39,24 +31,19 @@ function screenshot --description="Saves screenshot and also copies image to cli
         end
     end
 
-    set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) ".png")
+    # build locally until https://github.com/emersion/slurp/pull/95 is merged
+    slurp -x -d -f "%x %y %w %h %o" | read x_sel y_sel width height output_name
 
-    if test $WM = sway
-        # build locally until https://github.com/emersion/slurp/pull/95 is merged
-        slurp -x -d | grim -g - $FILENAME
-    else if test $WM = i3
-        set FILENAME (scrot $FILENAME -q 100 -a -e 'echo $f')
-    end
+    set WINDOW_TITLE (sway_getwindowinfo $x_sel $y_sel $output_name | jq -r '.name' | string replace --all '/' '_')
+    set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) "_$WINDOW_TITLE.png")
+    grim -g "$x_sel,$y_sel $width"x"$height" $FILENAME
 
     if test $status -ne 0
         or not test -e $FILENAME
         return 1
     end
 
-    if test $WM = i3
-        xclip -selection clip -target image/png $FILENAME
-    else
-        wl-copy --type image/png <$FILENAME
-    end
+    wl-copy --type image/png <$FILENAME
+
     notify-send Screenshot $FILENAME --icon=$FILENAME --expire-time=2000
 end
