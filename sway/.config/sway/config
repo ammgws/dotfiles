@@ -184,6 +184,13 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+# Passthrough for when connecting to remote sway instance (wayvnc)
+mode passthrough {
+	bindsym $mod+Pause mode default
+}
+bindsym $mod+Pause mode passthrough
+
+
 # font for title bars
 # FontAwesome 4.7
 #font pango:DejaVu Sans Mono, FontAwesome 10
