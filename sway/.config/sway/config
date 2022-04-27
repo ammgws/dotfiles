@@ -228,7 +228,7 @@ for_window [app_id="dropdown"] floating enable, \
     scratchpad show
 
 bindsym $mod+Shift+g exec google-chrome-stable
-bindsym $mod+g exec firefox-nightly
+bindsym $mod+g exec firefox
 for_window [class="Google-chrome"] border none
 for_window [app_id="Google-chrome"] border none
 for_window [class="MozillaWindowClass"] border none
