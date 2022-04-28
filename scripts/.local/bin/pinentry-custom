@@ -5,4 +5,8 @@ switch $PINENTRY_USER_DATA
         pinentry-curses
     case '*'
         pinentry-bemenu
+        # if something wrong with bemenu then fallback to alternative GUI
+        if test $status -eq 15
+            pinentry-gnome3
+        end
 end
