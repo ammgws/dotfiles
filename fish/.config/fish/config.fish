@@ -93,6 +93,9 @@ if status is-interactive
     if set --query SSH_CLIENT
         set --erase BROWSER
 
+        # Make pinentry wrapper use terminal friendly pinentry program
+        set --export PINENTRY_USER_DATA shell
+
         if ! set --query XDG_RUNTIME_DIR
             set --export XDG_RUNTIME_DIR /run/user/(id -u)
         end
