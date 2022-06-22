@@ -15,73 +15,76 @@ separator_bg = "auto"
 
 [[block]]
 block = "pacman"
-format = "{pacman:0}/{aur:0}"
-format_singular = "{pacman:1}/{aur:1}"
-format_up_to_date = "{pacman:0}/{aur:0}"
+format = "$pacman.eng(1)/$aur.eng(1)"
+format_singular = "$pacman.eng(1)/$aur.eng(1)"
 critical_updates_regex = "(linux|linux-lts|linux-zen)"
 aur_command = "paru --query --upgrades --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
 hide_when_uptodate = true
-on_click = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-juaninch/ | wofi --show dmenu"
+[[block.click]]
+button = "left"
+cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-juaninch/ | wofi --show dmenu"
 
 [[block]]
 block = "music"
-buttons = ["play", "prev", "next"]
-marquee = false
-max_width = 25
+format = "$combo.rot-str(20) $prev $play $next |"
+interface_name_exclude = [".*kdeconnect.*"]
+[[block.click]]
+button = "left"
+cmd = "allow_only_one_instance sonixd"
 
 [[block]]
 block = "disk_space"
 path = "/"
-info_type = "available"
-unit = "GB"
+alert_unit = "GB"
 interval = 60
 warning = 5.0
 alert = 2.0
+info_type = "used"
+format = "$percentage.eng(2)"
 
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{mem_used;G} ({mem_used_percents:1})"
-format_swap = "{swap_used_percents}"
+format_mem = "$mem_free.eng(3,B,G)/($mem_total_used_percents.eng(2))"
+format_swap = "$swap_used_percents.eng(2)"
 
 [[block]]
 block = "cpu"
-format = "{utilization1} {utilization2} {utilization3} {utilization4}"
+format = "$utilization $boost"
+
+[[block]]
+block = "temperature"
+chip = "coretemp-isa-000"
+collapsed = true
 
 [[block]]
 block = "load"
-interval = 1
-format = "{1m}"
+interval = 5
 
 [[block]]
 block = "custom"
-command = "fish --command='check_vpn --barmode'"
+command = "check_vpn --barmode"
 interval = 60
 
 [[block]]
 block = "net"
-format = " {speed_down;M} {speed_up;M}"
+format = "$speed_down.eng(3,B,M) $speed_up.eng(3,B,M)"
 icons_format = "{icon}"
 
-# if have issues then disable this block until it has been cleared of unwraps
-# once https://github.com/greshake/i3status-rust/pull/533 is merged this should be easier to monitor
 [[block]]
 block = "sound"
 driver = "pulseaudio"
 step_width = 3
 max_vol = 99
-on_click = "fish --command='switchaudio --menu'"
-#on_click = "swaymsg exec 'pavucontrol'"
-#this crashes swaybar:
-#on_click = "pavucontrol 2>/dev/null"
 show_volume_when_muted = true
-format = "{output_name} {volume}"
+format = "$output_name $volume.eng(2)"
 icons_format = " "
 [block.mappings]
 # pulseaudio
 "alsa_output.pci-0000_00_1b.0.analog-stereo" = ""
+"alsa_output.pci-0000_00_1f.3.analog-stereo" = ""
 "alsa_output.usb-Harman_Multimedia_JBL_Pebbles_1.0.0-00.analog-stereo" = "U"
 "alsa_output.usb-Creative_Technology_Ltd_Sound_Blaster_Play__3_00145592-00.analog-stereo" = "D"
 "bluez_sink.20_74_CF_26_25_D0.a2dp_sink" = "BT"
@@ -91,27 +94,46 @@ icons_format = " "
 "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra5" = "TV"
 # pipewire-pulse
 "alsa_output.pci-0000:00:1b.0.analog-stereo" = ""
+[[block.click]]
+button = "left"
+cmd = "allow_only_one_instance switchaudio"
+[[block.click]]
+button = "right"
+cmd = "allow_only_one_instance pavucontrol"
+#on_click = "swaymsg exec 'pavucontrol'"
+#this crashes swaybar:
+#on_click = "pavucontrol 2>/dev/null"
+
+[[block]]
+block = "sound"
+driver = "pulseaudio"
+device = "@DEFAULT_SOURCE@"
+device_kind = "source"
+max_vol = 99
 
 [[block]]
 block = "custom"
-command = "fish --command='check_kernel --barmode'"
+command = "check_kernel --barmode"
 hide_when_empty = true
 
+# Show number of X11 apps running
 [[block]]
 block = "custom"
-# Show number of X11 apps running
-command = "fish --command='check_xclients --barmode'"
-on_click = "fish --command='check_xclients --menu'"
+command = "check_xclients --barmode"
 interval = 5
 hide_when_empty = true
+[[block.click]]
+button = "left"
+cmd = "check_xclients --menu"
 
 [[block]]
 block = "kdeconnect"
 device_id = "689ccf9fd6f3272d"
+format = "$bat_icon $bat_charge"
 
 [[block]]
 block = "weather"
-format = "{apparent*_}℃ {humidity}%"
+format = "$apparent $humidity"
 service = { name = "openweathermap", units = "metric" }
 
 [[block]]
@@ -124,12 +146,14 @@ icons_format = " {icon}"
 [[block]]
 block = "time"
 interval = 5
-format = "%a %d/%m %H:%M"
+[block.format]
+full = "%a %d %b %H:%M"
+short = "%H:%M"
 
 [[block]]
 block = "toggle"
-command_on = "fish --command='sway_setup_tv_gaming'"
-command_off = "fish --command='sway_end_tv_gaming'"
+command_on = "sway_setup_tv_gaming"
+command_off = "sway_end_tv_gaming"
 command_state = "lgtv audio getVolume"
 icons_format = "TV: {icon}"
 interval = 60
@@ -137,32 +161,31 @@ interval = 60
 [[block]]
 block = "bluetooth"
 mac = "D0:BC:C1:E6:57:5C"
-controller_id = "hci1"
-format = "OK"
-format_disconnected = "D/C"
-format_unavailable = "N/A"
+format = "$connected$available{OK}|$available{D/C}|N/A"
 [block.theme_overrides]
-#alternating_tint_bg = ""
-#alternating_tint_fg = ""
 alternating_tint_bg = "#FFFFFFFF"
 alternating_tint_fg = "#FFFFFFFF"
 
 [[block]]
 block = "battery"
-driver = "upower"
-device = "gaming_input_ps_controller_battery_d0obcoc1oe6o57o5c"
-format = "PS5: {percentage}"
-full_format = "PS5: {percentage}"
-missing_format = "PS5: N/A"
-allow_missing = true
-hide_missing = true
-on_click = "kill -9 (pgrep --full 'fish --command=sway_setup_tv_gaming') && fish --command=sway_setup_tv_gaming"
+#driver = "upower"
+#device = "battery_ps_controller_battery_d0obcoc1oe6o57o5c"
+# upower missing devices not supported yet in async ver
+driver = "sysfs"
+device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
+format = "PS5: $percentage|PS5: N/A"
+full_format = "PS5: $percentage"
+hide_missing = false
 [block.theme_overrides]
 alternating_tint_bg = "#FFFFFFFF"
 alternating_tint_fg = "#FFFFFFFF"
+# TODO: change to confirm menu
+[[block.click]]
+button = "left"
+cmd = "allow_only_one_instance sway_setup_tv_gaming"
 
 [[block]]
 block = "custom"
-command = "fish --command='systemd_failed_units'"
+command = "systemd_failed_units"
 hide_when_empty = true
 interval = 30
