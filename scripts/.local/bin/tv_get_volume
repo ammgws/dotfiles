@@ -1,0 +1,3 @@
+#!/usr/bin/env fish
+
+lgtv audio getVolume | jq --raw-output '.. | objects | select(.type == "response") | .payload | .volume'

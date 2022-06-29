@@ -1,0 +1,50 @@
+#!/usr/bin/env fish
+
+# define colours to use when printing messages
+set cRed (set_color red)
+set cGrn (set_color green)
+set cBlu (set_color blue)
+set cRst (set_color $fish_color_normal)
+
+function print_help
+    echo "Usage: screenshot [options]"
+    echo "Options:"
+    echo (set_color green)"-h"(set_color $fish_color_normal)": Prints this help"
+end
+
+# default values (that can be changed via args)
+set OUTPUT_MODE image
+set WM sway
+set DEPENDENCIES grim slurp wl-copy
+
+argparse --name screenshot h/help -- $argv
+or return 1 #error
+
+if set -lq _flag_help
+    print_help
+    return
+end
+
+for dependency in $DEPENDENCIES
+    if not type -q $dependency
+        echo $cRed"You must have $dependency installed."$cRst
+        return 1
+    end
+end
+
+# build locally until https://github.com/emersion/slurp/pull/95 is merged
+slurp -x -d -f "%x %y %w %h %o" 2>/dev/null | read x_sel y_sel width height output_name
+or return 1 # slurp cancelled by user or otherwise errored out
+
+set WINDOW_TITLE (sway_getwindowinfo $x_sel $y_sel $output_name | jq -r '.name' | string replace --all '/' '_' | string sub --length 50)
+set FILENAME (string join "" $SCREENSHOT_DIR "/" (date +%Y%m%d_%Hh%Mm%Ss) "_$WINDOW_TITLE.png")
+grim -g "$x_sel,$y_sel $width"x"$height" $FILENAME
+
+if test $status -ne 0
+    or not test -e $FILENAME
+    return 1
+end
+
+wl-copy --type image/png <$FILENAME
+
+notify-send Screenshot $FILENAME --icon=$FILENAME --expire-time=2000

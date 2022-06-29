@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+# My application selector for sway
+
+wofi --show drun --allow-images --insensitive 2>/dev/null | read --delimiter % a _
+printf $a

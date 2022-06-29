@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+# This script ensures only once instance of $argv is running.
+
+# For scripts that use an env shebang the pgrep check can provide false
+# positives, so we parse the shebang and check the full path in that case.
+set command_path (which $argv)
+or return 1
+
+set shebang (read --nchars 80 < $command_path)
+string match --regex --quiet '^#!/usr/bin/env (?<program>[\w]+)' $shebang
+
+if string length --quiet $program
+    pgrep --exact --full "$program $command_path" > /dev/null
+    or $argv
+else
+    pgrep --exact $argv > /dev/null
+    or $argv
+end

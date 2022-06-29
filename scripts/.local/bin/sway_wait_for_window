@@ -1,0 +1,37 @@
+#!/usr/bin/env fish
+
+# Blocks until the given sway container has appeared, and returns the container ID
+
+set app_name $argv
+
+swaymsg --type subscribe "['window']" --monitor | while read --local event
+    string length --quiet "$event"
+    or continue
+
+    set event_type (echo $event | jq --raw-output '.change')
+    # new = new instance has opened
+    # focus, urgent = instance was already running, but is now focused
+    # or tagged urgent on an inactive workspace
+    set window_open_events new focus urgent
+    contains $event_type $window_open_events
+    or continue
+
+    set xwayland_class (echo $event | jq --raw-output '.container | .window_properties | .class')
+    set xdgshell_app_id (echo $event | jq --raw-output '.container | .app_id')
+    string match --quiet "$app_name" -- "$xwayland_class"
+    or string match --quiet "$app_name" -- "$xdgshell_app_id"
+    or continue
+
+    echo $event | jq --raw-output '.container | .id'
+
+    # this is needed so that fish exits the loop immediately
+    # See https://github.com/fish-shell/fish-shell/issues/1396
+    set swaymsg_pids (pidof swaymsg | string split ' ')
+    for pid in $swaymsg_pids
+        set swaymsg_parent_pid (ps -o ppid= -p $pid)
+        string match --quiet $swaymsg_parent_pid $fish_pid
+        and kill $pid
+    end
+
+    break
+end

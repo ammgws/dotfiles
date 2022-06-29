@@ -1,0 +1,81 @@
+#!/usr/bin/env fish
+
+# Objective is to open Steam Big Picture mode up on the TV and have everything ready to start gaming.
+
+function debug_msg --argument-names percent message
+    echo $message 1>&2
+    notify-send --hint string:x-dunst-stack-tag:volume --hint int:value:$percent --app-name setupTV $message
+end
+
+debug_msg 0 "Starting gaming mode!"
+
+lgtv wakeonlan
+# sometime magic packet command seems to hang even though the TV gets turned on...
+sleep 1
+lgtv tv switchInput HDMI_4
+debug_msg 20 "TV turned on"
+
+set tv "'Goldstar Company Ltd LG TV 0x00000101'"
+swaymsg output $tv enable
+swaymsg output $tv dpms on
+swaymsg output $tv res 1920x1080
+set tv_outputname (swaymsg -t get_outputs | jq --raw-output '.. | objects | select(.model == "LG TV") | .name')
+set tv_workspace (swaymsg -t get_outputs | jq --raw-output '.. | objects | select(.model == "LG TV") | .current_workspace')
+
+# If the workspace/output info was empty, it means the TV isn't ready yet,
+# so instead of sleeping we can monitor for workspace events which will happen the TV comes up.
+# TODO: if swaymsg ever gets proper output event support, then can replace this
+# See https://github.com/swaywm/sway/pull/4020
+if not test -n "$tv_workspace"
+    debug_msg 40 "Waiting for TV workspace"
+    swaymsg --type subscribe "['workspace', 'tick']" --monitor | while read --local event
+        set first (echo $event | jq --raw-output '.first')
+        if string match --quiet $first true
+            swaymsg output "$tv" enable
+            and swaymsg output "$tv" dpms on
+        else
+            #set event_type (echo $event | jq --raw-output '.change')
+            #string match --quiet $event_type init
+            #or continue
+
+            set workspace_num (echo $event | jq --raw-output '.current | .num')
+            set output (echo $event | jq --raw-output '.current | .output')
+            set output_name (swaymsg --type get_outputs | jq --raw-output ".[] | select(.name == \"$output\") | \"'\" + .make + \" \" + .model + \" \" + .serial + \"'\"")
+            string match --quiet "$output_name" "$tv"
+            or continue
+
+            # this is needed so that fish exits the loop immediately
+            # See https://github.com/fish-shell/fish-shell/issues/1396
+            set swaymsg_pids (pidof swaymsg | string split ' ')
+            for pid in $swaymsg_pids
+                set swaymsg_parent_pid (ps -o ppid= -p $pid)
+                string match --quiet $swaymsg_parent_pid $fish_pid
+                and kill $pid
+            end
+
+            break
+        end
+    end
+    set tv_outputname $output_name
+    set tv_workspace $workspace_num
+end
+
+debug_msg 60 "Starting Steam BPM"
+swaymsg exec -- gamescope --nested-width 1920 --nested-height 1080 --steam --fullscreen -- run-steam &
+
+set steamBPM_container_id (swaymsg -t get_tree | jq -r '.. | select(.window_properties? and .window_properties.class == "gamescope") | .pid')
+if not test -n "$steamBPM_container_id"
+    debug_msg 80 "Waiting for Steam BPM to start"
+    set steamBPM_container_id (sway_wait_for_window gamescope)
+end
+
+debug_msg 90 "Moving Steam (con_id $steamBPM_container_id) to TV (ws $tv_workspace)"
+swaymsg [con_id="$steamBPM_container_id"] move container to workspace "$tv_workspace"
+swaymsg focus output "$tv_outputname"
+swaymsg [con_id="$steamBPM_container_id"] fullscreen
+
+switchaudio --device TV and
+pamixer --set-volume 100
+systemctl --user stop swayidle
+
+debug_msg 100 "Finished"

@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+
+steam-native -tenfoot &
+mangoapp

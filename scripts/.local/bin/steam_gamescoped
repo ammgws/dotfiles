@@ -1,0 +1,3 @@
+#!/usr/bin/env fish
+
+gamescope --nested-width 1920 --nested-height 1080 --steam --fullscreen -- steam-native -tenfoot
