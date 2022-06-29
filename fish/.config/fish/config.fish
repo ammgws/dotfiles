@@ -56,7 +56,7 @@ if status is-login
     set --export DefaultIMModule fcitx
 
     # Other
-    set --export BROWSER /usr/bin/firefox-nightly
+    set --export BROWSER /usr/bin/firefox
     set --export EDITOR micro
     set --export FZF_DEFAULT_COMMAND "fd --type f"
     set --export GIT_EDITOR micro
