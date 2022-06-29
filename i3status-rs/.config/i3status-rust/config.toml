@@ -1,11 +1,5 @@
 [icons]
 name = "awesome5"
-[icons.overrides]
-net_up = ""
-net_down = ""
-net_wired = ""
-toggle_on = ""
-toggle_off = ""
 
 [theme]
 name = "slick"
@@ -72,6 +66,10 @@ interval = 60
 block = "net"
 format = "$speed_down.eng(3,B,M) $speed_up.eng(3,B,M)"
 icons_format = "{icon}"
+[block.icons_overrides]
+net_up = ""
+net_down = ""
+net_wired = ""
 
 [[block]]
 block = "sound"
@@ -141,7 +139,10 @@ block = "toggle"
 command_on = "systemctl --user start swayidle"
 command_off = "systemctl --user stop swayidle"
 command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 0; and echo on"
-icons_format = " {icon}"
+icons_format = "{icon}"
+[block.icons_overrides]
+toggle_on = ""
+toggle_off = ""
 
 [[block]]
 block = "time"
