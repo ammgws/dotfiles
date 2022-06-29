@@ -35,13 +35,18 @@ if status is-login
     set --export DVDCSS_CACHE $XDG_DATA_HOME/dvdcss
     set --export GTK2_RC_FILES $XDG_CONFIG_HOME/gtk-2.0/gtkrc
     set --export ICEAUTHORITY $XDG_RUNTIME_DIR/ICEauthority
+    # ipython XDG support is iffy, just use the env overide
+    set --export IPYTHONDIR $XDG_CONFIG_HOME/ipython
+    set --export JUPYTER_CONFIG_DIR $XDG_CONFIG_HOME/jupyter
     set --export LESSHISTFILE $XDG_CACHE_HOME/less/history
     set --export LESSKEY $XDG_CONFIG_HOME/less/lesskey
+    set --export RUSTUP_HOME $XDG_DATA_HOME/rustup
     set --export MPLAYER_HOME $XDG_CONFIG_HOME/mplayer
     set --export WEECHAT_HOME $XDG_CONFIG_HOME/weechat
     set --export WGETRC $XDG_CONFIG_HOME/wget/wgetrc
     set --export XAUTHORITY $XDG_RUNTIME_DIR/Xauthority
     set --export XINITRC $XDG_CONFIG_HOME/X11/xinitrc
+    set --export VIRTUALFISH_HOME $XDG_DATA_HOME/virtualenvs
 
     # For Japanese IME support
     set --export GTFW_IM_MODULE fcitx
