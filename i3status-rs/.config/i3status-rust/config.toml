@@ -33,15 +33,16 @@ block = "disk_space"
 path = "/"
 alert_unit = "GB"
 interval = 60
-warning = 5.0
-alert = 2.0
-info_type = "used"
+warning = 10.0
+alert = 5.0
+info_type = "free"
 format = "$percentage.eng(2)"
+icons_format = "/ "
 
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "$mem_free.eng(3,B,G)/($mem_total_used_percents.eng(2))"
+format_mem = "$mem_free.eng(3,B,G) ($mem_total_used_percents.eng(2))"
 format_swap = "$swap_used_percents.eng(2)"
 
 [[block]]
@@ -96,11 +97,8 @@ icons_format = " "
 button = "left"
 cmd = "allow_only_one_instance switchaudio"
 [[block.click]]
-button = "right"
+button = "middle"
 cmd = "allow_only_one_instance pavucontrol"
-#on_click = "swaymsg exec 'pavucontrol'"
-#this crashes swaybar:
-#on_click = "pavucontrol 2>/dev/null"
 
 [[block]]
 block = "sound"
@@ -108,6 +106,18 @@ driver = "pulseaudio"
 device = "@DEFAULT_SOURCE@"
 device_kind = "source"
 max_vol = 99
+[[block.click]]
+button = "middle"
+cmd = "allow_only_one_instance pavucontrol"
+[block.theme_overrides]
+# switch idle and warning around in order to get warning when mic is *not* muted
+idle_bg = "#f44336"
+idle_fg = "#000000"
+warning_bg = "#424242"
+warning_fg = "#ffffff"
+# this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
+alternating_tint_bg = "#000000"
+alternating_tint_fg = "#000000"
 
 [[block]]
 block = "custom"
@@ -127,7 +137,7 @@ cmd = "check_xclients --menu"
 [[block]]
 block = "kdeconnect"
 device_id = "689ccf9fd6f3272d"
-format = "$bat_icon $bat_charge"
+format = "$bat_charge $bat_icon"
 
 [[block]]
 block = "weather"
@@ -162,10 +172,11 @@ interval = 60
 [[block]]
 block = "bluetooth"
 mac = "D0:BC:C1:E6:57:5C"
-format = "$connected$available{OK}|$available{D/C}|N/A"
+format = "$connected$available{PS5}|$available{D/C}|N/A"
 [block.theme_overrides]
-alternating_tint_bg = "#FFFFFFFF"
-alternating_tint_fg = "#FFFFFFFF"
+# this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
+alternating_tint_bg = "#000000"
+alternating_tint_fg = "#000000"
 
 [[block]]
 block = "battery"
@@ -174,15 +185,16 @@ block = "battery"
 # upower missing devices not supported yet in async ver
 driver = "sysfs"
 device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
-format = "PS5: $percentage|PS5: N/A"
-full_format = "PS5: $percentage"
-hide_missing = false
+format = "$percentage|N/A"
+full_format = "$percentage"
+hide_missing = true
 [block.theme_overrides]
-alternating_tint_bg = "#FFFFFFFF"
-alternating_tint_fg = "#FFFFFFFF"
-# TODO: change to confirm menu
+# this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
+alternating_tint_bg = "#000000"
+alternating_tint_fg = "#000000"
 [[block.click]]
 button = "left"
+# TODO: change to confirm menu in case accidentally click on it
 cmd = "allow_only_one_instance sway_setup_tv_gaming"
 
 [[block]]
