@@ -65,12 +65,12 @@ if status is-login
     set --export MOZ_WEBRENDER 1
     set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
     set --export SHELL /usr/bin/fish
-    set --export TERMINAL kitty
+    set --export TERMINAL foot
     set --export VDPAU_DRIVER radeonsi # keeps trying to use nvidia driver
     set --export XKB_DEFAULT_LAYOUT us
 
     # Used in my fish functions
-    set --export SCREENSHOT_DIR $HOME/Dropbox/screenshots
+    set --export SCREENSHOT_DIR $HOME/Screenshots
 end
 
 if status is-interactive
