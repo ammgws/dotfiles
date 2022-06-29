@@ -34,6 +34,7 @@ if status is-login
     set --export CARGO_HOME $XDG_DATA_HOME/cargo
     set --export DVDCSS_CACHE $XDG_DATA_HOME/dvdcss
     set --export GNUPGHOME $XDG_CONFIG_HOME/gnupg
+    set --export GTK2_RC_FILES $XDG_CONFIG_HOME/gtk-2.0/gtkrc
     set --export ICEAUTHORITY $XDG_RUNTIME_DIR/ICEauthority
     set --export LESSHISTFILE $XDG_CACHE_HOME/less/history
     set --export LESSKEY $XDG_CONFIG_HOME/less/lesskey
