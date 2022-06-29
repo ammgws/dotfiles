@@ -3,7 +3,7 @@
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    font pango:DejaVu Sans Mono, FontAwesome 10
+    font pango:DejaVu Sans Mono, Font Awesome 6 Free 10
     # Re. icon theme: https://github.com/swaywm/sway/issues/5645#issuecomment-683404722
     icon_theme Adwaita
     height 18

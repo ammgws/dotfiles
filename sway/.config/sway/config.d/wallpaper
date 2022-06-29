@@ -1,0 +1,3 @@
+output * bg #000000 solid_color
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#exec glpaper "HDMI-A-1" $upstairs_monitorL $XDG_CONFIG_HOME/glpaper/fragments/matrix.frag

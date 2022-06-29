@@ -1,0 +1,25 @@
+for_window [shell=".*"] title_format "%title :: %shell"
+
+for_window [class="Google-chrome"] border none
+for_window [app_id="Google-chrome"] border none
+for_window [class="MozillaWindowClass"] border none
+for_window [app_id="firefox"] border none
+for_window [class="Kodi"] border none
+for_window [class="Screenruler"] border none
+for_window [title="WayVNC - TigerVNC"] title_format "<span foreground='yellow'>%title :: %shell</span>"
+for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [title=".*\(Kayo Sports\).*"] inhibit idle visible
+for_window [title=".*\(YouTube\).*"] inhibit idle visible
+for_window [app_id="pavucontrol"] floating enable
+for_window [class="steam_app*"] inhibit_idle focus
+
+for_window [app_id="pavucontrol"] floating enable, sticky enable, \
+    resize set width 600 px height 800px, \
+    move position cursor, move down 35
+
+for_window [app_id="scratchpad_dropdown"] floating enable, \
+    border pixel 5, \
+    resize set 70 ppt 60 ppt, \
+    move position center, \
+    move to scratchpad, \
+    scratchpad show

@@ -1,0 +1,8 @@
+# theming for sway itself (apart from swaybar which has its own config)
+
+# This works for all applications except GTK
+seat seat0 xcursor_theme ComixCursors-Slim-Blue
+
+# Font for window title bars
+font pango:DejaVu Sans Mono, Font Awesome 6 Free 10
+#font pango:DejaVu Sans Mono 10, Font Awesome 6 Free 10, Font Awesome 6 Brands 10

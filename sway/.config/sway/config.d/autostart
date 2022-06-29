@@ -1,0 +1,31 @@
+# The below is needed for certain systemd services such as the one provided by mako to work.
+# Mako itself will be autostarted by systemd whenever something wants to use notifications,
+# however if I want to manually start a service that requires sway's environment vars then
+# the systemctl commands must be run synchronously and not split into two exec statements, 
+# since otherwise the service may be started before systemctl import-environment is complete.
+# For example: exec "systemctl --user import-environment; systemctl --user start example.service"
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+### Input/output/seat configuration
+exec sway_setup_desktop --mode upstairs
+# these can only be used in config file, so cant put in the sway_setup_desktop script
+input * xkb_numlock enabled
+seat * idle_wake keyboard switch
+
+# Running swayidle as a systemd service in order to be able to turn it on/off easier
+# using a Custom block in i3status-rs
+exec systemctl --user start swayidle.service
+
+exec_always switchaudio --device=headphones
+# would sometimes get system starting at 100%
+exec pamixer --set-volume 20
+exec pamixer --default-source --mute
+
+exec autotiling-rs
+exec sway_autodisconnect_controller
+exec swaywsr --icons awesome --no-names --remove-duplicates --config $XDG_CONFIG_HOME/swaywsr/config.toml
+
+# Enable polkit auth for GUI apps
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
