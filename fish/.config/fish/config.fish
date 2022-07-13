@@ -48,12 +48,10 @@ if status is-login
     set --export XINITRC $XDG_CONFIG_HOME/X11/xinitrc
     set --export VIRTUALFISH_HOME $XDG_DATA_HOME/virtualenvs
 
-    # For Japanese IME support
-    set --export GTFW_IM_MODULE fcitx
-    set --export GTK_IM_MODULE fcitx
-    set --export QT_IM_MODULE fcitx
-    set --export XMODIFIERS @im=fcitx
-    set --export DefaultIMModule fcitx
+    # For Japanese IME support (fcitx code only looks for these)
+    set --export GTK_IM_MODULE fcitx5
+    set --export QT_IM_MODULE fcitx5
+    set --export XMODIFIERS @im=fcitx5
 
     # Other
     set --export BROWSER /usr/bin/firefox
