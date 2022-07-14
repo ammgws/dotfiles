@@ -4,16 +4,16 @@
 
 # For scripts that use an env shebang the pgrep check can provide false
 # positives, so we parse the shebang and check the full path in that case.
-set command_path (which $argv)
+set command_path (which -- $argv[1])
 or return 1
 
 set shebang (read --nchars 80 < $command_path)
-string match --regex --quiet '^#!/usr/bin/env (?<program>[\w]+)' $shebang
+string match --regex --quiet '^#!/usr/bin/env (?<program>[\w]+)' -- $shebang
 
-if string length --quiet $program
-    pgrep --exact --full "$program $command_path" > /dev/null
+if test -n "$program"
+    pgrep --exact --full -- "$program $command_path" > /dev/null
     or $argv
 else
-    pgrep --exact $argv > /dev/null
+    pgrep --exact --full -- "$argv" > /dev/null
     or $argv
 end
