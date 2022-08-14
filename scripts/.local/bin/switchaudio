@@ -2,6 +2,9 @@
 
 # Switch between audio devices and move all current audio outputs to the new device.
 
+# TODO: replace pactl dance with simple call to `qpctl set-default` ?
+# https://www.reddit.com/r/swaywm/comments/w3llwx/getting_volume_level_from_pipewire/ih02v7k/
+
 set valid_devices headphones upstairs_speakers downstairs_speakers bluetooth TV
 complete --command switchaudio --exclusive --long device --arguments "$valid_devices"
 
