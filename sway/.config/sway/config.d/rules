@@ -1,3 +1,4 @@
+# can easily spot if something is running in Xwayland
 for_window [shell=".*"] title_format "%title :: %shell"
 
 for_window [class="Google-chrome"] border none
