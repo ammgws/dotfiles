@@ -22,7 +22,7 @@ bindsym $mod+minus exec (swaymsg "[app_id=dropdown] scratchpad show") || exec $t
 
 bindsym $mod+Shift+g exec google-chrome-stable
 bindsym $mod+g exec firefox
-bindsym $mod+e exec $term -e ranger
+bindsym $mod+e exec kitty -e ranger
 bindsym Print exec allow_only_one_instance sway_screenshot
 bindsym $mod+Print exec sway_screenshot_focused
 bindsym $mod+l exec sway_lock --debug 2>>/tmp/swaylock_manual.log
