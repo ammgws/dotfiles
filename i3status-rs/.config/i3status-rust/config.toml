@@ -73,7 +73,7 @@ interval = 5
 [[block]]
 block = "custom"
 command = "wg show interfaces"
-interval = 60
+interval = 5
 
 [[block]]
 block = "net"
