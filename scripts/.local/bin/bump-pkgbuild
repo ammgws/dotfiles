@@ -1,0 +1,17 @@
+#!/usr/bin/env fish
+
+# Update PKGBUILd to new version
+
+set new_version $argv[1]
+if not test -n "$new_version"
+    echo "Must specify new pkgver"
+    return 1
+end
+ 
+sed -E "s#(pkgver=).*#\1$new_version#" -i PKGBUILD
+
+updpkgsums
+makepkg --printsrcinfo >.SRCINFO
+
+git commit -v -a -m "Update to $new_version"
+
