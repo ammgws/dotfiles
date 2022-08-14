@@ -54,6 +54,17 @@ if status is-login
     set --export XMODIFIERS @im=fcitx5
 
     # Other
+    # setting this doesnt seem to affect where android-studio offers to install the SDK,
+    # but I gave it this path so will just leave this env for now in case needed by other stuff
+    # Note: when installing SDK via aur, set to /opt/android-sdk
+    set --export ANDROID_HOME $XDG_DATA_HOME/android-sdk
+    set --export ANDROID_USER_HOME $XDG_CONFIG_HOME/android-tools
+    set --export ANDROID_AVD_HOME $XDG_DATA_HOME/android-avd
+    # create dir otherwise it keeps using fallback dir without emitting any warning
+    if not test -d "$ANDROID_AVD_HOME"
+        mkdir "$ANDROID_AVD_HOME"
+    end
+    
     set --export BROWSER /usr/bin/firefox
     set --export EDITOR micro
     set --export FZF_DEFAULT_COMMAND "fd --type f"
