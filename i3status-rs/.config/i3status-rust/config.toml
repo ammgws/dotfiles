@@ -27,14 +27,17 @@ hide_when_uptodate = true
 [[block.click]]
 button = "left"
 cmd = "fakeroot pacman -Qu --dbpath /tmp/checkup-db-$USER/ | wofi --show dmenu"
+[[block.click]]
+button = "right"
+cmd = "foot"
 
 [[block]]
 block = "music"
 if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
-format = "$combo.rot-str(20) $prev $play $next |"
+format = "$combo.rot-str(20) $prev $play $next|"
 interface_name_exclude = [".*kdeconnect.*"]
 [[block.click]]
-button = "left"
+button = "middle"
 cmd = "allow_only_one_instance sonixd"
 
 [[block]]
@@ -158,7 +161,7 @@ block = "toggle"
 command_on = "systemctl --user start swayidle"
 command_off = "systemctl --user stop swayidle"
 command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 0; and echo on"
-icons_format = "{icon}"
+icons_format = "  {icon}"
 [block.icons_overrides]
 toggle_on = ""
 toggle_off = ""
