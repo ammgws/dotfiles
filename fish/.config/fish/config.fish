@@ -101,12 +101,16 @@ if status is-interactive
     gpg-connect-agent updatestartuptty /bye >/dev/null
 end
 
+if status is-login
+    set --export PINENTRY_USER_DATA shell
+end
+
 if status is-interactive
     # User experience improvements over SSH
     if set --query SSH_CLIENT
         set --erase BROWSER
 
-        # Make pinentry wrapper use terminal friendly pinentry program
+        # Make pinentry wrapper use terminal friendly pinentry program over SSH
         set --export PINENTRY_USER_DATA shell
 
         if ! set --query XDG_RUNTIME_DIR

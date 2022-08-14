@@ -5,6 +5,8 @@
 systemctl --user import-environment DISPLAY XAUTHORITY
 dbus-update-activation-environment DISPLAY XAUTHORITY
 
+set --export PINENTRY_USER_DATA gui
+
 # Encourage programs to use Wayland
 # see: https://github.com/swaywm/sway/wiki/Running-programs-natively-under-wayland
 set --export BEMENU_BACKEND wayland
