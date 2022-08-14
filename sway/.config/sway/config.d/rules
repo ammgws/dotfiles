@@ -2,6 +2,9 @@ for_window [shell=".*"] title_format "%title :: %shell"
 
 for_window [class="Google-chrome"] border none
 for_window [app_id="Google-chrome"] border none
+# See https://www.reddit.com/r/swaywm/comments/vuhr75/why_does_chromium_with_app_now_grab_complete/
+for_window [app_id="^chrome-.*"] shortcuts_inhibitor disable
+
 for_window [class="MozillaWindowClass"] border none
 for_window [app_id="firefox"] border none
 for_window [class="Kodi"] border none
