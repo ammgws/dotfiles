@@ -249,8 +249,8 @@ bindsym $mod+d exec fish --command=sway_menu | xargs swaymsg exec --
 set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
 set $prompt echo | $_menu
 
-bindsym $mod+Shift+g exec notify-send "Starting Chrome..." --expire-time=1500; exec google-chrome-stable
-bindsym $mod+g exec notify-send "Starting Firefox..." --expire-time=1500; exec env GDK_BACKEND=wayland firefox-nightly
+bindsym $mod+Shift+g exec google-chrome-stable
+bindsym $mod+g exec firefox
 for_window [class="Google-chrome"] border none
 for_window [class="MozillaWindowClass"] border none
 for_window [app_id="firefox"] border none
