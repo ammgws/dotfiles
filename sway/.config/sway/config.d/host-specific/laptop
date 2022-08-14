@@ -1,0 +1,7 @@
+set laptop_keyboard "1:1:AT_Translated_Set_2_keyboard"
+
+input $laptop_keyboard xkb_layout jp
+input $laptop_keyboard xkb_model jp106
+
+# Disable numlock as it makes laptop keyboard act weird
+input $laptop_keyboard xkb_numlock disabled

@@ -182,5 +182,4 @@ bindsym $mod+Pause mode passthrough
 # ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 include /etc/sway/config.d/*
 include config.d/*
-# TODO?
-#include `hostname`/*
+include config.d/host-specific/`hostnamectl hostname`

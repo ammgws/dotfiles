@@ -1,0 +1,6 @@
+exec sway_setup_desktop --mode upstairs
+
+# these can only be used in config file, so cant put in the sway_setup_desktop script
+input "1133:49706:Gaming_Keyboard_G110" xkb_numlock enabled
+input "9610:42:SINO_WEALTH_Gaming_KB__Keyboard" xkb_numlock enabled
+seat * idle_wake keyboard switch

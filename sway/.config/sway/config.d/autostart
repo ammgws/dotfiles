@@ -8,12 +8,6 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
-### Input/output/seat configuration
-exec sway_setup_desktop --mode upstairs
-# these can only be used in config file, so cant put in the sway_setup_desktop script
-input * xkb_numlock enabled
-seat * idle_wake keyboard switch
-
 # Running swayidle as a systemd service in order to be able to turn it on/off easier
 # using a Custom block in i3status-rs
 exec systemctl --user start swayidle.service
