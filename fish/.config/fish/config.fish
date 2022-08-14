@@ -72,6 +72,7 @@ if status is-login
     set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'" # use bat to colourise man
     set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
     set --export SHELL /usr/bin/fish
+    set --export SPICE_NOGRAB 1 # for virtual machines
     set --export TERMINAL foot
     set --export VDPAU_DRIVER radeonsi # keeps trying to use nvidia driver
     set --export XKB_DEFAULT_LAYOUT us
