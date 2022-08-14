@@ -1,12 +1,16 @@
 #!/usr/bin/env fish
 
-switch $PINENTRY_USER_DATA
-    case shell
-        pinentry-curses
-    case '*'
-        BEMENU_OPTS='--monitor -2' pinentry-bemenu
-        # if something wrong with bemenu then fallback to alternative GUI
-        if test $status -eq 15
-            pinentry-gnome3
-        end
+if test -n "$PINENTRY_USER_DATA"
+    switch "$PINENTRY_USER_DATA"
+        case shell
+            pinentry-curses
+        case '*'
+            BEMENU_OPTS='--monitor -2' pinentry-bemenu
+            # if something wrong with bemenu then fallback to alternative GUI
+            if test $status -eq 15
+                pinentry-gnome3
+            end
+    end
+else
+    pinentry-curses
 end
