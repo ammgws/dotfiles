@@ -70,8 +70,6 @@ if status is-login
     set --export FZF_DEFAULT_COMMAND "fd --type f"
     set --export GIT_EDITOR micro
     set --export MANPAGER "fish --command 'col --no-backspaces --spaces | bat --language man --plain'" # use bat to colourise man
-    set --export MOZ_DBUS_REMOTE 1 # allows X11 and Wayland Firefox instances to run together
-    set --export MOZ_WEBRENDER 1
     set --export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS 0 # for when playing games
     set --export SHELL /usr/bin/fish
     set --export TERMINAL foot
