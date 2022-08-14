@@ -15,7 +15,10 @@ for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [title=".*\(Kayo Sports\).*"] inhibit idle visible
 for_window [title=".*\(YouTube\).*"] inhibit idle visible
 for_window [app_id="pavucontrol"] floating enable
+
 for_window [class="steam_app*"] inhibit_idle focus
+for_window [class="gamescope"] inhibit_idle focus
+
 
 for_window [app_id="pavucontrol"] floating enable, sticky enable, \
     resize set width 600 px height 800px, \
