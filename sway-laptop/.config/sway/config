@@ -1,0 +1,332 @@
+# Customised config for sway based on /etc/sway/config
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+# WinKey = Mod4, Alt=Mod1
+set $mod Mod4
+
+### Input/output/seat configuration
+# Disable numlock as it makes laptop keyboard act weird
+input * xkb_numlock disabled
+# make `Menu` key into `Super_R` since this keyboard only has one Super key
+# not using any other keyboards with this laptop so just apply the setting to everything for now
+input * xkb_options altwin:menu_win
+# laptop hasjapanese layout
+input * xkb_layout jp
+input * xkb_model jp106
+
+# Wallpaper
+output * bg #000000 solid_color
+
+### Idle configuration
+# To make sure swayidle waits for swaylock to lock the screen before it releases the inhibition lock,
+# swayidle's -w (wait) option and swaylock's -f/--daemonize options are used.
+exec swayidle -w \
+         timeout 300 'fish --command="sway_lock --debug 2>>/tmp/swaylock_timeout300.log"' \
+         idlehint 300 \
+         timeout 600 'swaymsg "output * dpms off"' \
+              resume 'swaymsg "output * dpms on"' \
+         before-sleep 'fish --command="sway_lock --debug 2>>/tmp/swaylock_beforesleep.log"' \
+
+### Key bindings
+#
+# Basics:
+#
+    # kill focused window
+    bindsym $mod+q kill
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # exit sway (logs you out of your Wayland session)
+    #bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+    # use swaynagmode instead of the above so can exit using keyboard
+    set {
+      $nag         exec swaynagmode
+      $nag_exit    $nag --exit
+      $nag_confirm $nag --confirm
+      $nag_select  $nag --select
+    }
+    mode "nag" {
+      bindsym {
+        Ctrl+d    mode "default"
+
+        Ctrl+c    $nag_exit
+        q         $nag_exit
+        Escape    $nag_exit
+
+        Return    $nag_confirm
+
+        Tab       $nag_select prev
+        Shift+Tab $nag_select next
+
+        Left      $nag_select next
+        Right     $nag_select prev
+
+        Up        $nag_select next
+        Down      $nag_select prev
+      }
+    }
+    bindsym $mod+Shift+e $nag -t "warning" -m "Exit Sway?" -b "Exit" "swaymsg exit" -b "Reload" "swaymsg reload"
+    # -R is recommended for swaynag_command so that, upon a syntax error in your sway config, the
+    # 'Reload Sway' option will be initially selected instead of the 'Exit Sway' option
+    swaynag_command $nag -R
+
+#
+# Moving around:
+#
+    # Move your focus around
+    set $left h
+    set $down j
+    set $up k
+    set $right l
+    #bindsym $mod+$left focus left
+    #bindsym $mod+$down focus down
+    #bindsym $mod+$up focus up
+    #bindsym $mod+$right focus right
+    # or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # _move_ the focused window with the same, but add Shift
+    #bindsym $mod+Shift+$left move left
+    #bindsym $mod+Shift+$down move down
+    #bindsym $mod+Shift+$up move up
+    #bindsym $mod+Shift+$right move right
+    # ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # switch to workspace
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+
+    # alt-tab like behaviour
+    bindsym $mod+tab workspace next_on_output 
+    bindsym $mod+Shift+tab workspace prev_on_output 
+
+    # Rename
+    bindsym $mod+Shift+equal exec $$prompt "New workspace name (retain number):" | xargs -I {} bash -c "swaymsg 'rename workspace to \"$(~/.local/bin/sway-get-workspace prefix){}\"'"
+    bindsym $mod+Control+equal exec $$prompt "New workspace name:" | xargs -I {} swaymsg 'rename workspace to "{}"'
+
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    #bindsym $mod+s layout stacking
+    #bindsym $mod+w layout tabbed
+    bindsym $mod+Ctrl+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# font for title bars
+font pango:DejaVu Sans Mono, Font Awesome 6 Free 10
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Status bar
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    font pango:DejaVu Sans Mono, Font Awesome 6 Free 10
+    height 18
+    position top
+    status_command i3status-rs $XDG_CONFIG_HOME/i3status-rust/config-laptop.toml
+    #status_command RUST_BACKTRACE=1 i3status-rs $XDG_CONFIG_HOME/i3status-rust/config.tomldev 2> /tmp/i3statusrs.log
+    status_padding 0
+    colors {
+        separator #666666
+        background #222222
+        statusline #dddddd
+        focused_workspace #0088CC #0088CC #ffffff
+        active_workspace #333333 #333333 #ffffff
+        inactive_workspace #333333 #333333 #888888
+        urgent_workspace #2f343a #900000 #ffffff
+    }
+}
+
+
+# Application hotkeys
+# ━━━━━━━━━━━━━━━━━━━━━━━━
+# NOTE: exec --no-startup-id is not supported/required in sway
+
+set $term alacritty
+bindsym $mod+Return exec $term
+
+# Note: it's recommended that you pass the final command to sway so that it can note the workspace the command was run on
+# so when the child gets around to opening the window sway can place it on the original workspace 
+# (eg. if you launch something then immediately switch to another workspace before the window appears).
+bindsym $mod+d exec fish --command=sway_menu | xargs swaymsg exec --
+
+set $_menu bemenu --fn "Monospace 12" --hf "#2B83A6" --tf "#2B83A6" --prompt
+set $prompt echo | $_menu
+
+bindsym $mod+Shift+g exec google-chrome-stable
+bindsym $mod+g exec firefox
+for_window [class="Google-chrome"] border none
+for_window [class="MozillaWindowClass"] border none
+for_window [app_id="firefox"] border none
+
+bindsym $mod+k exec kodi
+for_window [class="Kodi"] border none
+
+for_window [class="Screenruler"] border none
+for_window [shell=".*"] title_format "%title :: %shell"
+
+bindsym $mod+e exec $term -e ranger
+
+bindsym Print exec fish --command=screenshot
+bindsym $mod+l exec fish --command="sway_lock --debug 2>>/tmp/swaylock_manual.log"
+bindsym --locked $mod+F1 exec fish --command="sway_setup_desktop --toggle"
+bindsym $mod+F2 exec fish --command=sway_selector
+bindsym $mod+F3 exec fish --command=sway_preview_outputs
+bindsym --locked $mod+F5 exec swaymsg output "*" dpms on
+bindsym $mod+F9 exec fish --command=sway_move_all_workspaces
+bindsym $mod+F7 exec fish --command="switchaudio --menu"
+bindsym --locked $mod+F7 exec fish --command=switchaudio
+bindsym --locked $mod+F8 exec fish --command=tv_toggle
+
+# Media keys
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && pamixer --get-volume > $SWAYSOCK.wob
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && pamixer --get-volume > $SWAYSOCK.wob
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioStop exec playerctl stop
+bindsym Shift+XF86AudioLowerVolume exec playerctl position 3+
+bindsym Shift+XF86AudioRaiseVolume exec playerctl position 3-
+
+# Japanese IME
+bindsym $mod+Shift+a exec fish --command=ibus-toggle
+
+bindsym $mod+Shift+r exec kitty --name=launcher -e "fish --command 'complete --do-complete | sort -u | fzf | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border none
+
+bindsym $mod+Zenkaku_Hankaku exec fish --command=sway_new_workspace
+bindsym $mod+Shift+Zenkaku_Hankaku exec fish --command="sway_new_workspace --move-focused"
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Other config files
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+include /etc/sway/config.d/*
+#include ~/.config/sway/`hostname`/*
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
+# ┃ Autostart
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+exec systemctl --user start mako.service
+
+exec_always ibus-daemon --xim --replace --daemonize
+
+exec mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | wob
+
+exec autotiling-rs 2& > /tmp/autotiling-rs.log
+
+# Enable polkit auth for GUI apps
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [title=".*YouTube.*"] inhibit idle fullscreen
+for_window [app_id="pavucontrol"] floating enable
+
+# hide titlebars on laptop
+for_window [title=".*"] border pixel 1
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━┓	
+# ┃ Theming
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+# For X apps using XSETTINGS:
+# exec /usr/bin/xsettingsd
+# For GTK applications, import GTK2/3 settings:
+# https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+exec_always fish --command=import-gsettings
+# For all applications except GTK:
+seat seat0 xcursor_theme ComixCursors-Slim-Blue
