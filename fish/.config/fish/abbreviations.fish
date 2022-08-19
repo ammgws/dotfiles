@@ -19,9 +19,9 @@ abbr --add icat 'kitty +kitten icat'
 abbr --add ln 'ln --interactive --verbose'
 abbr --add mv 'mv --interactive --verbose'
 abbr --add nano micro
-abbr --add aurin 'paru --sync --refresh --sysupgrade'
 abbr --add rebuildpyton 'pacman -Qoq /usr/lib/python3.9 | pacman -Qmq - | paru -S --rebuild -'
-abbr --add pacin 'sudo pacman --sync --refresh --sysupgrade'
+abbr --add aurin 'sudo pacman --sync --refresh --noconfirm archlinux-keyring; and sudo pacman --sync --refresh --sysupgrade; and paru --sync --refresh --sysupgrade'
+abbr --add pacin 'sudo pacman --sync --refresh --noconfirm archlinux-keyring; and sudo pacman --sync --refresh --sysupgrade'
 abbr --add pacrm 'sudo pacman --remove --recursive'
 abbr --add paclargest "LC_ALL=C pacman --query --info | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort --human-numeric-sort"
 abbr --add reinstallaur "for pkg in (pacman -Qm); paru --sync --refresh --skipreview --noconfirm (string replace --regex --filter '(.*)\s.*'  '\$1' -- \$pkg); end"
@@ -31,8 +31,9 @@ abbr --add udm 'udiskie-mount --all'
 abbr --add udu 'udiskie-umount --all'
 abbr --add sclu 'systemctl --user'
 abbr --add upall 'paru --sync --refresh --sysupgrade --devel --needed --noconfirm; and fish_update_completions; and fisher update'
-abbr --add uparch 'sudo pacman --sync --refresh archlinux-keyring; and sudo pacman --sync --refresh --sysupgrade; and fish_update_completions'
-abbr --add upaur 'sudo pacman --sync --refresh archlinux-keyring; and paru --sync --refresh --sysupgrade --devel --needed --noconfirm; and paru --sync --refresh wofi-hg; and fish_update_completions'
+abbr --add uparch 'sudo pacman --sync --refresh --noconfirm archlinux-keyring; and sudo pacman --sync --refresh --sysupgrade; and fish_update_completions'
+# even though wofi-hg is a devel package, paru only checks -git packages for updates
+abbr --add upaur 'sudo pacman --sync --refresh --noconfirm archlinux-keyring; and paru --sync --refresh --sysupgrade --devel --needed --noconfirm; paru --sync --refresh wofi-hg; and fish_update_completions'
 abbr --add send2phone 'kdeconnect-cli --device (kdeconnect-cli --list-available --id-only) --share $PWD/(fzf)'
 abbr --add sway_install_git 'paru --sync --refresh wlroots-git; and paru --sync --refresh sway-git swayidle-git swaybg-git swaylock-git; and paru --sync --refresh swaynagmode'
 abbr --add sway_remove_git 'sudo pacman --remove swaynagmode; and sudo pacman --remove --recursive wlroots-git sway-git swayidle-git swaybg-git swaylock-git'
