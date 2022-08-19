@@ -3,6 +3,4 @@ drun-print_command=true
 
 gtk_dark=true
 
-key_submit=Enter
-key_submit=KP_Enter
-key_submit=Return
+key_submit=Return,Enter,KP_Enter
