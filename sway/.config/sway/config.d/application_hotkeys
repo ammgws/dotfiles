@@ -55,4 +55,5 @@ bindsym Shift+XF86AudioRaiseVolume exec playerctl position 3-
 bindsym $mod+Shift+a exec "pkill fcitx5 || fcitx5 -d --replace &"
 
 bindsym $mod+grave exec sway_new_workspace
+bindsym $mod+Zenkaku_Hankaku exec sway_new_workspace
 bindsym $mod+Shift+grave exec sway_new_workspace --move-focused
