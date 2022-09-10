@@ -47,9 +47,8 @@ end
 # double quotes are necessary so that it is passed as one arg to swaymsg
 set upstairs_monitorL "'Unknown HP X27q 6CM1320D50'"
 set upstairs_monitorR "'Unknown HP X27q 6CM1270CKP'"
-set downstairs_monitorL "'Ancor Communications Inc ASUS VP278 K3LMTF030840'"
-set downstairs_monitorR "'Samsung Electric Company S27A950D 0x00000000'"
-#set downstairs_monitorR "'Acer Technologies Acer KA270H T3QSJ0014200'"
+set downstairs_monitorL "'Acer Technologies Acer KA270H T3QSJ0014200'"
+set downstairs_monitorR "'Ancor Communications Inc ASUS VP278 K3LMTF030840'"
 set tv "'Goldstar Company Ltd LG TV 0x00000101'"
 
 set upstairs_keyboard "1133:49706:Gaming_Keyboard_G110"
