@@ -130,10 +130,10 @@ button = "middle"
 cmd = "allow_only_one_instance pavucontrol"
 [block.theme_overrides]
 # switch idle and warning around in order to get warning when mic is *not* muted
-idle_bg = "#f44336"
-idle_fg = "#000000"
-warning_bg = "#424242"
-warning_fg = "#ffffff"
+idle_fg = { link = "warning_fg" }
+idle_bg = { link = "warning_bg" }
+warning_fg = { link = "idle_fg" }
+warning_bg = { link = "idle_bg" }
 # this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
 alternating_tint_bg = "#000000"
 alternating_tint_fg = "#000000"
