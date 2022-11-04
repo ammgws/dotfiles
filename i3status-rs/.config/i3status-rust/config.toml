@@ -8,9 +8,13 @@ theme = "slick"
 [theme.overrides]
 separator = ""
 separator_bg = "auto"
+# perhaps revisit this and do it per-block as needed, see https://github.com/greshake/i3status-rust/issues/1539
+alternating_tint_bg = "#000000"
+alternating_tint_fg = "#000000"
+
 
 [[block]]
-# since have title bars disabled on laptop
+# only for laptop since have sway's title bars disabled there to save space
 block = "focused_window"
 if_command = '[[ "$(</etc/hostname)" == *"lap"* ]]'
 [block.format]
@@ -212,10 +216,7 @@ if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
 mac = "D0:BC:C1:E6:57:5C"
 format = " $icon $available{PS5} "
 disconnected_format = " $available{D/C} | N/A "
-[block.theme_overrides]
-# this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
-alternating_tint_bg = "#000000"
-alternating_tint_fg = "#000000"
+
 
 [[block]]
 block = "battery"
