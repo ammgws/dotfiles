@@ -1,3 +1,5 @@
+icons_format = "{icon}"
+
 [icons]
 icons = "awesome6"
 
@@ -12,18 +14,18 @@ separator_bg = "auto"
 block = "focused_window"
 if_command = '[[ "$(</etc/hostname)" == *"lap"* ]]'
 [block.format]
-full = "$title|"
-short = "$title.str(0,30)|"
+full = " $title |"
+short = " $title.str(0,30) |"
 
 [[block]]
 block = "pacman"
-format = "$pacman.eng(1)/$aur.eng(1)"
-format_singular = "$pacman.eng(1)/$aur.eng(1)"
+format = " $icon $pacman.eng(1)/$aur.eng(1) "
+format_singular = " $icon $pacman.eng(1)/$aur.eng(1) "
+format_up_to_date = ""
 critical_updates_regex = "(linux|linux-lts|linux-zen)"
 aur_command = "paru --query --upgrades --aur 2>/dev/null"
 # AUR only allows 4000 requests every 24 hours
 interval = 1800
-hide_when_uptodate = true
 [[block.click]]
 button = "left"
 cmd = "{ fakeroot pacman -Qu --dbpath /tmp/checkup-db-$USER/ & paru --query --upgrades --aur; } | cat | wofi --show dmenu"
@@ -34,7 +36,7 @@ cmd = 'foot --app-id scratchpad_dropdown'
 [[block]]
 block = "music"
 if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
-format = "$combo.rot-str(20) $prev $play $next|"
+format = " $icon $combo.rot-str(20) $prev $play $next|"
 interface_name_exclude = [".*kdeconnect.*"]
 [[block.click]]
 button = "middle"
@@ -48,23 +50,21 @@ interval = 60
 warning = 10.0
 alert = 5.0
 info_type = "free"
-format = "$percentage.eng(2)"
-icons_format = "/ "
+format = " $icon $percentage.eng(2) "
 
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "$mem_free.eng(3,B,G) ($mem_total_used_percents.eng(2))"
-format_swap = "$swap_used_percents.eng(2)"
+format = " $icon $mem_free.eng(3,B,G) ($mem_total_used_percents.eng(2)) "
+format_alt = "$icon $swap_used_percents.eng(2) "
 
 [[block]]
 block = "cpu"
-format = "$utilization{ $boost|}"
+format = " $icon $utilization{ $boost|} "
 
 [[block]]
 block = "temperature"
 chip = "coretemp-isa-000"
-collapsed = true
+format_alt = " $icon "
 
 [[block]]
 block = "load"
@@ -73,18 +73,18 @@ interval = 5
 [[block]]
 block = "custom"
 command = "wg show interfaces"
+hide_when_empty = true
 interval = 5
 
 [[block]]
 block = "net"
 device = "^mull.*"
 format = "$device"
-hide_inactive = true
+missing_format = ""
 
 [[block]]
 block = "net"
-format = "$speed_down.eng(3,B,M) $speed_up.eng(3,B,M)"
-icons_format = "{icon}"
+format = " ^icon_net_down $speed_down.eng(3,B,M) ^icon_net_up $speed_up.eng(3,B,M) "
 [block.icons_overrides]
 net_up = ""
 net_down = ""
@@ -96,8 +96,7 @@ driver = "pulseaudio"
 step_width = 3
 max_vol = 99
 show_volume_when_muted = true
-format = "$output_name $volume.eng(2)"
-icons_format = " "
+format = " $output_name $volume.eng(2) "
 [block.mappings]
 # pulseaudio
 "alsa_output.pci-0000_00_1b.0.analog-stereo" = ""
@@ -157,11 +156,11 @@ cmd = "check_xclients --menu"
 [[block]]
 block = "kdeconnect"
 device_id = "689ccf9fd6f3272d"
-format = "$bat_charge $bat_icon"
+format = " $icon $bat_charge| $bat_icon| "
 
 [[block]]
 block = "weather"
-format = "$apparent $humidity"
+format = " $icon $apparent $humidity "
 service = { name = "openweathermap", units = "metric" }
 
 [[block]]
@@ -169,7 +168,8 @@ block = "toggle"
 command_on = "systemctl --user start swayidle"
 command_off = "systemctl --user stop swayidle"
 command_state = "systemctl --user status swayidle &>/dev/null; test $status -eq 0; and echo on"
-icons_format = "  {icon}"
+# shouldnt this be default? possible bug from PR1618
+format = " $icon "
 interval = 10
 [block.icons_overrides]
 toggle_on = ""
@@ -180,29 +180,38 @@ block = "battery"
 if_command = '[[ "$(</etc/hostname)" == *"lap"* ]]'
 driver = "sysfs"
 device = "CMB1"
-format = "$percentage{ $time|}|N/A"
+format = " $icon $percentage{ $time|} |N/A"
 
 [[block]]
 block = "time"
 interval = 5
 [block.format]
-full = "%a %d %b %H:%M"
+full = " $icon %a %d %b %H:%M "
 #short = "%H:%M"
 
 [[block]]
-block = "toggle"
+block = "menu"
 if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
-command_on = "sway_setup_tv_gaming"
-command_off = "sway_end_tv_gaming"
-command_state = "lgtv audio getVolume"
-icons_format = "TV: {icon}"
-interval = 60
+text = " TV "
+[[block.items]]
+display = "Start gaming mode"
+cmd = "sway_setup_tv_gaming"
+[[block.items]]
+display = "End gaming mode"
+cmd = "sway_end_tv_gaming"
+[[block.items]]
+display = "Turn off TV"
+cmd = "lgtv system turnOff"
+[[block.items]]
+display = "Set volume to 20"
+cmd = "lgtv audio setVolume 20"
 
 [[block]]
 block = "bluetooth"
 if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
 mac = "D0:BC:C1:E6:57:5C"
-format = "$connected$available{PS5}|$available{D/C}|N/A"
+format = " $icon $available{PS5} "
+disconnected_format = " $available{D/C} | N/A "
 [block.theme_overrides]
 # this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
 alternating_tint_bg = "#000000"
@@ -216,9 +225,9 @@ if_command = '[[ "$(</etc/hostname)" == *"desk"* ]]'
 # upower missing devices not supported yet in async ver
 driver = "sysfs"
 device = "ps-controller-battery-d0:bc:c1:e6:57:5c"
-format = "$percentage|N/A"
+format = " $icon $percentage |N/A"
 full_format = "$percentage"
-hide_missing = true
+missing_format = ""
 [block.theme_overrides]
 # this doesnt work atm. See https://github.com/greshake/i3status-rust/issues/1539
 alternating_tint_bg = "#000000"
